@@ -66,7 +66,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
     private void btnClicAceptar(ActionEvent event) {
         if(validadorFormulario.validate()){
             OrganizacionVinculada organizacionVinculada = obtenerOrganizacionVinculada();
-            guardarOrganizacionVInculada(organizacionVinculada);
+            guardarOrganizacionVinculada(organizacionVinculada);
         }else{
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Datos invalidos",
                     "Hay campos con datos invalidos");
@@ -96,7 +96,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
         return organizacionVinculada;
     } 
     
-    private void guardarOrganizacionVInculada(OrganizacionVinculada organizacionVinculada){
+    private void guardarOrganizacionVinculada(OrganizacionVinculada organizacionVinculada){
         try {
             ResultadoOperacion resultadoOperacion = OrganizacionVinculadaDAO.
                     registrarOrganizacionVinculada(organizacionVinculada);
