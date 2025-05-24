@@ -33,7 +33,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
     @FXML
     private TextField tfNumUsuariosIndirectos;
     @FXML
-    private ComboBox<?> cbEstado; //Checar si queda como tf para no tener que cargar estados al base de datos
+    private TextField tfEstado; //Checar si queda como tf para no tener que cargar estados al base de datos
 
     /**
      * Initializes the controller class.
@@ -61,4 +61,8 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
         //TODO cerrar ventana actual y regresar al dashboard
     }
     
+    private boolean sonValidos(){
+        //TODO Verificar cada tfLleno
+        return false;
+    }
 }

@@ -18,20 +18,20 @@
       <TextField fx:id="tfNombre" layoutX="48.0" layoutY="122.0" promptText="Nombre" />
       <TextField fx:id="tfTelefono" layoutX="424.0" layoutY="116.0" prefHeight="39.0" prefWidth="274.0" promptText="Telefono" />
       <TextField fx:id="tfDireccion" layoutX="48.0" layoutY="206.0" prefHeight="39.0" prefWidth="648.0" promptText="Direccion" />
-      <TextField fx:id="tfCiudad" layoutX="424.0" layoutY="281.0" prefHeight="39.0" prefWidth="274.0" promptText="Ciudad" />
+      <TextField fx:id="tfCiudad" layoutX="424.0" layoutY="299.0" prefHeight="39.0" prefWidth="274.0" promptText="Ciudad" />
       <TextField fx:id="tfSector" layoutX="48.0" layoutY="373.0" promptText="Sector" />
       <TextField fx:id="tfNumUsuariosDirectos" layoutX="48.0" layoutY="455.0" prefHeight="39.0" prefWidth="254.0" promptText="Numero de usuarios directos" />
       <TextField fx:id="tfNumUsuariosIndirectos" layoutX="424.0" layoutY="455.0" prefHeight="39.0" prefWidth="274.0" promptText="Numero de usuarios indirectos" />
-      <ComboBox fx:id="cbEstado" layoutX="48.0" layoutY="281.0" prefHeight="39.0" prefWidth="224.0" promptText="Estado" />
       <Button layoutX="489.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnClicAceptar" text="Aceptar" />
       <Button layoutX="649.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
       <Label layoutX="48.0" layoutY="82.0" text="Nombre:" />
       <Label layoutX="48.0" layoutY="173.0" text="Direccion:" />
       <Label layoutX="424.0" layoutY="82.0" text="Telefono" />
-      <Label layoutX="48.0" layoutY="245.0" text="Estado" />
-      <Label layoutX="424.0" layoutY="245.0" text="Ciudad" />
+      <Label layoutX="47.0" layoutY="259.0" text="Estado" />
+      <Label layoutX="424.0" layoutY="259.0" text="Ciudad" />
       <Label layoutX="48.0" layoutY="338.0" text="Sector" />
       <Label layoutX="48.0" layoutY="422.0" text="Numero de usuarios directos" />
-      <Label layoutX="421.0" layoutY="422.0" text="Numero de usuarios indirectos" />
+      <Label layoutX="424.0" layoutY="422.0" text="Numero de usuarios indirectos" />
+      <TextField fx:id="tfEstado" layoutX="48.0" layoutY="299.0" promptText="Estado" />
    </children>
 </AnchorPane>
