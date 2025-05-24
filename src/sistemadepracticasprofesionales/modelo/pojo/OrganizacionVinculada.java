@@ -7,7 +7,8 @@ package sistemadepracticasprofesionales.modelo.pojo;
  * Descripcion: POJO que modela una Organizacion Vinculada
  */
 public class OrganizacionVinculada {
-    private String nombre;
+    private int id;
+    private String razonSocial;
     private String telefono;
     private String direccion;
     private String ciudad;
@@ -19,8 +20,10 @@ public class OrganizacionVinculada {
     public OrganizacionVinculada() {
     }
 
-    public OrganizacionVinculada(String nombre, String telefono, String direccion, String ciudad, String estado, String sector, int nummeroUsuariosDirectos, int numeroUsuariosIndirectos) {
-        this.nombre = nombre;
+    public OrganizacionVinculada(int id, String razonSocial, String telefono, String direccion, String ciudad,
+            String estado, String sector, int nummeroUsuariosDirectos, int numeroUsuariosIndirectos) {
+        this.id = id;
+        this.razonSocial = razonSocial;
         this.telefono = telefono;
         this.direccion = direccion;
         this.ciudad = ciudad;
@@ -30,12 +33,20 @@ public class OrganizacionVinculada {
         this.numeroUsuariosIndirectos = numeroUsuariosIndirectos;
     }
 
-    public String getNombre() {
-        return nombre;
+    public int getId() {
+        return id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
     public String getTelefono() {

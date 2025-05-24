@@ -1,12 +1,24 @@
 package sistemadepracticasprofesionales.controlador;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
+import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
+import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
+import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.utilidades.Utilidad;
+import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.NumericValidationStrategy;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextValidationStrategy;
 
 /**
  * FXML Controller class
@@ -18,8 +30,6 @@ import javafx.scene.control.TextField;
  */
 public class FXMLRegistrarOrganizacionVinculadaController implements Initializable {
 
-    @FXML
-    private TextField tfNombre;
     @FXML
     private TextField tfTelefono;
     @FXML
@@ -33,36 +43,95 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
     @FXML
     private TextField tfNumUsuariosIndirectos;
     @FXML
-    private TextField tfEstado; //Checar si queda como tf para no tener que cargar estados al base de datos
+    private TextField tfEstado; 
+    @FXML
+    private TextField tfRazonSocial;
 
+    private ValidadorFormulario validadorFormulario;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        inicializarValidaciones();
     }    
 
     @FXML
     private void clicBtnRegresar(ActionEvent event) {
-        //Regresar al dashboard
+        regresarAlDashboard();
     }
 
     @FXML
     private void btnClicAceptar(ActionEvent event) {
-        //TODO
-        //Verificar que los campos esten llenos y en dado caso
-        //Obtener los campos y guardarlos en el POJO
-        //Guardar la OV con el DAO en la base de datos
+        if(validadorFormulario.validate()){
+            OrganizacionVinculada organizacionVinculada = obtenerOrganizacionVinculada();
+            guardarOrganizacionVInculada(organizacionVinculada);
+        }else{
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Datos invalidos",
+                    "Hay campos con datos invalidos");
+        }
     }
 
     @FXML
     private void btnClicCancelar(ActionEvent event) {
-        //TODO cerrar ventana actual y regresar al dashboard
+        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar",
+                "¿Estás seguro de que deseas cancelar?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
+        if(resultado.get() == ButtonType.APPLY){
+            regresarAlDashboard();
+        }
     }
     
-    private boolean sonValidos(){
-        //TODO Verificar cada tfLleno
-        return false;
+    private OrganizacionVinculada obtenerOrganizacionVinculada(){
+        OrganizacionVinculada organizacionVinculada = new OrganizacionVinculada();
+        organizacionVinculada.setRazonSocial(tfRazonSocial.getText());
+        organizacionVinculada.setTelefono(tfTelefono.getText());
+        organizacionVinculada.setDireccion(tfDireccion.getText());
+        organizacionVinculada.setCiudad(tfCiudad.getText());
+        organizacionVinculada.setEstado(tfEstado.getText());
+        organizacionVinculada.setSector(tfSector.getText());
+        organizacionVinculada.setNumeroUsuariosIndirectos(Integer.parseInt(tfNumUsuariosIndirectos.getText()));
+        organizacionVinculada.setNummeroUsuariosDirectos(Integer.parseInt(tfNumUsuariosDirectos.getText()));
+        return organizacionVinculada;
+    } 
+    
+    private void guardarOrganizacionVInculada(OrganizacionVinculada organizacionVinculada){
+        try {
+            ResultadoOperacion resultadoOperacion = OrganizacionVinculadaDAO.
+                    registrarOrganizacionVinculada(organizacionVinculada);
+            if(!resultadoOperacion.isError()){
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
+                        "Organizacion Vinculada registrada con exito");
+                regresarAlDashboard();
+            }else{
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
+                        "No fue posible guardar el registro de " + organizacionVinculada.getRazonSocial());
+            }
+        } catch (SQLException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",
+                    "Lo sentimos no fue posible conectarnos a la base de datos");
+        }
+    }
+    
+    private void inicializarValidaciones(){
+        validadorFormulario = new ValidadorFormulario();
+        validadorFormulario.addValidation(tfTelefono, new TextValidationStrategy(10, true));
+        validadorFormulario.addValidation(tfDireccion, new TextValidationStrategy(255, true));
+        validadorFormulario.addValidation(tfCiudad, new TextValidationStrategy(30, true));
+        validadorFormulario.addValidation(tfEstado, new TextValidationStrategy(30, true));
+        validadorFormulario.addValidation(tfSector, new TextValidationStrategy(100, true));
+        validadorFormulario.addValidation(tfRazonSocial, new TextValidationStrategy(45, true));
+        validadorFormulario.addValidation(tfNumUsuariosDirectos, new NumericValidationStrategy(true));
+        validadorFormulario.addValidation(tfNumUsuariosIndirectos, new NumericValidationStrategy(true));
+        validadorFormulario.addCleanupAction(()->{
+           Stream.of(tfTelefono, tfDireccion, tfRazonSocial, tfNumUsuariosDirectos,tfNumUsuariosIndirectos,
+                   tfCiudad,tfEstado,tfSector)
+          .filter(tf -> !tf.getStyle().isEmpty())
+          .findFirst()
+          .ifPresent(Control::requestFocus);//Le da el foco al primer campo con campo vacio
+        });
+    }
+    private void regresarAlDashboard(){
+        Utilidad.obtenerEscenario(tfTelefono).close();
     }
 }

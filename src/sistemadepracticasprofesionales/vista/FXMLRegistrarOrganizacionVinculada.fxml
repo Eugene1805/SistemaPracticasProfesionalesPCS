@@ -15,7 +15,7 @@
          </font>
       </Label>
       <Button layoutX="648.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicBtnRegresar" text="Regresar" />
-      <TextField fx:id="tfNombre" layoutX="48.0" layoutY="122.0" promptText="Nombre" />
+      <TextField fx:id="tfRazonSocial" layoutX="48.0" layoutY="122.0" promptText="Nombre" />
       <TextField fx:id="tfTelefono" layoutX="424.0" layoutY="116.0" prefHeight="39.0" prefWidth="274.0" promptText="Telefono" />
       <TextField fx:id="tfDireccion" layoutX="48.0" layoutY="206.0" prefHeight="39.0" prefWidth="648.0" promptText="Direccion" />
       <TextField fx:id="tfCiudad" layoutX="424.0" layoutY="299.0" prefHeight="39.0" prefWidth="274.0" promptText="Ciudad" />
