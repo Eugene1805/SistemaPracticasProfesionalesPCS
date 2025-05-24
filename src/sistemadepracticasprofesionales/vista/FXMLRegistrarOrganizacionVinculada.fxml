@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarOrganizacionVinculadaController">
+   <children>
+      <Label layoutX="48.0" layoutY="47.0" text="Registrar Organizacion Vinculada">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="648.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicBtnRegresar" text="Regresar" />
+      <TextField fx:id="tfNombre" layoutX="48.0" layoutY="122.0" promptText="Nombre" />
+      <TextField fx:id="tfTelefono" layoutX="424.0" layoutY="116.0" prefHeight="39.0" prefWidth="274.0" promptText="Telefono" />
+      <TextField fx:id="tfDireccion" layoutX="48.0" layoutY="206.0" prefHeight="39.0" prefWidth="648.0" promptText="Direccion" />
+      <TextField fx:id="tfCiudad" layoutX="424.0" layoutY="281.0" prefHeight="39.0" prefWidth="274.0" promptText="Ciudad" />
+      <TextField fx:id="tfSector" layoutX="48.0" layoutY="373.0" promptText="Sector" />
+      <TextField fx:id="tfNumUsuariosDirectos" layoutX="48.0" layoutY="455.0" prefHeight="39.0" prefWidth="254.0" promptText="Numero de usuarios directos" />
+      <TextField fx:id="tfNumUsuariosIndirectos" layoutX="424.0" layoutY="455.0" prefHeight="39.0" prefWidth="274.0" promptText="Numero de usuarios indirectos" />
+      <ComboBox fx:id="cbEstado" layoutX="48.0" layoutY="281.0" prefHeight="39.0" prefWidth="224.0" promptText="Estado" />
+      <Button layoutX="489.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnClicAceptar" text="Aceptar" />
+      <Button layoutX="649.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <Label layoutX="48.0" layoutY="82.0" text="Nombre:" />
+      <Label layoutX="48.0" layoutY="173.0" text="Direccion:" />
+      <Label layoutX="424.0" layoutY="82.0" text="Telefono" />
+      <Label layoutX="48.0" layoutY="245.0" text="Estado" />
+      <Label layoutX="424.0" layoutY="245.0" text="Ciudad" />
+      <Label layoutX="48.0" layoutY="338.0" text="Sector" />
+      <Label layoutX="48.0" layoutY="422.0" text="Numero de usuarios directos" />
+      <Label layoutX="421.0" layoutY="422.0" text="Numero de usuarios indirectos" />
+   </children>
+</AnchorPane>
