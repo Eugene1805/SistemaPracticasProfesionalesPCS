@@ -26,7 +26,8 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextVal
  * @author eugen
  * 
  * Fecha:23/05/25
- * Descripcion: Gestiona las interacciones entre la vista y el DAO de OrganizacionVinculada
+ * Descripcion: Gestiona las interacciones entre la vista y el DAO de OrganizacionVinculada para poder hacer 
+ * registros de una Organizacion VInculada en el formulario mostrado en la vista
  */
 public class FXMLRegistrarOrganizacionVinculadaController implements Initializable {
 
@@ -128,7 +129,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
                    tfCiudad,tfEstado,tfSector)
           .filter(tf -> !tf.getStyle().isEmpty())
           .findFirst()
-          .ifPresent(Control::requestFocus);//Le da el foco al primer campo con campo vacio
+          .ifPresent(Control::requestFocus);//Le da el foco al primer campo con texto vacio
         });
     }
     private void regresarAlDashboard(){

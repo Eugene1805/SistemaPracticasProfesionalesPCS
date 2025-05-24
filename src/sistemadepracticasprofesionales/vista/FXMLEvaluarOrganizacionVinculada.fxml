@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="700.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLEvaluarOrganizacionVinculadaController">
+   <children>
+      <Label layoutX="30.0" layoutY="30.0" text="Evaluacion Organizacion Vinculada">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombreOV" layoutX="30.0" layoutY="71.0" prefHeight="32.0" prefWidth="395.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbAmbiente_laboral" layoutX="568.0" layoutY="385.0" prefHeight="39.0" prefWidth="99.0" promptText="1-5" />
+      <ComboBox fx:id="cbOportunidadesAprendizaje" layoutX="568.0" layoutY="449.0" prefHeight="39.0" prefWidth="99.0" promptText="1-5" />
+      <ComboBox fx:id="cbClaridadActividades" layoutX="568.0" layoutY="213.0" prefHeight="39.0" prefWidth="99.0" promptText="1-5" />
+      <ComboBox fx:id="cbNivelRelacionActividades" layoutX="568.0" layoutY="272.0" prefHeight="39.0" prefWidth="99.0" promptText="1-5" />
+      <ComboBox fx:id="cbAccesibilidad" layoutX="568.0" layoutY="331.0" prefHeight="39.0" prefWidth="99.0" promptText="1-5" />
+      <Label layoutX="30.0" layoutY="219.0" text="Claridad de las actividades realizadas" />
+      <Label layoutX="30.0" layoutY="272.0" prefHeight="39.0" prefWidth="491.0" text="Nivel de relacion entre las actividades realizadas y su carrera" wrapText="true" />
+      <Button layoutX="425.0" layoutY="571.0" mnemonicParsing="false" onAction="#btnClicAceptar" text="Aceptar" />
+      <Button layoutX="572.0" layoutY="571.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <Label layoutX="30.0" layoutY="337.0" text="Accesibilidad y apoyo por parte del responsable" />
+      <Label layoutX="30.0" layoutY="391.0" text="Ambiente laboral" />
+      <Label layoutX="30.0" layoutY="441.0" text="Oportunidades de aprendizaje y crecimiento" />
+      <Label layoutX="30.0" layoutY="493.0" text="Acceso a recursos y herramientas necesarias" />
+      <ComboBox fx:id="cbAccesoRecursos" layoutX="568.0" layoutY="504.0" prefHeight="32.0" prefWidth="99.0" promptText="1-5" />
+      <Label layoutX="30.0" layoutY="116.0" text="Instrucciones:" />
+      <Label layoutX="30.0" layoutY="143.0" prefHeight="67.0" prefWidth="636.0" text="Seleccione una opcion entre 1-5 siendo 5 un mayor grado de cumplimiento de dicho rubro y 1 un menor grado de cumplimiento" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
