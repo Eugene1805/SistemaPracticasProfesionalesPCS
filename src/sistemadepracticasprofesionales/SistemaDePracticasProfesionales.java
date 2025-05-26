@@ -1,39 +1,35 @@
 package sistemadepracticasprofesionales;
 
+import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
  *
  * @author eugen
+ * Fecha:21/05/25
+ * Descripcion:Punto de entrada al sistema a traves de un log in
+ * 
  */
 public class SistemaDePracticasProfesionales extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        try{
+            Parent vista = FXMLLoader.load(getClass().getResource("vista/FXMLInicioSesion.fxml"));
+            Scene escenaInicioSesion = new Scene(vista);
+            primaryStage.setScene(escenaInicioSesion);
+            primaryStage.setTitle("Inicio de sesion");
+            primaryStage.show();
+        }catch(IOException e){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo cargar el sistema",
+                    "Lo sentimos no fue posible cargar el inicio de sesion");
+        }
     }
 
     /**
