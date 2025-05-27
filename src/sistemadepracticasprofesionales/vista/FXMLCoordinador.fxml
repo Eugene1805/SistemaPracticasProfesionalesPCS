@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLCoordinadorController">
+    <children>
+      <Label layoutX="30.0" layoutY="30.0" text="Sistema de practicas profesionales">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="530.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnCerrarSesion" text="Cerrar sesion" />
+      <Label layoutX="440.0" layoutY="100.0" text="Bienvenido (a)">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbUsuario" layoutX="440.0" layoutY="160.0" prefHeight="63.0" prefWidth="208.0" />
+      <Label layoutX="39.0" layoutY="104.0" onMouseClicked="#clicAsignarProyectos" text="Asignar proyectos" />
+      <Label layoutX="39.0" layoutY="158.0" onMouseClicked="#clicGenerarOficios" text="Generar oficios de asignacion" />
+      <Label layoutX="40.0" layoutY="208.0" text="Registrar" />
+      <Label layoutX="37.0" layoutY="356.0" text="Actualizar" />
+      <Label layoutX="88.0" layoutY="243.0" onMouseClicked="#clicRegistrarOV" text="Organizacion Vinculada" />
+      <Label layoutX="91.0" layoutY="279.0" onMouseClicked="#clicRegistrarResponsable" text="Responsable OV" />
+      <Label layoutX="90.0" layoutY="316.0" onMouseClicked="#clicRegistrarProyecto" text="Proyecto" />
+      <Label layoutX="91.0" layoutY="393.0" onMouseClicked="#clicActualizarResponsable" text="Responsable OV" />
+      <Label layoutX="90.0" layoutY="427.0" onMouseClicked="#clicActualizarProyecto" text="Proyecto" />
+      <Line endX="100.0" layoutX="137.0" layoutY="100.0" startX="-100.0" />
+      <Line endX="100.0" layoutX="137.0" layoutY="149.0" startX="-100.0" />
+      <Line endX="100.0" layoutX="137.0" layoutY="199.0" startX="-100.0" />
+      <Line endX="100.0" layoutX="137.0" layoutY="350.0" startX="-100.0" />
+   </children>
+</AnchorPane>

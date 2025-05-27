@@ -74,12 +74,11 @@ public class FXMLInicioSesionController implements Initializable {
         try {
             Stage escenarioBase = (Stage) tfUsername.getScene().getWindow();
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource("vista/FXMLEvaluarOrganizacionVinculada.fxml"));
+                    getResource("vista/FXMLDashboard.fxml"));
             Parent vista = cargador.load();
             //FIX
-            //FXMLEvaluarOrganizacionVinculadaController controlador = cargador.getController();
-            //controlador.iniciarlizarInformacion(usuario);
-            
+            FXMLDashboardController controlador = cargador.getController();
+            controlador.inicializarInformacion(usuario);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Home");
