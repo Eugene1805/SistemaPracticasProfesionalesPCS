@@ -1,12 +1,15 @@
 package sistemadepracticasprofesionales.controlador;
 
+import com.mysql.cj.util.Util;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
  * FXML Controller class
@@ -30,10 +33,13 @@ public class FXMLEvaluadorController implements Initializable {
 
     @FXML
     private void btnCerrarSesion(ActionEvent event) {
+        Utilidad.cerrarSesion(lbUsuario);
     }
 
     @FXML
     private void clicEvaluarEstudiante(MouseEvent event) {
+        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Funcionalidad en desarrollo", 
+                "La funcionalidad de este apartado sigue en desarrollo");
     }
     
 }

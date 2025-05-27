@@ -76,7 +76,6 @@ public class FXMLInicioSesionController implements Initializable {
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
                     getResource("vista/FXMLDashboard.fxml"));
             Parent vista = cargador.load();
-            //FIX
             FXMLDashboardController controlador = cargador.getController();
             controlador.inicializarInformacion(usuario);
             Scene escenaPrincipal = new Scene(vista);

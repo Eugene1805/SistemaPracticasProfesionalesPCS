@@ -14,7 +14,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="530.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnCerrarSesion" text="Cerrar sesion" />
+      <Button fx:id="btnCerrarSesion" layoutX="530.0" layoutY="35.0" mnemonicParsing="false" text="Cerrar sesion" />
       <Label layoutX="440.0" layoutY="100.0" text="Bienvenido (a)">
          <font>
             <Font size="24.0" />
