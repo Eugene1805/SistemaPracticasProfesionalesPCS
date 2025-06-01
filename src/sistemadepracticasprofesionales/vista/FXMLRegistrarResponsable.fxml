@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="601.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarResponsableController">
+   <children>
+      <Label layoutX="21.0" layoutY="42.0" text="Responsable del Proyecto" />
+      <Label layoutX="21.0" layoutY="77.0" text="Ingrese los datos del Responsable del Proyecto:" />
+      <Label layoutX="21.0" layoutY="116.0" text="Nombre(s):" />
+      <Label layoutX="21.0" layoutY="153.0" text="Apellido Paterno:" />
+      <Label layoutX="248.0" layoutY="153.0" text="Apellido Materno:" />
+      <Label layoutX="21.0" layoutY="208.0" text="Correo:" />
+      <Label layoutX="248.0" layoutY="208.0" text="Departamento:" />
+      <Label layoutX="21.0" layoutY="265.0" text="Puesto:" />
+   </children>
+</AnchorPane>

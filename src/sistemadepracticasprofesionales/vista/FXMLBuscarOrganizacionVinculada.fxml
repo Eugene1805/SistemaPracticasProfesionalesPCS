@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLBuscarOrganizacionVinculadaController">
+   <children>
+      <TextField fx:id="tfBuscarOV" layoutX="40.0" layoutY="100.0" prefHeight="25.0" prefWidth="182.0" promptText="Buscar Organización Vinculada" />
+      <TableView fx:id="tvOrganizacionesVinculadas" layoutX="40.0" layoutY="150.0" prefHeight="200.0" prefWidth="521.0">
+        <columns>
+          <TableColumn fx:id="tcRazonSocial" prefWidth="94.0" text="Razón Social" />
+          <TableColumn prefWidth="83.0" text="Teléfono" />
+            <TableColumn prefWidth="75.0" text="Dirección" />
+            <TableColumn prefWidth="75.0" text="Ciudad" />
+            <TableColumn prefWidth="75.0" text="Estado" />
+        </columns>
+      </TableView>
+      <Label layoutX="40.0" layoutY="60.0" text="Seleccione o Busque la Organizacion Vinculada para registrar a su Responsable del Proyecto" />
+   </children>
+</AnchorPane>
