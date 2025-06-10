@@ -20,11 +20,19 @@ import javafx.scene.control.TextField;
 public class FXMLBuscarOrganizacionVinculadaController implements Initializable {
 
     @FXML
-    private TextField tfBuscarOV;
-    @FXML
     private TableView<?> tvOrganizacionesVinculadas;
     @FXML
     private TableColumn<?, ?> tcRazonSocial;
+    @FXML
+    private TextField tfBuscar;
+    @FXML
+    private TableColumn<?, ?> tcTelefono;
+    @FXML
+    private TableColumn<?, ?> tcDireccion;
+    @FXML
+    private TableColumn<?, ?> tcCiudad;
+    @FXML
+    private TableColumn<?, ?> tcEstado;
 
     /**
      * Initializes the controller class.

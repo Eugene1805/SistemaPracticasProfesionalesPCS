@@ -6,7 +6,9 @@ package sistemadepracticasprofesionales.controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -14,6 +16,19 @@ import javafx.fxml.Initializable;
  * @author Nash
  */
 public class FXMLRegistrarResponsableController implements Initializable {
+
+    @FXML
+    private TextField tfNombre;
+    @FXML
+    private TextField tfApellidoPaterno;
+    @FXML
+    private TextField tfApellidoMaterno;
+    @FXML
+    private TextField tfCorreo;
+    @FXML
+    private TextField tfDepartamento;
+    @FXML
+    private TextField tfPuesto;
 
     /**
      * Initializes the controller class.

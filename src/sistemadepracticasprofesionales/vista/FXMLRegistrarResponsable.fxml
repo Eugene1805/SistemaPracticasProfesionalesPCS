@@ -1,21 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="601.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarResponsableController">
+<AnchorPane id="AnchorPane" prefHeight="422.0" prefWidth="601.0" style="-fx-background-color: #F5F7FA;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarResponsableController">
    <children>
-      <Label layoutX="21.0" layoutY="42.0" text="Responsable del Proyecto" />
-      <Label layoutX="21.0" layoutY="77.0" text="Ingrese los datos del Responsable del Proyecto:" />
-      <Label layoutX="21.0" layoutY="116.0" text="Nombre(s):" />
-      <Label layoutX="21.0" layoutY="153.0" text="Apellido Paterno:" />
-      <Label layoutX="248.0" layoutY="153.0" text="Apellido Materno:" />
-      <Label layoutX="21.0" layoutY="208.0" text="Correo:" />
-      <Label layoutX="248.0" layoutY="208.0" text="Departamento:" />
-      <Label layoutX="21.0" layoutY="265.0" text="Puesto:" />
+      <Label layoutX="21.0" layoutY="77.0" text="Ingrese los datos del Responsable del Proyecto:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="43.0" layoutY="119.0" text="Nombre(s):" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="43.0" layoutY="166.0" text="Apellido Paterno:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="301.0" layoutY="161.0" text="Apellido Materno:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="43.0" layoutY="243.0" text="Correo:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="301.0" layoutY="238.0" text="Departamento:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="41.0" layoutY="330.0" text="Puesto:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <AnchorPane prefHeight="60.0" prefWidth="601.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Label layoutX="14.0" layoutY="16.0" text="Registrar Responsable del Proyecto" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button layoutX="521.0" layoutY="18.0" mnemonicParsing="false" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Button layoutX="423.0" layoutY="372.0" mnemonicParsing="false" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="522.0" layoutY="372.0" mnemonicParsing="false" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="tfNombre" layoutX="213.0" layoutY="117.0" prefHeight="29.0" prefWidth="295.0" promptText="Nombre(s)">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfApellidoPaterno" layoutX="41.0" layoutY="200.0" prefHeight="29.0" prefWidth="206.0" promptText="Apellido Paterno">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfApellidoMaterno" layoutX="301.0" layoutY="195.0" prefHeight="29.0" prefWidth="206.0" promptText="Apellido Materno">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfCorreo" layoutX="41.0" layoutY="274.0" prefHeight="29.0" prefWidth="206.0" promptText="Correo">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfDepartamento" layoutX="301.0" layoutY="269.0" prefHeight="29.0" prefWidth="206.0" promptText="Departamento">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfPuesto" layoutX="152.0" layoutY="328.0" prefHeight="29.0" prefWidth="206.0" promptText="Puesto">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>
