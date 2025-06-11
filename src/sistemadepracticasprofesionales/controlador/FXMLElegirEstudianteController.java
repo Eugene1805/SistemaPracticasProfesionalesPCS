@@ -59,7 +59,7 @@ public class FXMLElegirEstudianteController implements Initializable {
                 "¿Estás seguro de que deseas cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.obtenerEscenario(tvEstudiantes).close();                    
+            Utilidad.abrirVentana("Profesor", tvEstudiantes);                    
         }
     }
     

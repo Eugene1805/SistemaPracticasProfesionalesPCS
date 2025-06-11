@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -24,7 +23,6 @@ public class FXMLEvaluadorController implements Initializable, Dashboard {
     @FXML
     private Label lbUsuario;
     
-    private Parent vista;
     /**
      * Initializes the controller class.
      */

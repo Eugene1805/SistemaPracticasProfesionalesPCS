@@ -133,6 +133,6 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
     }
     
     private void regresarAlDashboard(){
-        Utilidad.obtenerEscenario(lbNombreOV).close();
+        Utilidad.abrirVentana("Estudiante", lbNombreOV);
     }
 }

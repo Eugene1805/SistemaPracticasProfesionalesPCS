@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
@@ -22,8 +21,6 @@ public class FXMLProfesorController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
-    
-    private Parent vista;
 
     /**
      * Initializes the controller class.
@@ -40,7 +37,7 @@ public class FXMLProfesorController implements Initializable, Dashboard {
 
     @FXML
     private void clicValidarEntregas(MouseEvent event) {
-        Utilidad.abrirVentana("ValidarEntregas", lbUsuario);
+        Utilidad.abrirVentana("ElegirEstudiante", lbUsuario);
     }
 
     @FXML

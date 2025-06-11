@@ -22,7 +22,7 @@ public class ProyectoDAO {
         Connection conexionBD = ConexionBD.abrirConexion();
         if(conexionBD != null){
             String consulta = "SELECT p.id_proyecto, p.nombre, p.descripcion, p.estado, p.cupo, "
-                + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, ov.nombre AS nombre_organizacion "
+                + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, ov.razon_social AS nombre_organizacion "
                 + "FROM proyecto p "
                 + "INNER JOIN organizacion_vinculada ov ON p.id_organizacion_vinculada = ov.id_organizacion_vinculada "
                 + "WHERE p.id_proyecto = ?";
@@ -44,7 +44,7 @@ public class ProyectoDAO {
         Connection conexionBD = ConexionBD.abrirConexion();
         if(conexionBD != null){
             String consulta = "SELECT p.id_proyecto, p.nombre, p.descripcion, p.estado, p.cupo, "
-                + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, ov.nombre AS nombre_organizacion, "
+                + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, ov.razon_social AS nombre_organizacion, "
                 + "(SELECT COUNT(*) FROM estudiante e WHERE e.id_proyecto = p.id_proyecto) AS estudiantes_asignados "
                 + "FROM proyecto p "
                 + "INNER JOIN organizacion_vinculada ov ON p.id_organizacion_vinculada = ov.id_organizacion_vinculada "

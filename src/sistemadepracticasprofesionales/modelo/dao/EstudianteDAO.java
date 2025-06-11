@@ -1,7 +1,5 @@
 package sistemadepracticasprofesionales.modelo.dao;
 
-
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +23,7 @@ public class EstudianteDAO {
         Connection conexionBD = ConexionBD.abrirConexion();
         if(conexionBD != null){
             String consulta = "SELECT e.id_estudiante, e.nombre, e.apellido_paterno, e.apellido_materno, e.matricula, "
-                + "e.correo_institucional, e.id_periodo_escolar, pe.nombre AS periodo_escolar, "
+                + "e.correo_institucional, e.id_periodo_escolar, pe.nombre_periodo AS periodo_escolar, "
                 + "e.id_experiencia_educativa, ee.nrc AS nrc_experiencia_educativa, "
                 + "e.id_proyecto, p.nombre AS nombre_proyecto "
                 + "FROM estudiante e "
@@ -52,7 +50,7 @@ public class EstudianteDAO {
         Connection conexionBD = ConexionBD.abrirConexion();
         if(conexionBD != null){
             String consulta = "SELECT e.id_estudiante, e.nombre, e.apellido_paterno, e.apellido_materno, e.matricula, "
-                + "e.correo_institucional, e.id_periodo_escolar, pe.nombre AS periodo_escolar, "
+                + "e.correo_institucional, e.id_periodo_escolar, pe.nombre_periodo AS periodo_escolar, "
                 + "e.id_experiencia_educativa, ee.nrc AS nrc_experiencia_educativa, "
                 + "e.id_proyecto, p.nombre AS nombre_proyecto "
                 + "FROM estudiante e "
@@ -62,8 +60,10 @@ public class EstudianteDAO {
                 + "WHERE e.id_proyecto IS NULL";
             PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
             ResultSet resultado = sentencia.executeQuery();
+            System.err.print("Se ejecuto la consulta");
             while(resultado.next()){
                 estudiantes.add(convertirEstudiante(resultado));
+                System.err.print("Se convirtio el estudiante");
             }
             conexionBD.close();
         }else{

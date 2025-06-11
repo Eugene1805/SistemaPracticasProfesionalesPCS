@@ -180,4 +180,9 @@ public class FXMLAsignarProyectosController implements Initializable {
     private Proyecto obtenerProyectoSeleccionado(){
         return cbProyectos.getSelectionModel().getSelectedItem();
     }
+
+    @FXML
+    private void btnRegresar(ActionEvent event) {
+        Utilidad.abrirVentana("Coordinador", cbProyectos);
+    }
 }
