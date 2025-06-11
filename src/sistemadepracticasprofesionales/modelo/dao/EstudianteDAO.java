@@ -76,7 +76,8 @@ public class EstudianteDAO {
         List<Estudiante> estudiantes = new ArrayList<>();
         Connection conexionBD = ConexionBD.abrirConexion();
         if(conexionBD !=null){
-            
+            //FIX
+            //Filtrar estudiantes del periodo escolar y con entregas sin validar es decir sin calificacion
         }else{
             throw new SQLException();
         }
