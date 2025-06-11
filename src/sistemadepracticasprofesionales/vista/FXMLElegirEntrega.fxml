@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLElegirEntregaController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLElegirEntregaController">
+   <children>
+      <Label layoutX="25.0" layoutY="24.0" text="Elegir entrega">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvEntregas" layoutX="25.0" layoutY="93.0" prefHeight="200.0" prefWidth="517.0">
+        <columns>
+          <TableColumn fx:id="tcTipoEntrega" prefWidth="150.0" text="Tipo de entrega" />
+          <TableColumn fx:id="tcDocumento" prefWidth="366.0" text="Documento" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>

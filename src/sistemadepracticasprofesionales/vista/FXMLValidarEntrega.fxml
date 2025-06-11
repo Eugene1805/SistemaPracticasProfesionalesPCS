@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLValidarEntregaController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLValidarEntregaController">
+   <children>
+      <Label layoutX="40.0" layoutY="33.0" text="Validar entrega">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombreDocumento" layoutX="48.0" layoutY="86.0" prefHeight="27.0" prefWidth="165.0" />
+      <Label layoutX="271.0" layoutY="86.0" text="Fecha de inicio:" />
+      <Label layoutX="527.0" layoutY="86.0" text="Fecha de fin:" />
+      <Label fx:id="lbFechaInicio" layoutX="412.0" layoutY="86.0" prefHeight="27.0" prefWidth="86.0" />
+      <Label fx:id="lbFechaFin" layoutX="656.0" layoutY="86.0" prefHeight="27.0" prefWidth="100.0" />
+      <Label layoutX="40.0" layoutY="141.0" text="Descripcion:" />
+      <Label fx:id="lbDescripcion" layoutX="171.0" layoutY="141.0" prefHeight="67.0" prefWidth="335.0" />
+      <Button disable="true" layoutX="554.0" layoutY="149.0" mnemonicParsing="false" onAction="#btnClicAgregarObservacion" text="Agregar observacion" />
+      <Label layoutX="483.0" layoutY="255.0" text="Fecha entregado: " />
+      <Label fx:id="lbFechaEntregado" layoutX="648.0" layoutY="255.0" prefHeight="27.0" prefWidth="116.0" />
+      <TextArea fx:id="taObservacion" layoutX="24.0" layoutY="255.0" prefHeight="91.0" prefWidth="407.0" promptText="Observacion" />
+      <Label layoutX="480.0" layoutY="310.0" text="Calificacion:" />
+      <TextField layoutX="656.0" layoutY="304.0" prefHeight="27.0" prefWidth="79.0" promptText="0-10" />
+      <Button layoutX="476.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnClicValidar" text="Validar" />
+      <Button layoutX="639.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnClicRechazar" text="Rechazar" />
+   </children>
 </AnchorPane>
