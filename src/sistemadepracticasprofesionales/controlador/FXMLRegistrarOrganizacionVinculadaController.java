@@ -116,7 +116,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
     
     private void inicializarValidaciones(){
         validadorFormulario = new ValidadorFormulario();
-        validadorFormulario.addValidation(tfTelefono, new TextValidationStrategy(10, true));
+        validadorFormulario.addValidation(tfTelefono, new NumericValidationStrategy(true));
         validadorFormulario.addValidation(tfDireccion, new TextValidationStrategy(255, true));
         validadorFormulario.addValidation(tfCiudad, new TextValidationStrategy(30, true));
         validadorFormulario.addValidation(tfEstado, new TextValidationStrategy(30, true));

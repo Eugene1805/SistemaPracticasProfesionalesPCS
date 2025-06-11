@@ -27,7 +27,7 @@ public class NumericValidationStrategy implements IEstrategiaValidacion<TextFiel
         
         if (!texto.isEmpty()) {
             try {
-                Integer.valueOf(texto);
+                Long.valueOf(texto);
             } catch (NumberFormatException e) {
                 return new ResultadoValidacion(false, "Debe ser un número válido");
             }
