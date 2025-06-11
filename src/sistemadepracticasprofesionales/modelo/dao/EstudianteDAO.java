@@ -1,6 +1,7 @@
 package sistemadepracticasprofesionales.modelo.dao;
 
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,6 +66,17 @@ public class EstudianteDAO {
                 estudiantes.add(convertirEstudiante(resultado));
             }
             conexionBD.close();
+        }else{
+            throw new SQLException();
+        }
+        return estudiantes;
+    }
+    
+    public static List<Estudiante> obtenerEstudiantesConEntregasSinValidar() throws SQLException{
+        List<Estudiante> estudiantes = new ArrayList<>();
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if(conexionBD !=null){
+            
         }else{
             throw new SQLException();
         }

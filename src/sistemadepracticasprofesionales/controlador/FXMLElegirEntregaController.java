@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 
 /**
  * FXML Controller class
@@ -28,7 +29,18 @@ public class FXMLElegirEntregaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        configurarTabla();
+        cargarInformacion();
     }    
+
+    public void inicializarInformacion(Estudiante estudiante) {
+    }
     
+    private void configurarTabla(){
+        
+    }
+    
+    private void cargarInformacion(){
+        
+    }
 }
