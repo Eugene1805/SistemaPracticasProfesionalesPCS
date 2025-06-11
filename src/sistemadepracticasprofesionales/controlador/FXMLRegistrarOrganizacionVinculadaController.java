@@ -59,7 +59,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
 
     @FXML
     private void clicBtnRegresar(ActionEvent event) {
-        Utilidad.obtenerEscenario(tfTelefono).close();
+        Utilidad.abrirVentana("Coordinador", tfTelefono);
     }
 
     @FXML
