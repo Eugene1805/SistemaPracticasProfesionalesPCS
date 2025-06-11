@@ -73,11 +73,10 @@ public class FXMLInicioSesionController implements Initializable {
     private void irPantallaPrincipal(Usuario usuario){
         try {
             Stage escenarioBase = (Stage) tfUsername.getScene().getWindow();
-            Dashboard dashboard = DashboardFactory.crearDashboard(usuario);
-            
-            Scene escenaPrincipal = new Scene(dashboard.obtenerVista());
-            escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle(((DashboardFactory.DashboardImpl)dashboard).getTitulo());
+            Scene escenaDashboard = DashboardFactory.crearDashboard(usuario);
+
+            escenarioBase.setScene(escenaDashboard);
+            escenarioBase.setTitle((String) escenaDashboard.getProperties().get("titulo"));
             escenarioBase.show();
         } catch (IOException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", 

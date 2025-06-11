@@ -1,6 +1,5 @@
 package sistemadepracticasprofesionales.controlador;
 
-import javafx.scene.Parent;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 
 /**
@@ -11,5 +10,4 @@ import sistemadepracticasprofesionales.modelo.pojo.Usuario;
  */
 public interface Dashboard {
     void inicializar(Usuario usuario);
-    Parent obtenerVista();
 }

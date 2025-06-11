@@ -51,11 +51,5 @@ public class FXMLProfesorController implements Initializable, Dashboard {
     @Override
     public void inicializar(Usuario usuario) {
         lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno() );
-    }
-
-    @Override
-    public Parent obtenerVista() {
-        return vista;
-    }
-    
+    }    
 }

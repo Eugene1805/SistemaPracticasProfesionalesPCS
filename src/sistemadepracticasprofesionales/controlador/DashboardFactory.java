@@ -3,6 +3,7 @@ package sistemadepracticasprofesionales.controlador;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 
@@ -13,7 +14,7 @@ import sistemadepracticasprofesionales.modelo.pojo.Usuario;
  * Descripcion: Fabrica para los dashboards
  */
 public class DashboardFactory {
-    public static Dashboard crearDashboard(Usuario usuario) throws IOException {
+    public static Scene crearDashboard(Usuario usuario) throws IOException {
         String fxmlPath;
         String titulo;
         
@@ -43,7 +44,9 @@ public class DashboardFactory {
         Dashboard controlador = loader.getController();
         controlador.inicializar(usuario);
         
-        return new DashboardImpl(vista, controlador, titulo);
+        Scene escena = new Scene(vista);
+        escena.getProperties().put("titulo", titulo); // Guardamos el título en la escena
+        return escena;
     }
     
     public static class DashboardImpl implements Dashboard {
@@ -60,11 +63,6 @@ public class DashboardFactory {
         @Override
         public void inicializar(Usuario usuario) {
             controlador.inicializar(usuario);
-        }
-        
-        @Override
-        public Parent obtenerVista() {
-            return vista;
         }
         
         public String getTitulo() {
