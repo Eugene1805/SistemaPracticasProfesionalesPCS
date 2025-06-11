@@ -5,8 +5,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
@@ -16,10 +18,12 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * Fecha:27/05/25
  * Descripcion: Controlador para las acciones disponibles del profesor
  */
-public class FXMLProfesorController implements Initializable {
+public class FXMLProfesorController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
+    
+    private Parent vista;
 
     /**
      * Initializes the controller class.
@@ -42,6 +46,16 @@ public class FXMLProfesorController implements Initializable {
     @FXML
     private void clicConsultarExpediente(MouseEvent event) {
         Utilidad.abrirVentana("ConsultarExpediente", lbUsuario);
+    }
+
+    @Override
+    public void inicializar(Usuario usuario) {
+        lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno() );
+    }
+
+    @Override
+    public Parent obtenerVista() {
+        return vista;
     }
     
 }

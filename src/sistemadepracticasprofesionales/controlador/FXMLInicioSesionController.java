@@ -73,18 +73,19 @@ public class FXMLInicioSesionController implements Initializable {
     private void irPantallaPrincipal(Usuario usuario){
         try {
             Stage escenarioBase = (Stage) tfUsername.getScene().getWindow();
-            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource("vista/FXMLDashboard.fxml"));
-            Parent vista = cargador.load();
-            FXMLDashboardController controlador = cargador.getController();
-            controlador.inicializarInformacion(usuario);
-            Scene escenaPrincipal = new Scene(vista);
+            Dashboard dashboard = DashboardFactory.crearDashboard(usuario);
+            
+            Scene escenaPrincipal = new Scene(dashboard.obtenerVista());
             escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Home");
+            escenarioBase.setTitle(((DashboardFactory.DashboardImpl)dashboard).getTitulo());
             escenarioBase.show();
         } catch (IOException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina principal",
-                    "Lo sentimos no fue posible cargar la pagina principal");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", 
+                "No se pudo cargar el dashboard: " + ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Usuario sin tipo", 
+                ex.getMessage());
+            Utilidad.cerrarSesion(tfUsername);
         }
     }
     

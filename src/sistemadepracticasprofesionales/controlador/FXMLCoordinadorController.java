@@ -5,9 +5,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
@@ -17,17 +19,19 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * Fecha:27/05/25
  * Descripcion: Controlador para configurar las acciones del coordinador
  */
-public class FXMLCoordinadorController implements Initializable {
+public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
+    
+    private Parent vista;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
 
     @FXML
@@ -71,5 +75,14 @@ public class FXMLCoordinadorController implements Initializable {
     private void clicActualizarProyecto(MouseEvent event) {
         Utilidad.abrirVentana("ActualizarProyecto", lbUsuario);
     }
-    
+
+    @Override
+    public void inicializar(Usuario usuario) {
+        lbUsuario.setText(usuario.getNombre() +" "+ usuario.getApellidoPaterno());
+    }
+
+    @Override
+    public Parent obtenerVista() {
+        return vista;
+    } 
 }

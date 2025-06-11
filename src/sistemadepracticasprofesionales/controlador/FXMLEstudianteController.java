@@ -5,9 +5,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
@@ -17,11 +19,12 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * Fecha:27/05/25
  * Descripcion: Controlador para manejar las aciones del estudiante
  */
-public class FXMLEstudianteController implements Initializable {
+public class FXMLEstudianteController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
-
+    
+    private Parent vista;
     /**
      * Initializes the controller class.
      */
@@ -54,6 +57,16 @@ public class FXMLEstudianteController implements Initializable {
     private void clicGenerarFormatoEvalOV(MouseEvent event) {
         Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Funcionalidad en desarrollo",
                 "La funcionalidad de este apartado sigue en desarrollo");
+    }
+
+    @Override
+    public void inicializar(Usuario usuario) {
+        lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno());
+    }
+
+    @Override
+    public Parent obtenerVista() {
+        return vista;
     }
     
 }
