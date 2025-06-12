@@ -2,7 +2,9 @@ package sistemadepracticasprofesionales.modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.ConexionBD;
@@ -42,5 +44,41 @@ public class OrganizacionVinculadaDAO {
             throw new SQLException("No hay conexion");
         }
         return resultadoOperacion;
+    }
+    
+    public static ArrayList<OrganizacionVinculada> obtenerOrganizacionesVinculadas () throws SQLException{
+        ArrayList<OrganizacionVinculada> organizaciones = new ArrayList<>();
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if(conexionBD != null){
+            String consulta = "SELECT id_organizacion_vinculada, razon_social, telefono, direccion, ciudad, "
+                    + "numero_usuarios_directos, numero_usuarios_indirectos, estado, sector FROM organizacion_vinculada";
+            PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
+            ResultSet resultado = sentencia.executeQuery();
+            while(resultado.next()){
+                organizaciones.add(convertirOrganizacionVinculada(resultado));
+            }
+            sentencia.close();
+            resultado.close();
+            conexionBD.close();
+            
+        }else{
+            throw new SQLException("No hay conexion");
+        }
+        return organizaciones;
+    }
+    
+    private static OrganizacionVinculada convertirOrganizacionVinculada(ResultSet resultado) throws SQLException{
+        OrganizacionVinculada organizacion = new OrganizacionVinculada();
+        organizacion.setId(resultado.getInt("id_organizacion_vinculada"));
+        organizacion.setRazonSocial(resultado.getString("razon_social"));
+        organizacion.setTelefono(resultado.getString("telefono"));
+        organizacion.setDireccion(resultado.getString("direccion"));
+        organizacion.setCiudad(resultado.getString("ciudad"));
+        organizacion.setNummeroUsuariosDirectos(resultado.getInt("numero_usuarios_directos"));
+        organizacion.setNumeroUsuariosIndirectos(resultado.getInt("numero_usuarios_indirectos"));
+        organizacion.setEstado(resultado.getString("estado"));
+        organizacion.setSector(resultado.getString("sector"));
+        
+        return organizacion;
     }
 }

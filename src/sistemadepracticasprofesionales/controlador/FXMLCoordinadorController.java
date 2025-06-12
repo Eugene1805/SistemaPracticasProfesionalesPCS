@@ -57,7 +57,7 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicRegistrarResponsable(MouseEvent event) {
-        Utilidad.abrirVentana("RegistrarResponsable", lbUsuario);
+        Utilidad.abrirVentana("BuscarOrganizacionVinculada", lbUsuario);
     }
 
     @FXML
