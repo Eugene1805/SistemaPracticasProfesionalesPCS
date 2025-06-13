@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLElegirEntregaController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLElegirEntregaController">
    <children>
       <Label layoutX="25.0" layoutY="24.0" text="Elegir entrega">
          <font>
@@ -21,5 +20,6 @@
           <TableColumn fx:id="tcDocumento" prefWidth="366.0" text="Documento" />
         </columns>
       </TableView>
+      <Button layoutX="470.0" layoutY="31.0" mnemonicParsing="false" onAction="#clicBtnRegresar" text="Regresar" />
    </children>
 </AnchorPane>

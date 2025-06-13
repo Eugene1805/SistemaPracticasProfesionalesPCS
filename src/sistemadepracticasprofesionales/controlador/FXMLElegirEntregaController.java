@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +18,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
@@ -47,12 +47,16 @@ public class FXMLElegirEntregaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarTabla();
-        cargarInformacionTabla();
     }    
 
     public void inicializarInformacion(Estudiante estudiante) {
         this.estudianteSeleccionado = estudiante;
-        cargarInformacionTabla();
+        if (estudianteSeleccionado != null) {
+            cargarInformacionTabla();
+        } else {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, 
+                "Error", "No se recibió información del estudiante");
+        }
     }
     
     private void configurarTabla(){
@@ -64,6 +68,7 @@ public class FXMLElegirEntregaController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if(event.getClickCount() == 2 && (!row.isEmpty())){
                     irAValidarEntrega(tvEntregas.getSelectionModel().getSelectedItem());
+                    System.err.println("Se hizo la llamada al metodo irAValidarEntrega");
                 }
             });
             return row;
@@ -81,21 +86,29 @@ public class FXMLElegirEntregaController implements Initializable {
         }
     }
     
-    private void irAValidarEntrega(Entrega entrega){
+    private void irAValidarEntrega(Entrega entrega) {
         try {
             Stage escenarioBase = Utilidad.obtenerEscenario(tvEntregas);
-            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource(String.valueOf("vista/FXMLValidarEntrega.fxml")));
+            FXMLLoader cargador = new FXMLLoader(getClass()
+                .getResource("/sistemadepracticasprofesionales/vista/FXMLValidarEntrega.fxml"));
             Parent vista = cargador.load();
+
             FXMLValidarEntregaController controlador = cargador.getController();
             controlador.inicializarInformacion(entrega);
+
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Validar Entrega");
             escenarioBase.show();
         } catch (IOException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
-                    "Lo sentimos no fue posible cargar la informacion del estudiante");
+            ex.printStackTrace();
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, 
+                "Error", "No se pudo cargar la ventana: " + ex.getMessage());
         }
+    }
+
+    @FXML
+    private void clicBtnRegresar(ActionEvent event) {
+        Utilidad.abrirVentana("ElegirEstudiante", tvEntregas);
     }
 }

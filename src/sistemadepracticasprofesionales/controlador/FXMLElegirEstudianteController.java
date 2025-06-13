@@ -38,9 +38,9 @@ public class FXMLElegirEstudianteController implements Initializable {
     @FXML
     private TableView<Estudiante> tvEstudiantes;
     @FXML
-    private TableColumn<?, ?> tcNombre;
+    private TableColumn<Estudiante, String> tcNombre;
     @FXML
-    private TableColumn<?, ?> tcMatricula;
+    private TableColumn<Estudiante, String> tcMatricula;
     
     private ObservableList<Estudiante> estudiantes;
 
@@ -70,7 +70,9 @@ public class FXMLElegirEstudianteController implements Initializable {
             TableRow<Estudiante> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if(event.getClickCount() == 2 && (!row.isEmpty())){
+                    System.err.println("Intentando ir a ElegirEntrega...");
                     irAElegirEntrega(tvEstudiantes.getSelectionModel().getSelectedItem());
+                    System.err.println("Se ejecuto el irAElegirEntrega");
                 }
             }
             );
@@ -85,7 +87,7 @@ public class FXMLElegirEstudianteController implements Initializable {
             estudiantes.addAll(estudiantesDAO);
             tvEstudiantes.setItems(estudiantes);
         } catch (SQLException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar los daots",
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar los datos",
                     "No fue posible cargar la informacion, intente mas tarde");
             Utilidad.obtenerEscenario(tvEstudiantes).close();
         }
@@ -95,7 +97,7 @@ public class FXMLElegirEstudianteController implements Initializable {
         try {
             Stage escenarioBase = Utilidad.obtenerEscenario(tvEstudiantes);
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource(String.valueOf("vista/FXMLElegirEntrega.fxml")));
+                    getResource("vista/FXMLElegirEntrega.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEntregaController controlador = cargador.getController();
             controlador.inicializarInformacion(estudiante);
@@ -104,6 +106,7 @@ public class FXMLElegirEstudianteController implements Initializable {
             escenarioBase.setTitle("Elegir Entrega");
             escenarioBase.show();
         } catch (IOException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
                     "Lo sentimos no fue posible cargar la informacion del estudiante");
         }

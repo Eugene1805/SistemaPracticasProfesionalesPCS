@@ -6,10 +6,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -17,7 +22,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
@@ -119,7 +127,7 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
             if (archivoBytes != null) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Guardar Archivo");
-                fileChooser.setInitialFileName(entregaAValidar.getTitulo() + ".pdf"); // Asume PDF, puedes cambiarlo
+                fileChooser.setInitialFileName(entregaAValidar.getTitulo() + ".docx"); // Asume PDF, puedes cambiarlo
                 File archivo = fileChooser.showSaveDialog(Utilidad.obtenerEscenario(lbNombreDocumento));
                 if (archivo != null) {
                     try (FileOutputStream fos = new FileOutputStream(archivo)) {
@@ -186,5 +194,27 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
             return false;
         }
         return true;
+    }
+
+    @FXML
+    private void btnRegresar(ActionEvent event) {
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(btnRechazar);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLElegirEntrega.fxml"));
+            Parent vista = cargador.load();
+            FXMLElegirEntregaController controlador = cargador.getController();
+            controlador.inicializarInformacion(EstudianteDAO.obtenerEstudiante(entregaAValidar.getIdEstudiante()));
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Elegir Entrega");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
+                    "Lo sentimos no fue posible cargar la informacion del estudiante");
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLValidarEntregaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
