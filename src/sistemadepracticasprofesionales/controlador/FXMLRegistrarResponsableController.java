@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
+import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextValidationStrategy;
 
 /**
  * FXML Controller class
@@ -34,13 +36,15 @@ public class FXMLRegistrarResponsableController implements Initializable {
     private TextField tfDepartamento;
     @FXML
     private TextField tfPuesto;
+    
+    private ValidadorFormulario validadorFormulario;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        inicializarValidaciones();
     }    
 
     @FXML
@@ -60,6 +64,15 @@ public class FXMLRegistrarResponsableController implements Initializable {
         if(resultado.get() == ButtonType.APPLY){
             Utilidad.obtenerEscenario(tfCorreo).close();
         }
+    }
+    
+    private void inicializarValidaciones(){
+        validadorFormulario = new ValidadorFormulario();
+        validadorFormulario.addValidation(tfNombre, new TextValidationStrategy(45, true));
+        validadorFormulario.addValidation(tfApellidoPaterno, new TextValidationStrategy(45, true));
+//PREGUNTAR QUE VALIDACION ES PARA EL MATERNO          validadorFormulario.addValidation(tfApellidoMaterno, new TextValidationStrategy(45, true));
+        validadorFormulario.addValidation(tfDepartamento, new TextValidationStrategy(35, true));
+        //TODO Continuar validaciones
     }
     
 }

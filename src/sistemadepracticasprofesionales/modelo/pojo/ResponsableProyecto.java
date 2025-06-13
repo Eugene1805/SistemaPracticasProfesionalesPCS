@@ -15,17 +15,16 @@ public class ResponsableProyecto {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private int telefono;
+    private String telefono;
     private String correo;
     private String departamento;
     private String puesto;
     private int idOrganizacionVinculada;
-    //private String nombreOrganizacionVinculada;
 
     public ResponsableProyecto() {
     }
 
-    public ResponsableProyecto(int idResponsable, String nombre, String apellidoPaterno, String apellidoMaterno, int telefono, String correo, String departamento, String puesto, int idOrganizacionVinculada) {
+    public ResponsableProyecto(int idResponsable, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correo, String departamento, String puesto, int idOrganizacionVinculada) {
         this.idResponsable = idResponsable;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -69,11 +68,11 @@ public class ResponsableProyecto {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,7 +53,8 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
     private Button btnBuscar;
     
     private ObservableList<OrganizacionVinculada> organizaciones;
-
+    private FilteredList<OrganizacionVinculada> filtroOrganizaciones;
+    
 
     /**
      * Initializes the controller class.
@@ -75,11 +78,16 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
             organizaciones = FXCollections.observableArrayList();
             ArrayList<OrganizacionVinculada> organizacionesDAO = OrganizacionVinculadaDAO.obtenerOrganizacionesVinculadas();
             organizaciones.addAll(organizacionesDAO);
-            tvOrganizacionesVinculadas.setItems(organizaciones);
+            
+            filtroOrganizaciones = new FilteredList<>(organizaciones, p -> true);
+            SortedList<OrganizacionVinculada> listaOrdenada = new SortedList<>(filtroOrganizaciones);
+            listaOrdenada.comparatorProperty().bind(tvOrganizacionesVinculadas.comparatorProperty());
+            
+            tvOrganizacionesVinculadas.setItems(listaOrdenada);
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar",
                     "Lo sentimos, por el momento no se pueden mostrar las Organizaciones Vinculadas");
-            cerrarVentana();
+            Utilidad.obtenerEscenario(tfBuscar).close();
         }
     }
     
@@ -91,11 +99,19 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
     }
 
     @FXML
-    private void btnClicBuscar(ActionEvent event) {
+    private void btnClicBuscar(ActionEvent event) {//TODO comprobar el manejo de la validacion/comentarñp
+        String filtro = tfBuscar.getText().trim().toLowerCase();
+        if (filtro.isEmpty()) {
+            filtroOrganizaciones.setPredicate(ov -> true);
+                        Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Datos invalidos",
+                    "Hay campos con datos invalidos");
+        } else {
+            filtroOrganizaciones.setPredicate(ov -> ov.getRazonSocial().toLowerCase().contains(filtro));
+        }
     }
 
     @FXML
-    private void btnClicCancelar(ActionEvent event) {
+    private void btnClicCancelar(ActionEvent event) { //TODO Cambiar lo de los botones que no se cierre al aceptar
         Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
                 "¿Estás seguro de que deseas cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
@@ -106,10 +122,14 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
 
     @FXML
     private void btnClicAceptar(ActionEvent event) {
+        OrganizacionVinculada organizacionSeleccionada = tvOrganizacionesVinculadas.getSelectionModel().getSelectedItem();
+        if (organizacionSeleccionada != null) {
+            Utilidad.abrirVentana("RegistrarResponsable", tfBuscar);
+                       
+        } else{
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Seleccione una Organización Vinculada",
+                    "Para registrar a un Responsable del Proyecto debe seleccionar primero a una Organizacion Vinculada");
+        }
+            
     }
-
-    private void cerrarVentana() {
-        ((Stage) tfBuscar.getScene().getWindow()).close();
-    }
-    
 }
