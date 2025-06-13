@@ -25,10 +25,11 @@
       <Button disable="true" layoutX="554.0" layoutY="149.0" mnemonicParsing="false" onAction="#btnClicAgregarObservacion" text="Agregar observacion" />
       <Label layoutX="483.0" layoutY="255.0" text="Fecha entregado: " />
       <Label fx:id="lbFechaEntregado" layoutX="648.0" layoutY="255.0" prefHeight="27.0" prefWidth="116.0" />
-      <TextArea fx:id="taObservacion" layoutX="24.0" layoutY="255.0" prefHeight="91.0" prefWidth="407.0" promptText="Observacion" />
+      <TextArea fx:id="taObservacion" layoutX="24.0" layoutY="255.0" prefHeight="91.0" prefWidth="407.0" promptText="Observacion"  visible="false"/>
       <Label layoutX="480.0" layoutY="310.0" text="Calificacion:" />
-      <TextField layoutX="656.0" layoutY="304.0" prefHeight="27.0" prefWidth="79.0" promptText="0-10" />
+      <TextField fx:id= "tfCalificacion" layoutX="656.0" layoutY="304.0" prefHeight="27.0" prefWidth="79.0" promptText="0-10" />
       <Button layoutX="476.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnClicValidar" text="Validar" />
-      <Button layoutX="639.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnClicRechazar" text="Rechazar" />
+      <Button fx:id="btnRechazar" layoutX="639.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnClicRechazar" text="Rechazar"  visible="false"/>
+      <Button layoutX="554.0" layoutY="190.0" mnemonicParsing="false" onAction="#btnClicDescargar" text="Descargar Archivo" />
    </children>
 </AnchorPane>

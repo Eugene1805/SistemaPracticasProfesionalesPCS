@@ -1,21 +1,27 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableCell;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
+import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
-import sistemadepracticasprofesionales.modelo.pojo.TipoDocumento;
+import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
  * FXML Controller class
@@ -27,75 +33,69 @@ import sistemadepracticasprofesionales.modelo.pojo.TipoDocumento;
 public class FXMLElegirEntregaController implements Initializable {
 
     @FXML
-    private TableView<TipoDocumento> tvEntregas;
+    private TableView<Entrega> tvEntregas;
     @FXML
-    private TableColumn<TipoDocumento, String> tcTipoEntrega;
+    private TableColumn<Entrega, String> tcTipoEntrega;
     @FXML
-    private TableColumn<TipoDocumento, String> tcDocumento;
+    private TableColumn<Entrega, String> tcDocumento;
 
+    private Estudiante estudianteSeleccionado;
+    private ObservableList<Entrega> listaEntregas;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarTabla();
-        cargarInformacion();
+        cargarInformacionTabla();
     }    
 
     public void inicializarInformacion(Estudiante estudiante) {
-        //TODO
-        //Pasar el estudiante a la consulta de la entrega para que cargue la correspondiente
+        this.estudianteSeleccionado = estudiante;
+        cargarInformacionTabla();
     }
     
     private void configurarTabla(){
-        tcTipoEntrega.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTipoEntrega()));
+        tcTipoEntrega.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        tcDocumento.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         
-        // Celda personalizada para la columna de documentos
-        tcDocumento.setCellFactory(column -> new TableCell<TipoDocumento, String>() {
-            private final VBox container = new VBox(5);
-            private final List<Hyperlink> links = new ArrayList<>();
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setGraphic(null);
-                } else {
-                    TipoDocumento tipoDoc = (TipoDocumento) getTableRow().getItem();
-                    container.getChildren().clear();
-                    links.clear();
-                    
-                    // Crear un hipervínculo para cada documento
-                    for (String documento : tipoDoc.getDocumentos()) {
-                        Hyperlink link = new Hyperlink(documento);
-                        link.setOnAction(e -> abrirVentanaValidarEntrega(tipoDoc.getTipoEntrega(), documento));
-                        links.add(link);
-                        container.getChildren().add(link);
-                    }
-                    
-                    setGraphic(container);
+        tvEntregas.setRowFactory(tv -> {
+            TableRow<Entrega> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if(event.getClickCount() == 2 && (!row.isEmpty())){
+                    irAValidarEntrega(tvEntregas.getSelectionModel().getSelectedItem());
                 }
-            }
+            });
+            return row;
         });
-
     }
     
-    private void cargarInformacion(){
-        // Llenar la tabla con datos
-        ObservableList<TipoDocumento> datos = FXCollections.observableArrayList(
-            new TipoDocumento("Reporte", "Primer Reporte", "Segundo reporte"),
-            new TipoDocumento("Documento inicial", "Carta aceptacion", "Constancia seguro", 
-                            "Horario", "Cronograma Actividades", "Oficio de asignacion"),
-            new TipoDocumento("Documento intermedio", "Reporte parcial", "Presentacion 210hrs"),
-            new TipoDocumento("Documento final", "Reporte final", "Presentacion 420hrs", 
-                           "Carta liberacion", "Autoevaluacion", "Evaluacion OV", "Evaluacion parcial OV")
-        );
-        
-        tvEntregas.setItems(datos);
+    private void cargarInformacionTabla(){
+        try {
+            listaEntregas = FXCollections.observableArrayList(
+                EntregaDAO.obtenerEntregasSinValidarPorEstudiante(estudianteSeleccionado.getId())
+            );
+            tvEntregas.setItems(listaEntregas);
+        } catch (SQLException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de conexión", "No se pudo conectar a la base de datos.");
+        }
     }
     
-    private void abrirVentanaValidarEntrega(String tipoEntrega, String documento){
-        //TODO
+    private void irAValidarEntrega(Entrega entrega){
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(tvEntregas);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource(String.valueOf("vista/FXMLValidarEntrega.fxml")));
+            Parent vista = cargador.load();
+            FXMLValidarEntregaController controlador = cargador.getController();
+            controlador.inicializarInformacion(entrega);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Validar Entrega");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
+                    "Lo sentimos no fue posible cargar la informacion del estudiante");
+        }
     }
 }

@@ -72,12 +72,31 @@ public class EstudianteDAO {
         return estudiantes;
     }
     
-    public static List<Estudiante> obtenerEstudiantesConEntregasSinValidar() throws SQLException{
+    public static List<Estudiante> obtenerEstudiantesConEntregasSinValidar() throws SQLException {
         List<Estudiante> estudiantes = new ArrayList<>();
-        Connection conexionBD = ConexionBD.abrirConexion();
-        if(conexionBD !=null){
-            //FIX
-            //Filtrar estudiantes del periodo escolar y con entregas sin validar es decir sin calificacion
+        Connection conexion = ConexionBD.abrirConexion();
+        if(conexion!= null){
+            String consulta = "SELECT DISTINCT e.id_estudiante, e.nombre, e.apellido_paterno, e.apellido_materno, e.matricula " +
+                          "FROM estudiante e " +
+                          "JOIN expediente exp ON e.id_estudiante = exp.id_estudiante " +
+                          "LEFT JOIN entrega_reporte er ON exp.id_expediente = er.id_expediente " +
+                          "LEFT JOIN reporte r ON er.id_reporte = r.id_reporte " +
+                          "LEFT JOIN entrega_documento ed ON exp.id_expediente = ed.id_expediente " +
+                          "LEFT JOIN documento d ON ed.id_documento = d.id_documento " +
+                          "WHERE (r.archivo IS NOT NULL AND r.fecha_revisado IS NULL) OR (d.archivo IS NOT NULL AND d.fecha_revisado IS NULL)";
+
+            try (PreparedStatement declaracion = conexion.prepareStatement(consulta);
+                 ResultSet resultado = declaracion.executeQuery()) {
+                while (resultado.next()) {
+                    Estudiante estudiante = new Estudiante();
+                    estudiante.setId(resultado.getInt("id_estudiante"));
+                    estudiante.setNombre(resultado.getString("nombre") + " " + resultado.getString("apellido_paterno") + " " + resultado.getString("apellido_materno"));
+                    estudiante.setMatricula(resultado.getString("matricula"));
+                    estudiantes.add(estudiante);
+                }
+            } finally {
+                conexion.close();
+            }
         }else{
             throw new SQLException();
         }
