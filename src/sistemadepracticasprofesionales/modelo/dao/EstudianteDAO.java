@@ -45,6 +45,34 @@ public class EstudianteDAO {
         return estudiante;
     }
     
+    public static Estudiante obtenerEstudiantePorMatricula(String matricula) throws SQLException {
+        Estudiante estudiante = null;
+        Connection conexion = ConexionBD.abrirConexion();
+        
+        if (conexion != null) {
+            String consulta = "SELECT e.*, " +
+                              "pe.nombre_periodo AS periodo_escolar, " +
+                              "ee.nrc AS nrc_experiencia_educativa, " +
+                              "p.nombre AS nombre_proyecto " +
+                              "FROM estudiante e " +
+                              "LEFT JOIN periodo_escolar pe ON e.id_periodo_escolar = pe.id_periodo_escolar " +
+                              "LEFT JOIN experiencia_educativa ee ON e.id_experiencia_educativa = ee.id_experiencia_educativa " +
+                              "LEFT JOIN proyecto p ON e.id_proyecto = p.id_proyecto " +
+                              "WHERE e.matricula = ?";
+            try (PreparedStatement declaracion = conexion.prepareStatement(consulta)) {
+                declaracion.setString(1, matricula);
+                try (ResultSet resultado = declaracion.executeQuery()) {
+                    if (resultado.next()) {
+                        estudiante = convertirEstudiante(resultado);
+                    }
+                }
+            } finally {
+                conexion.close();
+            }
+        }
+        return estudiante;
+    }    
+    
     public static List<Estudiante> obtenerEstudiantesSinProyectoAsignado() throws SQLException{
         List<Estudiante> estudiantes = new ArrayList<>();
         Connection conexionBD = ConexionBD.abrirConexion();

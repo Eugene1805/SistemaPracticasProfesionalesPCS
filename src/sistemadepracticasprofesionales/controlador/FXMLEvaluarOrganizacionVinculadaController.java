@@ -15,9 +15,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.EvaluacionOrganizacionDAO;
+import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
+import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.EvaluacionOrganizacion;
+import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboValidationStrategy;
@@ -30,7 +35,7 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboVa
  * Descripcion: Gestiona las interacciones entre la vista de la Evaluacion a la Organizacion Vinculada y el DAO
  * correspondiente para guardar dicha Evaluacion hecha por parte de un alumno
  */
-public class FXMLEvaluarOrganizacionVinculadaController implements Initializable {
+public class FXMLEvaluarOrganizacionVinculadaController implements Initializable { //TODO asociar la evaluacion al expediente
 
     @FXML
     private Label lbNombreOV;
@@ -48,14 +53,15 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
     private ComboBox<Integer> cbAccesoRecursos;
 
     private ValidadorFormulario validarFormulario;
+    
+    private Usuario estudiante;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //FIX obtener el nombre de la Organizacion Vinculada del Usuario
-        lbNombreOV.setText("HighTek");
         cargarComboBoxes();
+        
         inicializarValidaciones();
     }    
 
@@ -134,5 +140,23 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
     
     private void regresarAlDashboard(){
         Utilidad.abrirVentana("Estudiante", lbNombreOV);
+    }
+
+    void inicializarInformacion(Usuario estudiante) {
+        this.estudiante = estudiante;
+        cargarNombreOV();
+    }
+    
+    private void cargarNombreOV(){
+        try {
+            Estudiante estudianteSesion= EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername());
+            OrganizacionVinculada organizacionVinculadaEstudiante = OrganizacionVinculadaDAO.
+                    obtenerOrganizacionVinculadaPorProyecto(estudianteSesion.getIdProyecto());
+            lbNombreOV.setText(organizacionVinculadaEstudiante.getRazonSocial());
+        } catch (SQLException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",
+                    "Lo sentimos no fue posible conectarnos a la base de datos para"
+                            + " obtener el nombre de la Organizacion Vinculada");
+        }
     }
 }

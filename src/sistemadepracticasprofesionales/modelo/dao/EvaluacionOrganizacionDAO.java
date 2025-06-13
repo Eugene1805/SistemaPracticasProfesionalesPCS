@@ -22,7 +22,7 @@ public class EvaluacionOrganizacionDAO {
             String consulta = "INSERT INTO evaluacion_organizacion (claridad_actividades, "
                     + "nivel_relacion_actividades, accesibilidad, ambiente_laboral, oportunidades_aprendizaje "
                     + "acceso_recursos) VALUES (?,?,?,?,?,?)";
-            PreparedStatement sentencia = conexionDB.prepareCall(consulta);
+            PreparedStatement sentencia = conexionDB.prepareStatement(consulta);
             sentencia.setInt(1, evaluacionOrganizacion.getClaridadActividades());
             sentencia.setInt(2, evaluacionOrganizacion.getNivelRelacionActividades());
             sentencia.setInt(3, evaluacionOrganizacion.getAccesibilidad());

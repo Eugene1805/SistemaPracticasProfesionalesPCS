@@ -17,6 +17,29 @@ import sistemadepracticasprofesionales.modelo.ConexionBD;
  */
 public class OrganizacionVinculadaDAO {
     
+    public static OrganizacionVinculada obtenerOrganizacionVinculadaPorProyecto(int idProyecto) throws SQLException {
+        OrganizacionVinculada organizacion = null;
+        Connection conexion = ConexionBD.abrirConexion();
+
+        if (conexion != null) {
+            String consulta = "SELECT ov.*, p.estado " +
+                              "FROM organizacion_vinculada ov " +
+                              "JOIN proyecto p ON ov.id_organizacion_vinculada = p.id_organizacion_vinculada " +
+                              "WHERE p.id_proyecto = ?";
+            try (PreparedStatement declaracion = conexion.prepareStatement(consulta)) {
+                declaracion.setInt(1, idProyecto);
+                try (ResultSet resultado = declaracion.executeQuery()) {
+                    if (resultado.next()) {
+                        organizacion = convertirOrganizacionVinculada(resultado);
+                    }
+                }
+            } finally {
+                conexion.close();
+            }
+        }
+        return organizacion;
+    }    
+    
     public static ResultadoOperacion registrarOrganizacionVinculada(OrganizacionVinculada organizacionVinculada)
             throws SQLException{
         ResultadoOperacion resultadoOperacion = new ResultadoOperacion();
