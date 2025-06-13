@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package sistemadepracticasprofesionales.utilidades.validacion.estrategias;
 
 import javafx.scene.control.TextInputControl;
@@ -5,16 +9,13 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
 
 /**
  *
- * @author eugen
- * Fecha: 24/05/25
- * Descripcion: Estrategia de validacion utilizada para validar campos de texto util, para campos que no deseo
- * sean vacios y con una longitud maxima definida en la base de datos
+ * @author Nash
  */
-public class TextValidationStrategy implements IEstrategiaValidacion<TextInputControl>{ //Se usa TextInputControl
-    private final int longitudMaxima;                                                   // porque es padre de los
+public class TextLetterValidationStrategy implements IEstrategiaValidacion<TextInputControl>{
+ private final int longitudMaxima;                                                   // porque es padre de los
     private final boolean obligatorio;                                                  //controles que reciben texto
 
-    public TextValidationStrategy(int longitudMaxima, boolean obligatorio) {
+    public TextLetterValidationStrategy(int longitudMaxima, boolean obligatorio) {
         this.longitudMaxima = longitudMaxima;
         this.obligatorio = obligatorio;
     }
@@ -30,7 +31,11 @@ public class TextValidationStrategy implements IEstrategiaValidacion<TextInputCo
         if(texto.length() > longitudMaxima){
             return new ResultadoValidacion(false, "Máximo " + longitudMaxima + " caracteres");
         }
-               
+        
+        if(!texto.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")){
+            return new ResultadoValidacion(false, "Solo deben ingresarse letras");
+        }
+        
         return new ResultadoValidacion(true, "");
     }
 

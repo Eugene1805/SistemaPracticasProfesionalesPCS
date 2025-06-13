@@ -22,7 +22,7 @@ public class NumericValidationStrategy implements IEstrategiaValidacion<TextFiel
         String texto = textField.getText() == null ? "" : textField.getText().trim();
         
         if(obligatorio && texto.isEmpty()){
-            return new ResultadoValidacion(false, "Campo oblogatorio");
+            return new ResultadoValidacion(false, "Campo obligatorio");
         }
         
         if (!texto.isEmpty()) {

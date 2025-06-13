@@ -70,7 +70,7 @@ public class FXMLRegistrarResponsableController implements Initializable {
         validadorFormulario = new ValidadorFormulario();
         validadorFormulario.addValidation(tfNombre, new TextValidationStrategy(45, true));
         validadorFormulario.addValidation(tfApellidoPaterno, new TextValidationStrategy(45, true));
-//PREGUNTAR QUE VALIDACION ES PARA EL MATERNO          validadorFormulario.addValidation(tfApellidoMaterno, new TextValidationStrategy(45, true));
+//PREGUNTAR QUE VALIDACION ES PARA EL MATERNO          validadorFormulario.addValidation(tfApellidoMaterno, new TextValidationStrategy(45, false));
         validadorFormulario.addValidation(tfDepartamento, new TextValidationStrategy(35, true));
         //TODO Continuar validaciones
     }
