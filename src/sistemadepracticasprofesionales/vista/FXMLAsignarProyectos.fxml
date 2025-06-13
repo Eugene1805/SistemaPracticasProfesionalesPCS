@@ -34,8 +34,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lbOrganizacionVinculada" layoutX="372.0" layoutY="259.0" prefHeight="27.0" prefWidth="206.0" wrapText="true" />
-      <Label fx:id="lbCuposDisponibles" layoutX="372.0" layoutY="307.0" prefHeight="27.0" prefWidth="62.0" />
+      <Label fx:id="lbOrganizacionVinculada" layoutX="372.0" layoutY="249.0" prefHeight="59.0" prefWidth="206.0" wrapText="true" />
+      <Label fx:id="lbCuposDisponibles" layoutX="372.0" layoutY="307.0" prefHeight="27.0" prefWidth="198.0" />
       <Button layoutX="522.0" layoutY="39.0" mnemonicParsing="false" onAction="#btnRegresar" text="Regresar" />
    </children>
 </AnchorPane>

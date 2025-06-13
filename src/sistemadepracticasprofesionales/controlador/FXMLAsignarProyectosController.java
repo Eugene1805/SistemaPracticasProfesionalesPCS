@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import sistemadepracticasprofesionales.modelo.dao.ProyectoDAO;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
@@ -22,6 +24,7 @@ import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboValidationStrategy;
 
 /**
  * FXML Controller class
@@ -64,6 +67,7 @@ public class FXMLAsignarProyectosController implements Initializable {
         seleccionarMatricula();
         cargarProyectos();
         seleccionarNombreProyecto();
+        inicializarValidaciones();
     }    
 
     @FXML
@@ -130,21 +134,18 @@ public class FXMLAsignarProyectosController implements Initializable {
     }
     
     private void guardarAsignacion(int idEstudiante, int idProyecto){
-        try {
-            ResultadoOperacion resultadoOperacion = EstudianteDAO.guardarAsignacion(idEstudiante,idProyecto);
-            if(!resultadoOperacion.isError()){
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Estudiante" +
-                        obtenerEstudianteSeleccionado().getNombre()
-                        + " asignado al proyecot"+ obtenerProyectoSeleccionado().getNombre() +" con exito",
-                        resultadoOperacion.getMensaje());
-                
-            }else{
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "No se pudo guardar la asignacion",
-                        resultadoOperacion.getMensaje());
-            }
-        } catch (SQLException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "No hay conexion", 
-                    "Lo sentimos por el momento no se pudo guardar la asignacion");
+        ResultadoOperacion resultadoOperacion = EstudianteDAO.guardarAsignacion(idEstudiante,idProyecto);
+        if(!resultadoOperacion.isError()){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Estudiante" +
+                    obtenerEstudianteSeleccionado().getNombre()
+                    + " asignado al proyecot"+ obtenerProyectoSeleccionado().getNombre() +" con exito",
+                    resultadoOperacion.getMensaje());
+            cargarEstudiantes();
+            cargarProyectos();
+            limpiarInformacion();
+        }else{
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "No se pudo guardar la asignacion",
+                    resultadoOperacion.getMensaje());
         }
     }
     
@@ -152,9 +153,9 @@ public class FXMLAsignarProyectosController implements Initializable {
         try {
             estudianteSeleccionado = EstudianteDAO.obtenerEstudiante(idEstudiante);
             lbMatricula.setText(estudianteSeleccionado.getMatricula());
-            lbNombre.setText(estudianteSeleccionado.getNombre() +" "+ estudianteSeleccionado.getApellidoPaterno()
+            lbNombre.setText("Nombre: " +estudianteSeleccionado.getNombre() +" "+ estudianteSeleccionado.getApellidoPaterno()
                     + " " +estudianteSeleccionado.getApellidoMaterno());
-            lbNRC.setText(estudianteSeleccionado.getNrcExperienciaEducativa());
+            lbNRC.setText("NRC: " + estudianteSeleccionado.getNrcExperienciaEducativa());
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar la informacion del estudiante");
@@ -165,8 +166,8 @@ public class FXMLAsignarProyectosController implements Initializable {
         try {
             proyectoSeleccionado = ProyectoDAO.obtenerProyecto(idProyecto);
             lbNombreProyecto.setText(proyectoSeleccionado.getNombre());
-            lbOrganizacionVinculada.setText(proyectoSeleccionado.getNombreOrganizacionVinculada());
-            lbCuposDisponibles.setText(String.valueOf(proyectoSeleccionado.getCupo()));
+            lbOrganizacionVinculada.setText("Organizacion vinculada " + proyectoSeleccionado.getNombreOrganizacionVinculada());
+            lbCuposDisponibles.setText("Cupos disponibles: " + String.valueOf(proyectoSeleccionado.getCupo()));
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar la informacion del proyecto");
@@ -184,5 +185,22 @@ public class FXMLAsignarProyectosController implements Initializable {
     @FXML
     private void btnRegresar(ActionEvent event) {
         Utilidad.abrirVentana("Coordinador", cbProyectos);
+    }
+    
+    private void inicializarValidaciones(){
+        validadorFormulario = new ValidadorFormulario();
+        validadorFormulario.addValidation(cbEstudiantes, new ComboValidationStrategy(true));
+        validadorFormulario.addValidation(cbProyectos, new ComboValidationStrategy(true));
+        validadorFormulario.addCleanupAction(()->{
+           Stream.of(cbEstudiantes, cbProyectos)
+          .filter(tf -> !tf.getStyle().isEmpty())
+          .findFirst()
+          .ifPresent(Control::requestFocus);//Le da el foco al primer campo con texto vacio
+        });
+    }
+    
+    private void limpiarInformacion(){
+        Stream.of(lbCuposDisponibles, lbMatricula, lbNRC, lbNombre, lbNombreProyecto, lbOrganizacionVinculada)
+          .forEach(label -> label.setText(""));
     }
 }

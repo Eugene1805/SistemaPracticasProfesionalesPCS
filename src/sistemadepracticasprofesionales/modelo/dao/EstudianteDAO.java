@@ -103,25 +103,70 @@ public class EstudianteDAO {
         return estudiantes;
     }
     
-    public static ResultadoOperacion guardarAsignacion(int idEstudiante, int idProyecto) throws SQLException{
+    public static ResultadoOperacion guardarAsignacion(int idEstudiante, int idProyecto) {
         ResultadoOperacion resultadoOperacion = new ResultadoOperacion();
-        Connection conexionBD = ConexionBD.abrirConexion();
-        if(conexionBD != null){
-            String consulta = "UPDATE estudiante SET id_proyecto = ? WHERE id_estudiante = ?";
-            PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
-            sentencia.setInt(1, idProyecto);
-            sentencia.setInt(2, idEstudiante);
-            int filasAfectadas = sentencia.executeUpdate();
-            if(filasAfectadas > 0){
-                resultadoOperacion.setError(false);
-                resultadoOperacion.setMensaje("Asignación de proyecto guardada correctamente");
-            }else{
-                resultadoOperacion.setError(true);
-                resultadoOperacion.setMensaje("No se pudo guardar la asignación del proyecto");
+        resultadoOperacion.setError(true);
+        Connection conexionBD = null;
+
+        try {
+            conexionBD = ConexionBD.abrirConexion();
+            if (conexionBD == null) {
+                resultadoOperacion.setMensaje("No se pudo conectar a la base de datos.");
+                return resultadoOperacion;
             }
-            conexionBD.close();
-        }else{
-            throw new SQLException();
+
+            // 1. Iniciar la transacción
+            conexionBD.setAutoCommit(false);
+
+            // 2. Asignar el proyecto al estudiante
+            String consultaEstudiante = "UPDATE estudiante SET id_proyecto = ? WHERE id_estudiante = ?";
+            PreparedStatement sentenciaEstudiante = conexionBD.prepareStatement(consultaEstudiante);
+            sentenciaEstudiante.setInt(1, idProyecto);
+            sentenciaEstudiante.setInt(2, idEstudiante);
+            int filasEstudiante = sentenciaEstudiante.executeUpdate();
+
+            // 3. Restar 1 al cupo del proyecto.
+            //"AND cupo > 0" para evitar asignar proyectos sin cupo.
+            String consultaProyecto = "UPDATE proyecto SET cupo = cupo - 1 WHERE id_proyecto = ? AND cupo > 0";
+            PreparedStatement sentenciaProyecto = conexionBD.prepareStatement(consultaProyecto);
+            sentenciaProyecto.setInt(1, idProyecto);
+            int filasProyecto = sentenciaProyecto.executeUpdate();
+
+            // 4. Verificar que ambas operaciones tuvieron éxito
+            if (filasEstudiante > 0 && filasProyecto > 0) {
+                // 5. Si todo salió bien, confirmar la transacción
+                conexionBD.commit();
+                resultadoOperacion.setError(false);
+                resultadoOperacion.setMensaje("Asignación de proyecto guardada correctamente.");
+            } else {
+                // 6. Si algo falló (estudiante no encontrado, o proyecto sin cupo), revertir
+                conexionBD.rollback();
+                if (filasProyecto == 0) {
+                    resultadoOperacion.setMensaje("No se pudo asignar el proyecto. El proyecto no tiene cupo disponible.");
+                } else {
+                    resultadoOperacion.setMensaje("No se pudo guardar la asignación, el estudiante no fue encontrado.");
+                }
+            }
+        } catch (SQLException e) {
+            resultadoOperacion.setMensaje("Error de base de datos: " + e.getMessage());
+            // 7. Si ocurre una excepción SQL, también revertir
+            if (conexionBD != null) {
+                try {
+                    conexionBD.rollback();
+                } catch (SQLException ex) {
+                    System.err.println("Error al intentar hacer rollback: " + ex.getMessage());
+                }
+            }
+        } finally {
+            // 8. Cerrar la conexión y restaurar el autoCommit
+            if (conexionBD != null) {
+                try {
+                    conexionBD.setAutoCommit(true); // Restaurar el modo por defecto
+                    conexionBD.close();
+                } catch (SQLException e) {
+                    System.err.println("Error al cerrar la conexión: " + e.getMessage());
+                }
+            }
         }
         return resultadoOperacion;
     }

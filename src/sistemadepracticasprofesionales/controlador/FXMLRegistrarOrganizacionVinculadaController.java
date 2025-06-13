@@ -79,7 +79,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
                 "¿Estás seguro de que deseas cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.obtenerEscenario(tfTelefono).close();
+           limpiarCampos();
         }
     }
     
@@ -103,7 +103,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
             if(!resultadoOperacion.isError()){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
                         "Organizacion Vinculada registrada con exito");
-                Utilidad.obtenerEscenario(tfTelefono).close();
+                Utilidad.abrirVentana("Coordinador", tfTelefono);
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
                         "No fue posible guardar el registro de " + organizacionVinculada.getRazonSocial());
@@ -131,5 +131,16 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
           .findFirst()
           .ifPresent(Control::requestFocus);//Le da el foco al primer campo con texto vacio
         });
+    }
+    
+    private void limpiarCampos(){
+        tfTelefono.setText("");
+        tfDireccion.setText("");
+        tfCiudad.setText("");
+        tfEstado.setText("");
+        tfSector.setText("");
+        tfRazonSocial.setText("");
+        tfNumUsuariosDirectos.setText("");
+        tfNumUsuariosIndirectos.setText("");
     }
 }
