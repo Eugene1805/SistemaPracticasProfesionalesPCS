@@ -82,7 +82,8 @@ public class FXMLElegirEntregaController implements Initializable {
             );
             tvEntregas.setItems(listaEntregas);
         } catch (SQLException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de conexión", "No se pudo conectar a la base de datos.");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de conexión",
+                    "No se pudo conectar a la base de datos.");
         }
     }
     
@@ -94,7 +95,7 @@ public class FXMLElegirEntregaController implements Initializable {
             Parent vista = cargador.load();
 
             FXMLValidarEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(entrega);
+            controlador.inicializarInformacion(estudianteSeleccionado, entrega);
 
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);

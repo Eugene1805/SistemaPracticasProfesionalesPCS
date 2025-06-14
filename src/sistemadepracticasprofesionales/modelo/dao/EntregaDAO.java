@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import sistemadepracticasprofesionales.modelo.ConexionBD;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
+import sistemadepracticasprofesionales.modelo.pojo.Entrega.SubtipoDocumento;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega.Tipo;
+import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 /**
  *
  * @author eugen
@@ -19,75 +21,97 @@ import sistemadepracticasprofesionales.modelo.pojo.Entrega.Tipo;
  * Descripcion: DAO para manejar todo lo relacionado a las entregas
  */
 public class EntregaDAO {
+    
     public static List<Entrega> obtenerEntregasSinValidarPorEstudiante(int idEstudiante) throws SQLException {
         List<Entrega> entregas = new ArrayList<>();
         Connection conexion = ConexionBD.abrirConexion();
-        if (conexion != null) {
-            String consulta = 
-            "(SELECT er.id_entrega_reporte AS id_entrega, r.id_reporte AS id_archivo, er.titulo, er.descripcion, er.fecha_inicio, er.fecha_fin, r.fecha_entregado, 'REPORTE' AS tipo " +
-            "FROM entrega_reporte er " +
-            "JOIN reporte r ON er.id_reporte = r.id_reporte " +
-            "JOIN expediente exp ON er.id_expediente = exp.id_expediente " +
-            "WHERE exp.id_estudiante = ? AND r.archivo IS NOT NULL AND r.fecha_revisado IS NULL) " +
-            "UNION " +
-            "(SELECT ed.id_entrega_documento AS id_entrega, d.id_documento AS id_archivo, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, d.fecha_entregado, 'DOCUMENTO' AS tipo " +
-            "FROM entrega_documento ed " +
-            "JOIN documento d ON ed.id_documento = d.id_documento " +
-            "JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
-            "WHERE exp.id_estudiante = ? AND d.archivo IS NOT NULL AND d.fecha_revisado IS NULL)";
+        if (conexion == null) {
+            throw new SQLException("No se pudo conectar a la base de datos.");
+        }
 
-            try (PreparedStatement declaracion = conexion.prepareStatement(consulta)) {
-                declaracion.setInt(1, idEstudiante);
-                declaracion.setInt(2, idEstudiante);
-                try (ResultSet resultado = declaracion.executeQuery()) {
-                    while (resultado.next()) {
-                        Entrega entrega = new Entrega();
-                        entrega.setIdEntrega(resultado.getInt("id_entrega"));
-                        entrega.setIdArchivo(resultado.getInt("id_archivo"));
-                        entrega.setTitulo(resultado.getString("titulo"));
-                        entrega.setDescripcion(resultado.getString("descripcion"));
-                        entrega.setFechaInicio(resultado.getDate("fecha_inicio").toString());
-                        entrega.setFechaFin(resultado.getDate("fecha_fin").toString());
-                        entrega.setFechaEntregado(resultado.getDate("fecha_entregado").toString());
-                        entrega.setTipo(Tipo.valueOf(resultado.getString("tipo")));
-                        entregas.add(entrega);
-                    }
+        String consulta = 
+            // 1. REPORTES
+            "(SELECT er.id_entrega_reporte AS id_entrega, r.id_reporte AS id_archivo, er.titulo, er.descripcion, er.fecha_inicio, er.fecha_fin, r.fecha_entregado, 'REPORTE' AS tipo, 'NINGUNO' AS subtipo_doc " +
+            " FROM entrega_reporte er " +
+            " JOIN reporte r ON er.id_reporte = r.id_reporte " +
+            " JOIN expediente exp ON er.id_expediente = exp.id_expediente " +
+            " WHERE exp.id_estudiante = ? AND r.archivo IS NOT NULL AND r.fecha_revisado IS NULL) " +
+            "UNION " +
+            // 2. DOCUMENTOS INICIALES
+            "(SELECT ed.id_entrega_documento, di.id_documento_inicial, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, di.fecha_entregado, 'DOCUMENTO', 'INICIAL' " +
+            " FROM entrega_documento ed " +
+            " JOIN documento_inicial di ON ed.id_documento_inicial = di.id_documento_inicial " +
+            " JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
+            " WHERE exp.id_estudiante = ? AND ed.tipo_entrega = 'Inicial' AND di.archivo IS NOT NULL AND di.fecha_revisado IS NULL) " +
+            "UNION " +
+            // 3. DOCUMENTOS INTERMEDIOS
+            "(SELECT ed.id_entrega_documento, dm.id_documento_intermedio, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, dm.fecha_entregado, 'DOCUMENTO', 'INTERMEDIO' " +
+            " FROM entrega_documento ed " +
+            " JOIN documento_intermedio dm ON ed.id_documento_intermedio = dm.id_documento_intermedio " +
+            " JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
+            " WHERE exp.id_estudiante = ? AND ed.tipo_entrega = 'Intermedio' AND dm.archivo IS NOT NULL AND dm.fecha_revisado IS NULL) " +
+            "UNION " +
+            // 4. DOCUMENTOS FINALES
+            "(SELECT ed.id_entrega_documento, df.id_documento_final, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, df.fecha_entregado, 'DOCUMENTO', 'FINAL' " +
+            " FROM entrega_documento ed " +
+            " JOIN documento_final df ON ed.id_documento_final = df.id_documento_final " +
+            " JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
+            " WHERE exp.id_estudiante = ? AND ed.tipo_entrega = 'Final' AND df.archivo IS NOT NULL AND df.fecha_revisado IS NULL)";
+
+        try (PreparedStatement declaracion = conexion.prepareStatement(consulta)) {
+            // Se asignan los parámetros para cada subconsulta del UNION
+            declaracion.setInt(1, idEstudiante);
+            declaracion.setInt(2, idEstudiante);
+            declaracion.setInt(3, idEstudiante);
+            declaracion.setInt(4, idEstudiante);
+            try (ResultSet resultado = declaracion.executeQuery()) {
+                while (resultado.next()) {
+                    Entrega entrega = new Entrega();
+                    entrega.setIdEntrega(resultado.getInt(1)); // Por índice para evitar ambigüedad de nombre
+                    entrega.setIdArchivo(resultado.getInt(2));
+                    entrega.setTitulo(resultado.getString(3));
+                    entrega.setDescripcion(resultado.getString(4));
+                    entrega.setFechaInicio(resultado.getDate(5).toString());
+                    entrega.setFechaFin(resultado.getDate(6).toString());
+                    entrega.setFechaEntregado(resultado.getDate(7).toString());
+                    entrega.setTipo(Tipo.valueOf(resultado.getString(8)));
+                    entrega.setSubtipoDoc(SubtipoDocumento.valueOf(resultado.getString(9)));
+                    entregas.add(entrega);
                 }
-            } finally {
-                conexion.close();
             }
-        }else{
-            throw new SQLException();
+        } finally {
+            conexion.close();
         }
         return entregas;
     }
 
-    public static byte[] obtenerArchivo(int idArchivo, Tipo tipo) throws SQLException {
+    public static byte[] obtenerArchivo(int idArchivo, Tipo tipo, SubtipoDocumento subtipo) throws SQLException {
         byte[] archivoBytes = null;
         Connection conexion = ConexionBD.abrirConexion();
-        if(conexion != null){
-            String sql = "";
-            if (tipo == Tipo.DOCUMENTO) {
-                sql = "SELECT archivo FROM documento WHERE id_documento = ?";
-            } else {
-                sql = "SELECT archivo FROM reporte WHERE id_reporte = ?";
+        if (conexion == null) throw new SQLException("No se pudo conectar a la base de datos.");
+        
+        String sql;
+        if (tipo == Tipo.REPORTE) {
+            sql = "SELECT archivo FROM reporte WHERE id_reporte = ?";
+        } else {
+            switch (subtipo) {
+                case INICIAL:    sql = "SELECT archivo FROM documento_inicial WHERE id_documento_inicial = ?"; break;
+                case INTERMEDIO: sql = "SELECT archivo FROM documento_intermedio WHERE id_documento_intermedio = ?"; break;
+                case FINAL:      sql = "SELECT archivo FROM documento_final WHERE id_documento_final = ?"; break;
+                default: throw new SQLException("Subtipo de documento no válido.");
             }
+        }
 
-            try (PreparedStatement declaracion = conexion.prepareStatement(sql)) {
-                declaracion.setInt(1, idArchivo);
-                try (ResultSet resultado = declaracion.executeQuery()) {
-                    if (resultado.next()) {
-                        Blob blob = resultado.getBlob("archivo");
-                        if (blob != null) {
-                            archivoBytes = blob.getBytes(1, (int) blob.length());
-                        }
-                    }
+        try (PreparedStatement declaracion = conexion.prepareStatement(sql)) {
+            declaracion.setInt(1, idArchivo);
+            try (ResultSet resultado = declaracion.executeQuery()) {
+                if (resultado.next()) {
+                    Blob blob = resultado.getBlob("archivo");
+                    if (blob != null) archivoBytes = blob.getBytes(1, (int) blob.length());
                 }
-            } finally {
-                conexion.close();
             }
-        }else{
-            throw new SQLException();
+        } finally {
+            conexion.close();
         }
         return archivoBytes;
     }
@@ -116,51 +140,61 @@ public class EntregaDAO {
         return idObservacion;
     }
     
-    public static boolean validarEntrega(int idEntrega, int idArchivo, Tipo tipo, int calificacion, Integer idObservacion) throws SQLException {
-        boolean resultado = false;
+    public static ResultadoOperacion validarEntrega(int idEntrega, int idArchivo, Tipo tipo, SubtipoDocumento subtipo, int calificacion, Integer idObservacion) throws SQLException {
+        ResultadoOperacion resultado = new ResultadoOperacion();
         Connection conexion = ConexionBD.abrirConexion();
+        if (conexion == null) {
+            resultado.setError(true);
+            resultado.setMensaje("No se pudo conectar a la base de datos.");
+            return resultado;
+        }
+
         String sqlUpdateEntrega;
         String sqlUpdateArchivo;
 
-        if (tipo == Tipo.DOCUMENTO) {
-            sqlUpdateEntrega = "UPDATE entrega_documento SET calificacion = ?, id_observacion = ? WHERE id_entrega_documento = ?";
-            sqlUpdateArchivo = "UPDATE documento SET fecha_revisado = ? WHERE id_documento = ?";
-        } else {
+        if (tipo == Tipo.REPORTE) {
             sqlUpdateEntrega = "UPDATE entrega_reporte SET calificacion = ?, id_observacion = ? WHERE id_entrega_reporte = ?";
             sqlUpdateArchivo = "UPDATE reporte SET fecha_revisado = ? WHERE id_reporte = ?";
+        } else { // Si es DOCUMENTO
+            sqlUpdateEntrega = "UPDATE entrega_documento SET calificacion = ?, id_observacion = ? WHERE id_entrega_documento = ?";
+            switch (subtipo) {
+                case INICIAL:    sqlUpdateArchivo = "UPDATE documento_inicial SET fecha_revisado = ? WHERE id_documento_inicial = ?"; break;
+                case INTERMEDIO: sqlUpdateArchivo = "UPDATE documento_intermedio SET fecha_revisado = ? WHERE id_documento_intermedio = ?"; break;
+                case FINAL:      sqlUpdateArchivo = "UPDATE documento_final SET fecha_revisado = ? WHERE id_documento_final = ?"; break;
+                default: throw new SQLException("Subtipo de documento no válido para la validación.");
+            }
         }
         
         try {
             conexion.setAutoCommit(false);
             
+            // 1. Actualizar la tabla de entrega (entrega_reporte o entrega_documento)
             try(PreparedStatement psEntrega = conexion.prepareStatement(sqlUpdateEntrega)) {
                 psEntrega.setInt(1, calificacion);
-                if (idObservacion != null) {
-                    psEntrega.setInt(2, idObservacion);
-                } else {
-                    psEntrega.setNull(2, java.sql.Types.INTEGER);
-                }
+                if (idObservacion != null) psEntrega.setInt(2, idObservacion);
+                else psEntrega.setNull(2, java.sql.Types.INTEGER);
                 psEntrega.setInt(3, idEntrega);
-                psEntrega.executeUpdate();
+                if (psEntrega.executeUpdate() == 0) throw new SQLException("No se actualizó la entrega, ID no encontrado: " + idEntrega);
             }
             
+            // 2. Actualizar la tabla del archivo (reporte, documento_inicial, etc.)
             try(PreparedStatement psArchivo = conexion.prepareStatement(sqlUpdateArchivo)) {
                 psArchivo.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
                 psArchivo.setInt(2, idArchivo);
-                psArchivo.executeUpdate();
+                if (psArchivo.executeUpdate() == 0) throw new SQLException("No se actualizó el archivo, ID no encontrado: " + idArchivo);
             }
             
             conexion.commit();
-            resultado = true;
+            resultado.setError(false);
+            resultado.setMensaje("La entrega ha sido validada correctamente.");
             
         } catch (SQLException ex) {
             conexion.rollback();
-            throw ex;
+            resultado.setError(true);
+            resultado.setMensaje("Error en la transacción: " + ex.getMessage());
         } finally {
-            if(conexion != null) {
-                conexion.setAutoCommit(true);
-                conexion.close();
-            }
+            conexion.setAutoCommit(true);
+            conexion.close();
         }
         return resultado;
     }

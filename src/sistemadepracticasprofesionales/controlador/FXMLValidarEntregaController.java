@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,10 +23,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
-import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
+import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
+import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.NumericValidationStrategy;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextValidationStrategy;
 
 /**
@@ -38,7 +38,7 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextVal
  * Fecha:10/06/25
  * Descripcion: Controlador para descargar la entrega seleccionada y guardar su calificacion correspondiente
  */
-public class FXMLValidarEntregaController implements Initializable { //FIX Validaciones y booleano de validado
+public class FXMLValidarEntregaController implements Initializable {
 
     @FXML
     private Label lbNombreDocumento;
@@ -57,6 +57,7 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
     @FXML
     private Button btnRechazar;
     
+    private Estudiante estudianteAValidar;
     private Entrega entregaAValidar;
     private ValidadorFormulario validadorFormulario;
     /**
@@ -75,21 +76,17 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
 
     @FXML
     private void btnClicValidar(ActionEvent event) {
-        if (validarCalificacion()) {
-            int calificacion = Integer.parseInt(tfCalificacion.getText());
-            procesarValidacion(calificacion, false); // false = no es rechazo
-        }
+        finalizarOperacion();
     }
 
     @FXML
     private void btnClicRechazar(ActionEvent event) {
-        if (validarObservacionObligatoria()) {
-             procesarValidacion(0, true); // true = es rechazo, calificación 0
-        }
+        finalizarOperacion();
     }
 
-    public void inicializarInformacion(Entrega entrega) {
+    public void inicializarInformacion(Estudiante estudiante,Entrega entrega) {
         this.entregaAValidar = entrega;
+        this.estudianteAValidar = estudiante;
         cargarDatosEntrega();
     }
     
@@ -104,26 +101,20 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
     private void inicializarValidaciones(){
         validadorFormulario = new ValidadorFormulario();
         validadorFormulario.addValidation(taObservacion, new TextValidationStrategy(65535, true));
+        validadorFormulario.addValidation(tfCalificacion, new NumericValidationStrategy(true));
         validadorFormulario.addCleanupAction(()->{
-           Stream.of(taObservacion)
+           Stream.of(taObservacion, tfCalificacion)
           .filter(tf -> !tf.getStyle().isEmpty())
           .findFirst()
           .ifPresent(Control::requestFocus);//Le da el foco al primer campo con texto vacio
         });
     }
 
-    private void guardarObservacion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void guardarEntrega() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     @FXML
     private void btnClicDescargar(ActionEvent event) {
         try {
-            byte[] archivoBytes = EntregaDAO.obtenerArchivo(entregaAValidar.getIdArchivo(), entregaAValidar.getTipo());
+            byte[] archivoBytes = EntregaDAO.obtenerArchivo(entregaAValidar.getIdArchivo(), entregaAValidar.getTipo(),
+                    entregaAValidar.getSubtipoDoc());
             if (archivoBytes != null) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Guardar Archivo");
@@ -132,68 +123,52 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
                 if (archivo != null) {
                     try (FileOutputStream fos = new FileOutputStream(archivo)) {
                         fos.write(archivoBytes);
-                        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Descarga Completa", "El archivo se ha guardado correctamente.");
+                        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Descarga Completa",
+                                "El archivo se ha guardado correctamente.");
                     }
                 }
             } else {
-                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin Archivo", "No se encontró un archivo para esta entrega.");
+                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin Archivo",
+                         "No se encontró un archivo para esta entrega.");
             }
         } catch (SQLException | IOException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Descarga", "No se pudo descargar el archivo.");
         }
     }
-    private void procesarValidacion(int calificacion, boolean esRechazo) {
+    
+    private void finalizarOperacion(){
+        if (validadorFormulario.validate()) {
+             procesarValidacion(Integer.parseInt(tfCalificacion.getText()));
+        }
+    }
+    
+    private void procesarValidacion(int calificacion) {
         try {
             Integer idObservacion = null;
             if (taObservacion.isVisible() && !taObservacion.getText().trim().isEmpty()) {
                 idObservacion = EntregaDAO.guardarObservacion(taObservacion.getText());
             }
-            
-            boolean resultado = EntregaDAO.validarEntrega(
-                entregaAValidar.getIdEntrega(), 
-                entregaAValidar.getIdArchivo(), 
-                entregaAValidar.getTipo(), 
-                calificacion, 
+            ResultadoOperacion resultadoOperacion = (EntregaDAO.validarEntrega(
+                entregaAValidar.getIdEntrega(),
+                entregaAValidar.getIdArchivo(),
+                entregaAValidar.getTipo(),
+                entregaAValidar.getSubtipoDoc(), 
+                calificacion,
                 idObservacion
-            );
+            ));
             
-            if (resultado) {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operación Exitosa", "La entrega ha sido validada correctamente.");
+            if (!resultadoOperacion.isError()) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operación Exitosa",
+                        "La entrega ha sido validada correctamente.");
                 Utilidad.abrirVentana("Profesor", lbNombreDocumento);
             } else {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la Operación", "No se pudo guardar la validación de la entrega.");
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la Operación", resultadoOperacion.getMensaje());
             }
 
         } catch (SQLException ex) {
-             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", "No se pudo conectar con la base de datos para guardar los cambios.");
+             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
+                     "No se pudo conectar con la base de datos para guardar los cambios.");
         }
-    }
-
-    private boolean validarCalificacion() {
-        String calificacionTexto = tfCalificacion.getText();
-        if (calificacionTexto.isEmpty()) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Campo Vacío", "El campo de calificación no puede estar vacío.");
-            return false;
-        }
-        try {
-            int calificacion = Integer.parseInt(calificacionTexto);
-            if (calificacion < 0 || calificacion > 10) {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Calificación Inválida", "La calificación debe ser un número entre 0 y 10.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Formato Inválido", "La calificación debe ser un número entero.");
-            return false;
-        }
-        return true;
-    }
-    
-    private boolean validarObservacionObligatoria() {
-        if (taObservacion.getText().trim().isEmpty()) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Campo Incompleto", "La observación no puede quedar vacía si la entrega es rechazada.");
-            return false;
-        }
-        return true;
     }
 
     @FXML
@@ -204,7 +179,7 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
                     getResource("vista/FXMLElegirEntrega.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(EstudianteDAO.obtenerEstudiante(entregaAValidar.getIdEstudiante()));
+            controlador.inicializarInformacion(estudianteAValidar);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Entrega");
@@ -213,8 +188,6 @@ public class FXMLValidarEntregaController implements Initializable { //FIX Valid
             ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
                     "Lo sentimos no fue posible cargar la informacion del estudiante");
-        } catch (SQLException ex) {
-            Logger.getLogger(FXMLValidarEntregaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
