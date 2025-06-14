@@ -50,12 +50,10 @@ public class DashboardFactory {
     }
     
     public static class DashboardImpl implements Dashboard {
-        private final Parent vista;
         private final Dashboard controlador;
         private final String titulo;
         
         public DashboardImpl(Parent vista, Dashboard controlador, String titulo) {
-            this.vista = vista;
             this.controlador = controlador;
             this.titulo = titulo;
         }
