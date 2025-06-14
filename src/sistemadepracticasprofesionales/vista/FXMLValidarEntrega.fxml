@@ -31,7 +31,10 @@
          </cursor></Button>
       <Label layoutX="483.0" layoutY="255.0" text="Fecha entregado: " />
       <Label fx:id="lbFechaEntregado" layoutX="648.0" layoutY="255.0" prefHeight="27.0" prefWidth="116.0" />
-      <TextArea fx:id="taObservacion" layoutX="24.0" layoutY="255.0" prefHeight="91.0" prefWidth="407.0" promptText="Observacion" visible="false" />
+      <TextArea fx:id="taObservacion" layoutX="24.0" layoutY="255.0" prefHeight="91.0" prefWidth="407.0" promptText="Observacion" visible="false">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextArea>
       <Label layoutX="480.0" layoutY="310.0" text="Calificacion:" />
       <TextField fx:id="tfCalificacion" layoutX="656.0" layoutY="304.0" prefHeight="27.0" prefWidth="79.0" promptText="0-10">
          <cursor>
