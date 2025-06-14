@@ -25,7 +25,7 @@
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label layoutX="43.0" layoutY="243.0" text="Correo:" textFill="#1e2a38">
+      <Label layoutX="43.0" layoutY="238.0" text="Correo:" textFill="#1e2a38">
          <font>
             <Font size="16.0" />
          </font></Label>
@@ -33,7 +33,7 @@
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label layoutX="41.0" layoutY="330.0" text="Puesto:" textFill="#1e2a38">
+      <Label layoutX="43.0" layoutY="306.0" text="Puesto:" textFill="#1e2a38">
          <font>
             <Font size="16.0" />
          </font></Label>
@@ -51,12 +51,12 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button layoutX="423.0" layoutY="372.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+      <Button layoutX="423.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="522.0" layoutY="372.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+      <Button layoutX="522.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -76,7 +76,7 @@
             <Font size="13.0" />
          </font>
       </TextField>
-      <TextField fx:id="tfCorreo" layoutX="41.0" layoutY="274.0" prefHeight="29.0" prefWidth="206.0" promptText="Correo">
+      <TextField fx:id="tfCorreo" layoutX="41.0" layoutY="269.0" prefHeight="29.0" prefWidth="206.0" promptText="Correo">
          <font>
             <Font size="13.0" />
          </font>
@@ -86,7 +86,17 @@
             <Font size="13.0" />
          </font>
       </TextField>
-      <TextField fx:id="tfPuesto" layoutX="152.0" layoutY="328.0" prefHeight="29.0" prefWidth="206.0" promptText="Puesto">
+      <TextField fx:id="tfPuesto" layoutX="41.0" layoutY="331.0" prefHeight="29.0" prefWidth="206.0" promptText="Puesto">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label layoutX="301.0" layoutY="306.0" text="Teléfono:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfTelefono" layoutX="301.0" layoutY="331.0" prefHeight="29.0" prefWidth="206.0" promptText="Teléfono">
          <font>
             <Font size="13.0" />
          </font>

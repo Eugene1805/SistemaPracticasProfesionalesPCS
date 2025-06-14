@@ -12,8 +12,8 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
  * @author Nash
  */
 public class MailValidationStrategy implements IEstrategiaValidacion<TextInputControl>{
- private final int longitudMaxima;                                                   // porque es padre de los
-    private final boolean obligatorio;                                                  //controles que reciben texto
+ private final int longitudMaxima;                                                   
+    private final boolean obligatorio;                                                 
 
     public MailValidationStrategy(int longitudMaxima, boolean obligatorio) {
         this.longitudMaxima = longitudMaxima;
@@ -32,7 +32,7 @@ public class MailValidationStrategy implements IEstrategiaValidacion<TextInputCo
             return new ResultadoValidacion(false, "Máximo " + longitudMaxima + " caracteres");
         }
         
-        if (texto.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+        if (!texto.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             return new ResultadoValidacion(false,"Correo no válido");
         }
                

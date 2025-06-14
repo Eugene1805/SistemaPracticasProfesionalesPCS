@@ -1,11 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLProgramarEntregaController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F5F7FA;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLProgramarEntregaController">
+   <children>
+      <AnchorPane prefHeight="60.0" prefWidth="606.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Label layoutX="14.0" layoutY="16.0" text="Programar Entregas" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button layoutX="521.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Label layoutX="33.0" layoutY="81.0" text="PERIODO ESCOLAR">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPeriodoEscolar" layoutX="203.0" layoutY="81.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="115.0" text="Prácticas Profesionales de Ingeniería de Software" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="93.0" layoutY="175.0" mnemonicParsing="false" onAction="#btnClicEntregaIniciales" style="-fx-background-color: #487BB1;" text="Generar Entrega Iniciales" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="378.0" layoutY="175.0" mnemonicParsing="false" onAction="#btnClicEntregaFinales" style="-fx-background-color: #487BB1;" text="Generar Entrega Finales" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="82.0" layoutY="277.0" mnemonicParsing="false" onAction="#btnClicEntregaIntermedios" style="-fx-background-color: #487BB1;" text="Generar Entrega Intermedios" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="375.0" layoutY="277.0" mnemonicParsing="false" onAction="#btnClicEntregaReportes" style="-fx-background-color: #487BB1;" text="Generar Entrega Reportes" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="517.0" layoutY="344.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+   </children>
 </AnchorPane>

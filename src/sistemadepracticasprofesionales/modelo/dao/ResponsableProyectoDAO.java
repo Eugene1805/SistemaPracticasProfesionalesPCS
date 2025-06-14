@@ -6,6 +6,7 @@ package sistemadepracticasprofesionales.modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import sistemadepracticasprofesionales.modelo.ConexionBD;
 import sistemadepracticasprofesionales.modelo.pojo.ResponsableProyecto;
@@ -24,7 +25,6 @@ public class ResponsableProyectoDAO {
                     +"telefono, correo, departamento, puesto, id_organizacion_vinculada) "
                     +"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
-            sentencia.setString(1, responsable.getNombre());
             sentencia.setString(1, responsable.getNombre());
             sentencia.setString(2, responsable.getApellidoPaterno());
             sentencia.setString(3, responsable.getApellidoMaterno());
@@ -46,4 +46,21 @@ public class ResponsableProyectoDAO {
         return resultado;
     }
     
+    public static boolean existeResponsableCorreo(String correo) throws SQLException{
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if (conexionBD != null) {
+            String consulta = "SELECT COUNT(*) AS total FROM responsable_proyecto WHERE correo = ?";
+            PreparedStatement sentencia = conexionBD.prepareCall(consulta);
+            sentencia.setString(1, correo);
+            ResultSet resultado = sentencia.executeQuery();
+            if (resultado.next()) {
+                return resultado.getInt("total") > 0;
+            }
+            sentencia.close();
+            conexionBD.close();
+        } else {
+            throw new SQLException("No hay conexión");        
+        }
+        return false;
+    }   
 }

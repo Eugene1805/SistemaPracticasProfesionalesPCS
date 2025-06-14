@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="495.0" prefWidth="611.0" style="-fx-background-color: #F5F7FA;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLGenerarEntregasController">
+   <children>
+      <AnchorPane prefHeight="60.0" prefWidth="611.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Label layoutX="14.0" layoutY="16.0" text="Entregas Documentos Iniciales" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button layoutX="521.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Label layoutX="32.0" layoutY="85.0" text="Tipo Documento Inicial:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbTiposDocumentos" layoutX="393.0" layoutY="85.0" prefHeight="25.0" prefWidth="188.0" />
+      <Label layoutX="32.0" layoutY="125.0" text="Título:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="32.0" layoutY="175.0" text="Detalle:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="59.0" layoutY="213.0" text="Fecha de Inicio:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="dpFechaInicio" layoutX="212.0" layoutY="213.0" promptText="Fecha de Inicio" />
+      <DatePicker fx:id="dpFechaEntrega" layoutX="212.0" layoutY="259.0" promptText="Fecha de Entrega" />
+      <Label layoutX="59.0" layoutY="259.0" text="Fecha de Entrega:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="410.0" layoutY="213.0" text="Calificación:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfTitulo" layoutX="286.0" layoutY="123.0" prefHeight="29.0" prefWidth="295.0" promptText="Título">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <TextArea fx:id="taDescripcion" layoutX="61.0" layoutY="326.0" prefHeight="91.0" prefWidth="522.0" promptText="Descripción de la Entrega" />
+      <Button layoutX="433.0" layoutY="440.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="521.0" layoutY="440.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="59.0" layoutY="301.0" text="Descripción:" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="521.0" layoutY="213.0" text="0/100" textFill="#1e2a38">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Line endX="395.0" endY="-14.0" layoutX="200.0" layoutY="175.0" startX="-175.0" startY="-14.0" />
+   </children>
+</AnchorPane>

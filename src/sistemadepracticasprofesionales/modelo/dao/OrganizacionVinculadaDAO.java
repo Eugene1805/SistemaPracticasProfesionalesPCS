@@ -90,6 +90,24 @@ public class OrganizacionVinculadaDAO {
         return organizaciones;
     }
     
+    public static boolean tieneResponsableAsignado(int idOrganizacion) throws SQLException{
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if (conexionBD != null) {
+            String consulta = "SELECT COUNT(*) AS total FROM responsable_proyecto WHERE id_organizacion_vinculada = ?";
+            PreparedStatement sentencia = conexionBD.prepareCall(consulta);
+            sentencia.setInt(1, idOrganizacion);
+            ResultSet resultado = sentencia.executeQuery();
+            if (resultado.next()){
+                return resultado.getInt("total") > 0;
+            }
+            sentencia.close();
+            conexionBD.close();
+        }else{
+            throw new SQLException("No hay conexión");
+        }
+        return false;
+    }
+    
     private static OrganizacionVinculada convertirOrganizacionVinculada(ResultSet resultado) throws SQLException{
         OrganizacionVinculada organizacion = new OrganizacionVinculada();
         organizacion.setId(resultado.getInt("id_organizacion_vinculada"));
