@@ -100,7 +100,7 @@ public class EstudianteDAO {
         return estudiantes;
     }
     
-    public static List<Estudiante> obtenerEstudiantesConEntregasSinValidar() throws SQLException {
+    public static List<Estudiante> obtenerEstudiantesConEntregasSinValidar(int idPeriodoEscolar) throws SQLException {
         List<Estudiante> estudiantes = new ArrayList<>();
         Connection conexion = ConexionBD.abrirConexion();
         if (conexion == null) {
@@ -116,7 +116,7 @@ public class EstudianteDAO {
             " JOIN expediente exp ON e.id_estudiante = exp.id_estudiante" +
             " JOIN entrega_reporte er ON exp.id_expediente = er.id_expediente" +
             " JOIN reporte r ON er.id_reporte = r.id_reporte" +
-            " WHERE r.archivo IS NOT NULL AND r.fecha_revisado IS NULL)" +
+            " WHERE exp.id_periodo_escolar = ? AND r.archivo IS NOT NULL AND r.fecha_revisado IS NULL)" +
 
             " UNION " +
 
@@ -126,7 +126,7 @@ public class EstudianteDAO {
             " JOIN expediente exp ON e.id_estudiante = exp.id_estudiante" +
             " JOIN entrega_documento ed ON exp.id_expediente = ed.id_expediente" +
             " JOIN documento_inicial di ON ed.id_documento_inicial = di.id_documento_inicial" + // Asumiendo que el FK apunta a la tabla correcta
-            " WHERE di.archivo IS NOT NULL AND di.fecha_revisado IS NULL)" +
+            " WHERE exp.id_periodo_escolar = ? AND di.archivo IS NOT NULL AND di.fecha_revisado IS NULL)" +
 
             " UNION " +
             
@@ -136,7 +136,7 @@ public class EstudianteDAO {
             " JOIN expediente exp ON e.id_estudiante = exp.id_estudiante" +
             " JOIN entrega_documento ed ON exp.id_expediente = ed.id_expediente" +
             " JOIN documento_intermedio dm ON ed.id_documento_intermedio = dm.id_documento_intermedio" +
-            " WHERE dm.archivo IS NOT NULL AND dm.fecha_revisado IS NULL)" +
+            " WHERE exp.id_periodo_escolar = ? AND dm.archivo IS NOT NULL AND dm.fecha_revisado IS NULL)" +
 
             " UNION " +
 
@@ -146,25 +146,32 @@ public class EstudianteDAO {
             " JOIN expediente exp ON e.id_estudiante = exp.id_estudiante" +
             " JOIN entrega_documento ed ON exp.id_expediente = ed.id_expediente" +
             " JOIN documento_final df ON ed.id_documento_final = df.id_documento_final" +
-            " WHERE df.archivo IS NOT NULL AND df.fecha_revisado IS NULL)";
+            " WHERE exp.id_periodo_escolar = ? AND df.archivo IS NOT NULL AND df.fecha_revisado IS NULL)";
 
-        try (PreparedStatement declaracion = conexion.prepareStatement(consulta);
-             ResultSet resultado = declaracion.executeQuery()) {
+        try (PreparedStatement declaracion = conexion.prepareStatement(consulta)) {
             
-            while (resultado.next()) {
-                Estudiante estudiante = new Estudiante();
-                estudiante.setId(resultado.getInt("id_estudiante"));
-                String nombreCompleto = resultado.getString("nombre") + " " + 
-                                        resultado.getString("apellido_paterno") + " " + 
-                                        (resultado.getString("apellido_materno") != null ? resultado.getString("apellido_materno") : "");
-                estudiante.setNombre(nombreCompleto.trim());
-                estudiante.setMatricula(resultado.getString("matricula"));
-                estudiantes.add(estudiante);
+            // Asignar el parámetro del periodo escolar a cada una de las 4 subconsultas
+            declaracion.setInt(1, idPeriodoEscolar);
+            declaracion.setInt(2, idPeriodoEscolar);
+            declaracion.setInt(3, idPeriodoEscolar);
+            declaracion.setInt(4, idPeriodoEscolar);
+            
+            try (ResultSet resultado = declaracion.executeQuery()) {
+                while (resultado.next()) {
+                    Estudiante estudiante = new Estudiante();
+                    // Asumiendo que tu POJO usa setIdEstudiante()
+                    estudiante.setId(resultado.getInt("id_estudiante"));
+                    String nombreCompleto = resultado.getString("nombre") + " " + 
+                                            resultado.getString("apellido_paterno") + " " + 
+                                            (resultado.getString("apellido_materno") != null ? resultado.getString("apellido_materno") : "");
+                    estudiante.setNombre(nombreCompleto.trim());
+                    estudiante.setMatricula(resultado.getString("matricula"));
+                    estudiantes.add(estudiante);
+                }
             }
         } finally {
             conexion.close();
         }
-        
         return estudiantes;
     }
     

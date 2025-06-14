@@ -23,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
+import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -83,7 +84,8 @@ public class FXMLElegirEstudianteController implements Initializable {
     private void cargarInformacionTabla(){
         try {
             estudiantes = FXCollections.observableArrayList();
-            List<Estudiante> estudiantesDAO = EstudianteDAO.obtenerEstudiantesConEntregasSinValidar();
+            List<Estudiante> estudiantesDAO = EstudianteDAO.obtenerEstudiantesConEntregasSinValidar(
+                    PeriodoEscolarDAO.obtenerPeriodoEscolarActual().getId());
             estudiantes.addAll(estudiantesDAO);
             tvEstudiantes.setItems(estudiantes);
         } catch (SQLException ex) {
