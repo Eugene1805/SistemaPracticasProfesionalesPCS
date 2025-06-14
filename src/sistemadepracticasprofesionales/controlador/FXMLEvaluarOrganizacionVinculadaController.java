@@ -17,6 +17,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.EvaluacionOrganizacionDAO;
+import sistemadepracticasprofesionales.modelo.dao.ExpedienteDAO;
 import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.EvaluacionOrganizacion;
@@ -99,20 +100,29 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
     
     private EvaluacionOrganizacion obtenerEvaluacion(){
         EvaluacionOrganizacion evaluacionOrganizacion = new EvaluacionOrganizacion();
+        evaluacionOrganizacion.setAmbienteLaboral(cbAmbiente_laboral.getValue());
+        evaluacionOrganizacion.setOportunidades_aprendizaje(cbOportunidadesAprendizaje.getValue());
+        evaluacionOrganizacion.setClaridadActividades(cbClaridadActividades.getValue());
+        evaluacionOrganizacion.setNivelRelacionActividades(cbNivelRelacionActividades.getValue());
+        evaluacionOrganizacion.setAccesibilidad(cbAccesibilidad.getValue());
+        evaluacionOrganizacion.setAccesoRecursos(cbAccesoRecursos.getValue());
         return evaluacionOrganizacion;
     }
     
     private void guardarEvaluacionOrganizacion(EvaluacionOrganizacion evaluacionOrganizacion){
         try {
-            ResultadoOperacion resultadoOperacion = EvaluacionOrganizacionDAO.
+            Integer idEvaluacionOrganizacionVInculada = EvaluacionOrganizacionDAO.
                     registrarEvaluacionOrganizacion(evaluacionOrganizacion);
+            Integer idEstudiante = EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername()).getId();
+            ResultadoOperacion resultadoOperacion = ExpedienteDAO.
+                    guardarEvaluacionOrganizacionVinculada(idEvaluacionOrganizacionVInculada,idEstudiante);
             if(!resultadoOperacion.isError()){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
-                        "Evaluacion de la Organizacion Vinculada registrada con exito");
+                        resultadoOperacion.getMensaje());
                 regresarAlDashboard();
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
-                        "No fue posible guardar el registro de la evaluacion a la organizacion vinculada");
+                        resultadoOperacion.getMensaje());
             }
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",
