@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import sistemadepracticasprofesionales.modelo.ConexionBD;
 import sistemadepracticasprofesionales.modelo.pojo.EvaluacionOrganizacion;
-import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 
 /**
  *
@@ -22,7 +21,7 @@ public class EvaluacionOrganizacionDAO {
         Connection conexionDB = ConexionBD.abrirConexion();
         if(conexionDB != null){
             String consulta = "INSERT INTO evaluacion_organizacion (claridad_actividades, "
-                    + "nivel_relacion_actividades, accesibilidad, ambiente_laboral, oportunidades_aprendizaje "
+                    + "nivel_relacion_actividades, accesibilidad, ambiente_laboral, oportunidades_aprendizaje, "
                     + "acceso_recursos) VALUES (?,?,?,?,?,?)";
             PreparedStatement sentencia = conexionDB.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
             sentencia.setInt(1, evaluacionOrganizacion.getClaridadActividades());

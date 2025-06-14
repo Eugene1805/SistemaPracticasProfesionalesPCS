@@ -125,6 +125,7 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
                         resultadoOperacion.getMensaje());
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",
                     "Lo sentimos no fue posible conectarnos a la base de datos");
         }

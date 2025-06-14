@@ -22,7 +22,7 @@ public class ExpedienteDAO {
             resultado.setMensaje("No se pudo conectar a la base de datos.");
             return resultado;
         }
-        String sqlUpdateExpediente = "UPDATE Expediente SET id_evaluacion_organizacion_vinculada = ? WHERE id_estudiante = ?";
+        String sqlUpdateExpediente = "UPDATE Expediente SET id_evaluacion_organizacion = ? WHERE id_estudiante = ?";
         PreparedStatement sentencia = conexion.prepareStatement(sqlUpdateExpediente);
         sentencia.setInt(1, idEvaluacionOrganizacionVinculada);
         sentencia.setInt(2, idEstudiante);
