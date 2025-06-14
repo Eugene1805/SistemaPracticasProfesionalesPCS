@@ -1,5 +1,6 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -9,12 +10,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.EvaluacionOrganizacionDAO;
 import sistemadepracticasprofesionales.modelo.dao.ExpedienteDAO;
@@ -149,7 +155,21 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
     }
     
     private void regresarAlDashboard(){
-        Utilidad.abrirVentana("Estudiante", lbNombreOV);
+       try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbNombreOV);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLEstudiante.fxml"));
+            Parent vista = cargador.load();
+            FXMLEstudianteController controlador = cargador.getController();
+            controlador.inicializar(estudiante);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Estudiante");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del estudiante",
+                    "Lo sentimos no fue posible cargar la informacion del estudiante");
+        }
     }
 
     void inicializarInformacion(Usuario estudiante) {

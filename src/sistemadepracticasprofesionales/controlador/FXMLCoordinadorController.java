@@ -1,14 +1,19 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -23,8 +28,6 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
-    
-    private Parent vista;
 
     /**
      * Initializes the controller class.
@@ -41,7 +44,21 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicAsignarProyectos(MouseEvent event) {
-        Utilidad.abrirVentana("AsignarProyectos", lbUsuario);
+       try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLAsignarProyectos.fxml"));
+            Parent vista = cargador.load();
+            FXMLAsignarProyectosController controlador = cargador.getController();
+            controlador.inicializar(lbUsuario.getText());
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Estudiante");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
+                    "Lo sentimos no fue posible cargar la informacion");
+        }
     }
 
     @FXML
@@ -52,7 +69,21 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicRegistrarOV(MouseEvent event) {
-        Utilidad.abrirVentana("RegistrarOrganizacionVinculada", lbUsuario);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLRegistrarOrganizacionVinculada.fxml"));
+            Parent vista = cargador.load();
+            FXMLRegistrarOrganizacionVinculadaController controlador = cargador.getController();
+            controlador.inicializar(lbUsuario.getText());
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Estudiante");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
+                    "Lo sentimos no fue posible cargar la informacion");
+        }
     }
 
     @FXML

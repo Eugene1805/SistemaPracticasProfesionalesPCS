@@ -1,5 +1,6 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -11,17 +12,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.ProyectoDAO;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboValidationStrategy;
@@ -48,16 +55,15 @@ public class FXMLAsignarProyectosController implements Initializable {
     private Label lbOrganizacionVinculada;
     @FXML
     private Label lbCuposDisponibles;
-    
-    private ValidadorFormulario validadorFormulario;
-    
-    private Estudiante estudianteSeleccionado;
-    private Proyecto proyectoSeleccionado;
     @FXML
     private ComboBox<Estudiante> cbEstudiantes;
     @FXML
     private ComboBox<Proyecto> cbProyectos;
 
+    private ValidadorFormulario validadorFormulario;
+    private Usuario coordinador;
+    private Estudiante estudianteSeleccionado;
+    private Proyecto proyectoSeleccionado;
     /**
      * Initializes the controller class.
      */
@@ -184,7 +190,26 @@ public class FXMLAsignarProyectosController implements Initializable {
 
     @FXML
     private void btnRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("Coordinador", cbProyectos);
+       try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbNombre);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
+                    "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }
+    }
+    
+    public void inicializar(String nombre){
+        this.coordinador = new Usuario();
+        this.coordinador.setNombre(nombre);
     }
     
     private void inicializarValidaciones(){

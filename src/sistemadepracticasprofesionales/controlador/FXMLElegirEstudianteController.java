@@ -25,6 +25,7 @@ import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
@@ -44,7 +45,7 @@ public class FXMLElegirEstudianteController implements Initializable {
     private TableColumn<Estudiante, String> tcMatricula;
     
     private ObservableList<Estudiante> estudiantes;
-
+    private Usuario profesor;
     /**
      * Initializes the controller class.
      */
@@ -60,7 +61,7 @@ public class FXMLElegirEstudianteController implements Initializable {
                 "¿Estás seguro de que deseas cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Profesor", tvEstudiantes);                    
+            irAlDashboard();
         }
     }
     
@@ -107,6 +108,29 @@ public class FXMLElegirEstudianteController implements Initializable {
         } catch (IOException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
                     "Lo sentimos no fue posible cargar la informacion del estudiante");
+        }
+    }
+    
+    public void inicializar(String nombre){
+        this.profesor = new Usuario();
+        this.profesor.setNombre(nombre);
+    }
+    
+    private void irAlDashboard(){
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(tvEstudiantes);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLProfesor.fxml"));
+            Parent vista = cargador.load();
+            FXMLProfesorController controlador = cargador.getController();
+            controlador.inicializar(profesor);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Profesor");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del profesor",
+                    "Lo sentimos no fue posible cargar la informacion del profesor");
         }
     }
 }
