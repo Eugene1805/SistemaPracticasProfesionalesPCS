@@ -8,24 +8,43 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="700.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLEstudianteController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLEstudianteController">
     <children>
-      <Label layoutX="30.0" layoutY="30.0" text="Sistema de practicas profesionales">
+      <AnchorPane prefHeight="100.0" prefWidth="700.0" style="-fx-background-color: #487BB1;" />
+      <Label layoutX="30.0" layoutY="30.0" text="Sistema de practicas profesionales" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="530.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnCerrarSesion" text="Cerrar sesion" />
+      <Button layoutX="530.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnCerrarSesion" style="-fx-background-color: #A6C2E2;" text="Cerrar sesion" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label layoutX="440.0" layoutY="100.0" text="Bienvenido (a)">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lbUsuario" layoutX="440.0" layoutY="160.0" prefHeight="63.0" prefWidth="208.0" />
-      <Label layoutX="30.0" layoutY="147.0" onMouseClicked="#clicConsultarAvance" text="Consultar avance" />
-      <Label layoutX="30.0" layoutY="210.0" onMouseClicked="#clicActualizarExpediente" text="Actualizar expediente" />
-      <Label layoutX="30.0" layoutY="275.0" onMouseClicked="#clicEvaluarOV" text="Evaluar organizacion vinculada" />
-      <Label layoutX="30.0" layoutY="349.0" onMouseClicked="#clicGenerarFormatoEvalOV" text="Generar formato de evaluacion OV" />
+      <Label fx:id="lbUsuario" layoutX="440.0" layoutY="160.0" prefHeight="63.0" prefWidth="208.0">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <Label layoutX="30.0" layoutY="147.0" onMouseClicked="#clicConsultarAvance" text="Consultar avance">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Label>
+      <Label layoutX="30.0" layoutY="210.0" onMouseClicked="#clicActualizarExpediente" text="Actualizar expediente">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Label>
+      <Label layoutX="30.0" layoutY="275.0" onMouseClicked="#clicEvaluarOV" text="Evaluar organizacion vinculada">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Label>
+      <Label layoutX="30.0" layoutY="349.0" onMouseClicked="#clicGenerarFormatoEvalOV" text="Generar formato de evaluacion OV">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Label>
       <Line endX="100.0" layoutX="131.0" layoutY="135.0" startX="-100.0" />
       <Line endX="100.0" layoutX="131.0" layoutY="199.0" startX="-100.0" />
       <Line endX="100.0" layoutX="131.0" layoutY="263.0" startX="-100.0" />

@@ -8,8 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="370.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLInicioSesionController">
+<AnchorPane id="AnchorPane" prefHeight="370.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLInicioSesionController">
    <children>
       <AnchorPane prefHeight="370.0" prefWidth="300.0">
          <children>
@@ -20,7 +19,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="295.0" prefHeight="370.0" prefWidth="305.0" style="-fx-background-color: #146cd0;">
+      <AnchorPane layoutX="295.0" prefHeight="370.0" prefWidth="305.0" style="-fx-background-color: #487BB1;">
          <children>
             <Label layoutX="22.0" layoutY="22.0" prefHeight="88.0" prefWidth="262.0" text="Sistema de practicas profesionales" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
@@ -30,7 +29,10 @@
             <Label layoutX="122.0" layoutY="120.0" text="Login" textFill="WHITE" />
             <TextField fx:id="tfUsername" layoutX="33.0" layoutY="174.0" promptText="Username" />
             <PasswordField fx:id="pfPassword" layoutX="33.0" layoutY="244.0" promptText="Password" />
-            <Button layoutX="106.0" layoutY="302.0" mnemonicParsing="false" onAction="#btnLogin" text="Log In" />
+            <Button layoutX="106.0" layoutY="302.0" mnemonicParsing="false" onAction="#btnLogin" style="-fx-background-color: #A6C2E2;" text="Log In" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </AnchorPane>
    </children>
