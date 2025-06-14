@@ -62,7 +62,6 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarComboBoxes();
-        
         inicializarValidaciones();
     }    
 

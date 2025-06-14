@@ -138,7 +138,7 @@ public class FXMLAsignarProyectosController implements Initializable {
         if(!resultadoOperacion.isError()){
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Estudiante" +
                     obtenerEstudianteSeleccionado().getNombre()
-                    + " asignado al proyecot"+ obtenerProyectoSeleccionado().getNombre() +" con exito",
+                    + " asignado al proyecto "+ obtenerProyectoSeleccionado().getNombre() +" con exito",
                     resultadoOperacion.getMensaje());
             cargarEstudiantes();
             cargarProyectos();

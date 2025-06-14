@@ -104,11 +104,11 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
                     registrarOrganizacionVinculada(organizacionVinculada);
             if(!resultadoOperacion.isError()){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
-                        "Organizacion Vinculada registrada con exito");
+                        resultadoOperacion.getMensaje());
                 Utilidad.abrirVentana("Coordinador", tfTelefono);
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
-                        "No fue posible guardar el registro de " + organizacionVinculada.getRazonSocial());
+                        resultadoOperacion.getMensaje());
             }
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",

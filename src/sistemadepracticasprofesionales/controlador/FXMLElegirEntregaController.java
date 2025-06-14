@@ -68,7 +68,6 @@ public class FXMLElegirEntregaController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if(event.getClickCount() == 2 && (!row.isEmpty())){
                     irAValidarEntrega(tvEntregas.getSelectionModel().getSelectedItem());
-                    System.err.println("Se hizo la llamada al metodo irAValidarEntrega");
                 }
             });
             return row;
@@ -102,7 +101,6 @@ public class FXMLElegirEntregaController implements Initializable {
             escenarioBase.setTitle("Validar Entrega");
             escenarioBase.show();
         } catch (IOException ex) {
-            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, 
                 "Error", "No se pudo cargar la ventana: " + ex.getMessage());
         }
