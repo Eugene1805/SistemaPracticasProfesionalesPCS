@@ -87,6 +87,7 @@ public class FXMLElegirEstudianteController implements Initializable {
             estudiantes.addAll(estudiantesDAO);
             tvEstudiantes.setItems(estudiantes);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar los datos",
                     "No fue posible cargar la informacion, intente mas tarde");
             Utilidad.obtenerEscenario(tvEstudiantes).close();
