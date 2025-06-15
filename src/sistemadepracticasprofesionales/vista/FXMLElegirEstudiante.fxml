@@ -7,20 +7,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLElegirEstudianteController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLElegirEstudianteController">
    <children>
-      <Label layoutX="26.0" layoutY="26.0" text="Elegir Estudiante">
+      <AnchorPane prefHeight="93.0" prefWidth="600.0" style="-fx-background-color: #487BB1;" />
+      <Label layoutX="26.0" layoutY="26.0" text="Elegir Estudiante" textFill="WHITE">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="tvEstudiantes" layoutX="26.0" layoutY="100.0" prefHeight="170.0" prefWidth="526.0">
+      <TableView fx:id="tvEstudiantes" layoutX="26.0" layoutY="125.0" prefHeight="182.0" prefWidth="541.0">
         <columns>
-          <TableColumn fx:id="tcNombre" prefWidth="298.0" text="Nombre" />
-          <TableColumn fx:id="tcMatricula" minWidth="0.0" prefWidth="211.0" text="Matricula" />
+          <TableColumn fx:id="tcNombre" prefWidth="336.0" text="Nombre" />
+          <TableColumn fx:id="tcMatricula" minWidth="0.0" prefWidth="189.0" text="Matricula" />
         </columns>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </TableView>
-      <Button layoutX="460.0" layoutY="325.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <Button layoutX="477.0" layoutY="325.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #A6C2E2;" text="Cancelar" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

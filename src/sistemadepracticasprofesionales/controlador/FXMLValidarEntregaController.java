@@ -118,7 +118,7 @@ public class FXMLValidarEntregaController implements Initializable {
             if (archivoBytes != null) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Guardar Archivo");
-                fileChooser.setInitialFileName(entregaAValidar.getTitulo() + ".docx"); // Asume PDF, puedes cambiarlo
+                fileChooser.setInitialFileName(entregaAValidar.getTitulo() + ".docx"); 
                 File archivo = fileChooser.showSaveDialog(Utilidad.obtenerEscenario(lbNombreDocumento));
                 if (archivo != null) {
                     try (FileOutputStream fos = new FileOutputStream(archivo)) {
@@ -139,6 +139,9 @@ public class FXMLValidarEntregaController implements Initializable {
     private void finalizarOperacion(){
         if (validadorFormulario.validate()) {
              procesarValidacion(Integer.parseInt(tfCalificacion.getText()));
+        }else{
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Campos con datos invalidos", 
+                    "Hay campos con dativos invalidos o incompletos");
         }
     }
     
@@ -159,7 +162,7 @@ public class FXMLValidarEntregaController implements Initializable {
             
             if (!resultadoOperacion.isError()) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operación Exitosa",
-                        "La entrega ha sido validada correctamente.");
+                        resultadoOperacion.getMensaje());
                 Utilidad.abrirVentana("Profesor", lbNombreDocumento);
             } else {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la Operación", resultadoOperacion.getMensaje());
@@ -185,7 +188,6 @@ public class FXMLValidarEntregaController implements Initializable {
             escenarioBase.setTitle("Elegir Entrega");
             escenarioBase.show();
         } catch (IOException ex) {
-            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la pagina de entregas del estudiante",
                     "Lo sentimos no fue posible cargar la informacion del estudiante");
         }

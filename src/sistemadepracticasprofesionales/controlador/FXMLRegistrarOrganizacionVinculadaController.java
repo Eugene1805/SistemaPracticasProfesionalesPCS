@@ -1,5 +1,6 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -7,14 +8,20 @@ import java.util.ResourceBundle;
 import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.NumericValidationStrategy;
@@ -51,6 +58,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
     private TextField tfRazonSocial;
 
     private ValidadorFormulario validadorFormulario;
+    private Usuario coordinador;
     /**
      * Initializes the controller class.
      */
@@ -61,7 +69,26 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
 
     @FXML
     private void clicBtnRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("Coordinador", tfTelefono);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(tfCiudad);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del estudiante",
+                    "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }
+    }
+    
+    public void inicializar(String nombre){
+        this.coordinador = new Usuario();
+        this.coordinador.setNombre(nombre);
     }
 
     @FXML
@@ -104,11 +131,11 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
                     registrarOrganizacionVinculada(organizacionVinculada);
             if(!resultadoOperacion.isError()){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
-                        "Organizacion Vinculada registrada con exito");
+                        resultadoOperacion.getMensaje());
                 Utilidad.abrirVentana("Coordinador", tfTelefono);
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
-                        "No fue posible guardar el registro de " + organizacionVinculada.getRazonSocial());
+                        resultadoOperacion.getMensaje());
             }
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",
