@@ -14,6 +14,7 @@ import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega.SubtipoDocumento;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega.Tipo;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
 /**
  *
  * @author eugen
@@ -196,6 +197,79 @@ public class EntregaDAO {
             conexion.setAutoCommit(true);
             conexion.close();
         }
+        return resultado;
+    }
+    
+    public static ResultadoOperacion programarEntregaIniciales(String titulo, String descripcion, java.sql.Date fechaInicio, java.sql.Date fechaFin, 
+            TipoDocumentoInicial tipoDocumento, int idPeriodoEscolar) throws SQLException {
+
+        ResultadoOperacion resultado = new ResultadoOperacion();
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if (conexionBD == null) {
+            resultado.setError(true);
+            resultado.setMensaje("No se pudo conectar a la base de datos.");
+            return resultado;
+        }
+
+        try {
+            conexionBD.setAutoCommit(false);
+
+            List<Integer> idsExpediente = ExpedienteDAO.obtenerIdsExpedientePorPeriodo(idPeriodoEscolar);
+
+            if (idsExpediente.isEmpty()) {
+                throw new SQLException("No se encontraron expedientes para el periodo escolar actual. No se puede crear la entrega.");
+            }
+
+            String consultaInsertDocumento = "INSERT INTO documento_inicial (tipo_documento) VALUES (?)";
+            String consultaInsertEntrega = "INSERT INTO entrega_documento (titulo, descripcion, fecha_inicio, fecha_fin, tipo_entrega, id_expediente, id_documento_inicial) " +
+                                      "VALUES (?, ?, ?, ?, 'Inicial', ?, ?)";
+            //Iterar sobre cada expediente para crear su propio par de registros (documento y entrega)
+            for (Integer idExpediente : idsExpediente) {
+                int idDocumentoGenerado;
+                try (PreparedStatement psDoc = conexionBD.prepareStatement(consultaInsertDocumento, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                    psDoc.setString(1, tipoDocumento.getNombreEnBD()); 
+                    psDoc.executeUpdate();
+
+                    try (ResultSet rs = psDoc.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            idDocumentoGenerado = rs.getInt(1);
+                        } else {
+                            throw new SQLException("Fallo al crear el documento inicial, no se obtuvo ID.");
+                        }
+                    }
+                }
+
+                try (PreparedStatement psEntrega = conexionBD.prepareStatement(consultaInsertEntrega)) {
+                    psEntrega.setString(1, titulo);
+                    psEntrega.setString(2, descripcion);
+                    psEntrega.setDate(3, fechaInicio); 
+                    psEntrega.setDate(4, fechaFin);   
+                    psEntrega.setInt(5, idExpediente);
+                    psEntrega.setInt(6, idDocumentoGenerado);
+
+                    if (psEntrega.executeUpdate() == 0) {
+                         throw new SQLException("Fallo al crear la entrega para el expediente ID: " + idExpediente);
+                    }
+                }
+            }
+
+            conexionBD.commit();
+            resultado.setError(false);
+            resultado.setFilasAfectadas(idsExpediente.size());
+            resultado.setMensaje("Entrega programada exitosamente para " + idsExpediente.size() + " estudiantes.");
+
+        } catch (SQLException ex) {
+            conexionBD.rollback();
+            resultado.setError(true);
+            resultado.setMensaje("Error al programar la entrega: " + ex.getMessage());
+            ex.printStackTrace(); 
+        } finally {
+            if (conexionBD != null) {
+                conexionBD.setAutoCommit(true);
+                conexionBD.close();
+            }
+        }
+
         return resultado;
     }
 }

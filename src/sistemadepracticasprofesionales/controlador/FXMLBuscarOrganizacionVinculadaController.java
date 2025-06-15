@@ -7,6 +7,7 @@ package sistemadepracticasprofesionales.controlador;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -57,8 +58,6 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
     private TableColumn tcCiudad;
     @FXML
     private TableColumn tcEstado;
-    @FXML
-    private Button btnBuscar;
     
     private ObservableList<OrganizacionVinculada> organizaciones;
     private FilteredList<OrganizacionVinculada> filtroOrganizaciones;
@@ -72,6 +71,7 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
         cargarInformacionTabla();
         
         tvOrganizacionesVinculadas.setPlaceholder(new Label("No se encontraron organizaciones con ese nombre"));
+        configurarBusqueda();
     }
     
     private void configurarTabla(){
@@ -100,23 +100,26 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
         }
     }
     
+    private void configurarBusqueda(){
+        if (filtroOrganizaciones != null) {
+            tfBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
+                actualizarFiltro(newValue);
+            });
+        }
+    }
+    
     @FXML
     private void btnClicRegresar(ActionEvent event) {
         Utilidad.abrirVentana("Coordinador", tfBuscar);
     }
 
     @FXML
-    private void btnClicBuscar(ActionEvent event) {//TODO comprobar el manejo de la validacion/comentarñp
-        String filtro = tfBuscar.getText().trim().toLowerCase();
-        if (filtro.isEmpty()) {
-            filtroOrganizaciones.setPredicate(ov -> true);
-        } else {
-            filtroOrganizaciones.setPredicate(ov -> ov.getRazonSocial().toLowerCase().contains(filtro));
-        }
+    private void tfbuscarOrganizacionVinculada(ActionEvent event) {
+                actualizarFiltro(tfBuscar.getText());
     }
 
     @FXML
-    private void btnClicCancelar(ActionEvent event) { //TODO Cambiar lo de los botones que no se cierre al aceptar
+    private void btnClicCancelar(ActionEvent event) { 
         Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
                 "¿Está seguro de que desea cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
@@ -157,4 +160,26 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
                     "Lo sentimos no fue posible cargar la ventana");            
         }
     }
+    
+    private static String normalizarBusqueda(String texto){
+        if (texto == null) {
+            return "";
+        }
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+    
+    private void actualizarFiltro(String textoFiltrado){
+        String filtroNormalizado = normalizarBusqueda(textoFiltrado).toLowerCase();
+
+        filtroOrganizaciones.setPredicate(ov -> {
+            if (filtroNormalizado.isEmpty()) {
+                return true;
+            }
+
+            String razonSocialNormalizada = normalizarBusqueda(ov.getRazonSocial()).toLowerCase();
+
+            return razonSocialNormalizada.contains(filtroNormalizado);
+        });
+    }    
 }

@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author Nash
  */
-public class FXMLProgramarEntregaController implements Initializable {
+public class FXMLConsultarAvanceController implements Initializable {
 
     /**
      * Initializes the controller class.

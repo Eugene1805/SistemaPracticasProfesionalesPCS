@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="647.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLConsultarAvanceController">
+   <children>
+      <AnchorPane prefHeight="60.0" prefWidth="985.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Label layoutX="14.0" layoutY="16.0" text="Consultar Avance" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button layoutX="896.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <ScrollPane hbarPolicy="NEVER" layoutY="60.0" prefHeight="585.0" prefWidth="987.0" vbarPolicy="ALWAYS">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1229.0" prefWidth="973.0" style="-fx-background-color: #F5F7FA;">
+               <children>
+                  <Label layoutX="328.0" layoutY="18.0" text="Horas Acumuladas:">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="454.0" layoutY="50.0" text="de 420" textFill="#1e2a38">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblHorasAcumuladas" layoutX="424.0" layoutY="50.0" text="420" textFill="#1e2a38">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane layoutX="30.0" layoutY="16.0" prefHeight="237.0" prefWidth="227.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <ImageView fitHeight="127.0" fitWidth="185.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="lblNombreEstudiante" layoutX="20.0" layoutY="141.0" text="Juan perez rodriguez cuevas">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblMatriculaEstudiante" layoutX="77.0" layoutY="177.0" text="zs23014044" textFill="#1e2a38">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ProgressBar fx:id="pbHorasAcumuladas" layoutX="373.0" layoutY="82.0" prefWidth="200.0" progress="0.0" />
+                  <AnchorPane layoutX="30.0" layoutY="266.0" prefHeight="900.0" prefWidth="922.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Documentos Iniciales:">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tvDocumentosIniciales" layoutX="16.0" layoutY="55.0" prefHeight="200.0" prefWidth="429.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Título" />
+                            <TableColumn prefWidth="75.0" text="Entregado" />
+                              <TableColumn prefWidth="75.0" text="Revisado" />
+                              <TableColumn prefWidth="75.0" text="Calificación" />
+                              <TableColumn prefWidth="128.0" text="Observaciones" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="358.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFInicial" text="PDF Inicial" />
+                        <Label layoutX="475.0" layoutY="14.0" text="Reportes:">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tvReportes" layoutX="477.0" layoutY="54.0" prefHeight="200.0" prefWidth="437.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="Título" />
+                              <TableColumn prefWidth="75.0" text="Entregado" />
+                              <TableColumn prefWidth="75.0" text="Revisado" />
+                              <TableColumn prefWidth="75.0" text="Calificación" />
+                              <TableColumn prefWidth="136.0" text="Observaciones" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="825.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFReporte" text="PDF Reporte" />
+                        <Label layoutX="16.0" layoutY="318.0" text="Documentos Intermedios:">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tvDocumentosIntermedios" layoutX="15.0" layoutY="352.0" prefHeight="200.0" prefWidth="429.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="Título" />
+                              <TableColumn prefWidth="75.0" text="Entregado" />
+                              <TableColumn prefWidth="75.0" text="Revisado" />
+                              <TableColumn prefWidth="75.0" text="Calificación" />
+                              <TableColumn prefWidth="128.0" text="Observaciones" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="355.0" layoutY="575.0" mnemonicParsing="false" onAction="#btnClicPDFIntermedio" text="PDF Intermedio" />
+                        <Label layoutX="481.0" layoutY="317.0" text="Documentos Finales:">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tvDocumentosFinales" layoutX="482.0" layoutY="353.0" prefHeight="200.0" prefWidth="429.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="Título" />
+                              <TableColumn prefWidth="75.0" text="Entregado" />
+                              <TableColumn prefWidth="75.0" text="Revisado" />
+                              <TableColumn prefWidth="75.0" text="Calificación" />
+                              <TableColumn prefWidth="128.0" text="Observaciones" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="814.0" layoutY="570.0" mnemonicParsing="false" onAction="#btnClicPDFinal" text="PDF Final" />
+                        <Button layoutX="860.0" layoutY="604.0" mnemonicParsing="false" onAction="#btnClicSalir" text="Salir" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
