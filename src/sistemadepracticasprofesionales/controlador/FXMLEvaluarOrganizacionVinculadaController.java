@@ -42,7 +42,7 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboVa
  * Descripcion: Gestiona las interacciones entre la vista de la Evaluacion a la Organizacion Vinculada y el DAO
  * correspondiente para guardar dicha Evaluacion hecha por parte de un alumno
  */
-public class FXMLEvaluarOrganizacionVinculadaController implements Initializable { //TODO asociar la evaluacion al expediente
+public class FXMLEvaluarOrganizacionVinculadaController implements Initializable { 
 
     @FXML
     private Label lbNombreOV;
@@ -130,7 +130,6 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
                         resultadoOperacion.getMensaje());
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexion",
                     "Lo sentimos no fue posible conectarnos a la base de datos");
         }

@@ -56,7 +56,7 @@ public class FXMLBuscarEstudianteController implements Initializable {
     
     private void cargarInformacionTabla(){
         estudiantes = FXCollections.observableArrayList();
-        ArrayList<Estudiante> estudiantesDAO = EstudianteDAO.//obtener estudiantes con proyecto asignado en el periodo escolar actual
+        //ArrayList<Estudiante> estudiantesDAO = EstudianteDAO.//obtener estudiantes con proyecto asignado en el periodo escolar actual
         
     }
     @FXML
