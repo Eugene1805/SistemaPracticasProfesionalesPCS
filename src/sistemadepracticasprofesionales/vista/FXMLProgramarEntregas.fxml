@@ -15,6 +15,9 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Label layoutX="14.0" layoutY="16.0" text="Programar Entregas" textFill="WHITE">
                <font>
@@ -27,6 +30,9 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Label layoutX="36.0" layoutY="80.0" text="PERIODO ESCOLAR">
          <font>
@@ -47,21 +53,33 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button layoutX="381.0" layoutY="187.0" mnemonicParsing="false" onAction="#btnClicEntregaFinales" style="-fx-background-color: #487BB1;" text="Generar Entrega Finales" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button layoutX="78.0" layoutY="283.0" mnemonicParsing="false" onAction="#btnClicEntregaIntermedios" style="-fx-background-color: #487BB1;" text="Generar Entrega Intermedios" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button layoutX="378.0" layoutY="283.0" mnemonicParsing="false" onAction="#btnClicEntregaReportes" style="-fx-background-color: #487BB1;" text="Generar Entrega Reportes" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>
