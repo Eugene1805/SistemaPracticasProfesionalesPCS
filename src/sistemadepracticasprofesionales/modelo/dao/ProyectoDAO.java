@@ -20,36 +20,54 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
  */
 public class ProyectoDAO {
     
-    public static Proyecto obtenerProyecto(int id) throws SQLException {
-        Proyecto proyecto = new Proyecto();
-        Connection conexionBD = ConexionBD.abrirConexion();
+    public static Proyecto obtenerProyecto(int idProyecto) throws SQLException {
+        Proyecto proyecto = null;
+        Connection conexion = ConexionBD.abrirConexion();
 
-        if (conexionBD != null) {
-            String consulta = "SELECT p.id_proyecto, p.nombre, p.descripcion, p.estado, p.cupo, "
-                            + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, "
-                            + "p.id_responsable_proyecto, "
-                            + "ov.razon_social AS nombre_organizacion, "
-                            + "CONCAT(rp.nombre, ' ', rp.apellido_paterno) AS nombre_responsable "
-                            + "FROM proyecto p "
-                            + "INNER JOIN organizacion_vinculada ov ON p.id_organizacion_vinculada = ov.id_organizacion_vinculada "
-                            + "INNER JOIN responsable_proyecto rp ON p.id_responsable_proyecto = rp.id_responsable_proyecto "
-                            + "WHERE p.id_proyecto = ?";
+        if (conexion != null) {
+            String query = "SELECT p.*, o.razon_social AS nombre_organizacion, " +
+                           "rp.nombre AS nombre_responsable, rp.apellido_paterno AS apellido_responsable " +
+                           "FROM proyecto p " +
+                           "LEFT JOIN organizacion_vinculada o ON p.id_organizacion_vinculada = o.id_organizacion_vinculada " +
+                           "LEFT JOIN responsable_proyecto rp ON p.id_responsable_proyecto = rp.id_responsable_proyecto " +
+                           "WHERE p.id_proyecto = ?";
 
-            PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
-            sentencia.setInt(1, id);
-            ResultSet resultado = sentencia.executeQuery();
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, idProyecto);
 
-            if (resultado.next()) {
-                proyecto = convertirProyecto(resultado);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                proyecto = new Proyecto();
+                proyecto.setIdProyecto(rs.getInt("id_proyecto"));
+                proyecto.setNombre(rs.getString("nombre"));
+                proyecto.setDescripcion(rs.getString("descripcion"));
+                proyecto.setCupo(rs.getInt("cupo"));
+                proyecto.setFechaInicio(rs.getString("fecha_inicio"));
+                proyecto.setFechaFin(rs.getString("fecha_fin"));
+
+                String estadoStr = rs.getString("estado");
+                if (estadoStr != null) {
+                    proyecto.setEstado(EstadoProyecto.valueOf(estadoStr));
+                }
+
+                proyecto.setIdOrganizacionVinculada(rs.getInt("id_organizacion_vinculada"));
+                proyecto.setNombreOrganizacionVinculada(rs.getString("nombre_organizacion"));
+
+                proyecto.setIdResponsableProyecto(rs.getInt("id_responsable_proyecto"));
+                String nombreResp = rs.getString("nombre_responsable");
+                String apellidoResp = rs.getString("apellido_responsable");
+                proyecto.setNombreResponsableProyecto(nombreResp != null && apellidoResp != null
+                    ? nombreResp + " " + apellidoResp
+                    : "");
             }
-
-            conexionBD.close();
-        } else {
-            throw new SQLException("No hay conexión con la base de datos.");
+            rs.close();
+            ps.close();
+            conexion.close();
         }
 
         return proyecto;
     }
+
     
     public static List<Proyecto> obtenerProyectosConCupoDisponible() throws SQLException{
         List<Proyecto> proyectosConCupoDisponible = new ArrayList<>();

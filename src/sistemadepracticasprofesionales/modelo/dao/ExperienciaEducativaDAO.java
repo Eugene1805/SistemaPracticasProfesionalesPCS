@@ -37,4 +37,23 @@ public class ExperienciaEducativaDAO {
         }
         return experiencia;
     }
+    
+    public static String obtenerNombrePorId(int idExperienciaEducativa) throws SQLException {
+        String nombre = null;
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if (conexionBD != null) {
+            String consulta = "SELECT nombre FROM experiencia_educativa WHERE id_experiencia_educativa = ?";
+            try (PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
+                sentencia.setInt(1, idExperienciaEducativa);
+                try (ResultSet resultado = sentencia.executeQuery()) {
+                    if (resultado.next()) {
+                        nombre = resultado.getString("nombre");
+                    }
+                }
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return nombre;
+    }
 }

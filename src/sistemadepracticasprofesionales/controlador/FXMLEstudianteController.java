@@ -102,9 +102,38 @@ public class FXMLEstudianteController implements Initializable, Dashboard {
 
     @FXML
     private void clicGenerarFormatoEvalOV(MouseEvent event) {
-        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Funcionalidad en desarrollo",
-                "La funcionalidad de este apartado sigue en desarrollo");
+        try {
+            Estudiante estudianteLogueado = EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername());
+
+            if (estudianteLogueado != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sistemadepracticasprofesionales/vista/FXMLGenerarFormatoParaOV.fxml"));
+                Parent root = loader.load();
+
+                FXMLGenerarFormatoParaOVController controller = loader.getController();
+                controller.inicializarDatos(estudianteLogueado.getId(), estudiante);
+
+                // ✅ REUTILIZA el Stage actual en lugar de crear uno nuevo
+                Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+                Scene nuevaEscena = new Scene(root);
+                escenarioBase.setScene(nuevaEscena);
+                escenarioBase.setTitle("Generar Formato");
+                escenarioBase.show();
+
+            } else {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Estudiante no encontrado",
+                        "No se encontró un estudiante con matrícula " + estudiante.getUsername());
+            }
+        } catch (SQLException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de base de datos",
+                    "No se pudo acceder a la base de datos.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar la ventana",
+                    "No se pudo abrir la ventana para generar el formato.");
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public void inicializar(Usuario usuario) {
