@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLActualizarExpedienteController">
+   <children>
+      <ProgressBar fx:id="pbHorasAcumuladas" layoutX="287.0" layoutY="85.0" prefWidth="200.0" progress="0.0" />
+      <Label layoutX="287.0" layoutY="46.0" text="Horas Acumuladas:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="14.0" layoutY="26.0" prefHeight="237.0" prefWidth="227.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fx:id="ivFotoEstudiante" fitHeight="127.0" fitWidth="185.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="lblNombreEstudiante" layoutX="20.0" layoutY="141.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMatriculaEstudiante" layoutX="77.0" layoutY="177.0" textFill="#1e2a38">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label fx:id="lbNombreProyecto" layoutX="102.0" layoutY="263.0" prefHeight="21.0" prefWidth="416.0" text="Sistema educativo" textAlignment="CENTER" />
+      <Label fx:id="lbNombreExperiencia" layoutX="227.0" layoutY="242.0" prefHeight="20.0" prefWidth="147.0" text="Practicas profesionales" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="270.0" layoutY="303.0" text="Label" />
+   </children>
+</AnchorPane>
