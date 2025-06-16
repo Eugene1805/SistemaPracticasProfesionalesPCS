@@ -10,6 +10,8 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
 /**
  *
  * @author Nash
+ * Fecha: 30/05/2025
+ * Descripción: Estrategia de validacion utilizada para validar campos que soliciten un correo electrónico
  */
 public class MailValidationStrategy implements IEstrategiaValidacion<TextInputControl>{
  private final int longitudMaxima;                                                   

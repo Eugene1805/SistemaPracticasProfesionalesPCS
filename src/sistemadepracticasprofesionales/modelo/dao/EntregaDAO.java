@@ -214,10 +214,10 @@ public class EntregaDAO {
         try {
             conexionBD.setAutoCommit(false);
 
-            List<Integer> idsExpediente = ExpedienteDAO.obtenerIdsExpedientePorPeriodo(idPeriodoEscolar);
+            List<Integer> idsExpediente = ExpedienteDAO.obtenerIdsExpedientesActivosPorPeriodo(idPeriodoEscolar);
 
             if (idsExpediente.isEmpty()) {
-                throw new SQLException("No se encontraron expedientes para el periodo escolar actual. No se puede crear la entrega.");
+                throw new SQLException("No se encontraron expedientes activos para el periodo escolar actual. No se puede crear la entrega.");
             }
 
             String consultaInsertDocumento = "INSERT INTO documento_inicial (tipo_documento) VALUES (?)";

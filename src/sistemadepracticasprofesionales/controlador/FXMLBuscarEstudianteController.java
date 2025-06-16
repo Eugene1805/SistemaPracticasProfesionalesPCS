@@ -89,14 +89,12 @@ public class FXMLBuscarEstudianteController implements Initializable {
                         if (estudiantesDAO != null && !estudiantesDAO.isEmpty()) {
                             estudiantes = FXCollections.observableArrayList(estudiantesDAO);
                             tvEstudiantes.setItems(estudiantes);
-
                         } else{
                             tvEstudiantes.setPlaceholder(new javafx.scene.control.Label("No hay estudiantes asignados a este profesor en el periodo actual."));
                         }                       
                     }else{
                         Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error",
                                 "El profesor no tiene una experiencia educativa asignada");
-                        //Añadido
                         tvEstudiantes.setPlaceholder(new javafx.scene.control.Label("Profesor sin Experiencia Educativa asignada."));
                     }
                 }else{
@@ -112,22 +110,8 @@ public class FXMLBuscarEstudianteController implements Initializable {
     }
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        try{
-            Stage escenarioBase = Utilidad.obtenerEscenario(tvEstudiantes);
-            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource("vista/FXMLProfesor.fxml"));
-            Parent vista = cargador.load();
-            FXMLProfesorController controlador = cargador.getController();
-            controlador.inicializar(profesorUsuario);
-            Scene escenaPrincipal = new Scene(vista);
-            escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Dashboard Coordinador");
-            escenarioBase.show();
-        } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del estudiante",
-                "Lo sentimos no fue posible cargar la informacion del coordinador");
-        } 
-     }
+       regresarAlDashbord();
+    }
 
     @FXML
     private void btnClicCancelar(ActionEvent event) {
@@ -135,7 +119,7 @@ public class FXMLBuscarEstudianteController implements Initializable {
             "¿Está seguro de que desea cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Profesor", tvEstudiantes);                               
+            regresarAlDashbord();
         }
     }
 
@@ -184,4 +168,21 @@ public class FXMLBuscarEstudianteController implements Initializable {
         }
     }
     
+    private void regresarAlDashbord(){
+         try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(tvEstudiantes);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLProfesor.fxml"));
+            Parent vista = cargador.load();
+            FXMLProfesorController controlador = cargador.getController();
+            controlador.inicializar(profesorUsuario);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dashboard Profesor");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del profesor",
+                "Lo sentimos no fue posible cargar la informacion del profesor");
+        } 
+    }
 }

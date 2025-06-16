@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package sistemadepracticasprofesionales.controlador;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -16,12 +13,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
+import sistemadepracticasprofesionales.modelo.dao.TipoDocumentoInicialDAO;
 import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
+import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
@@ -33,8 +33,11 @@ public class FXMLProgramarEntregasController implements Initializable {
 
     @FXML
     private Label lblPeriodoEscolar;
+    @FXML
+    private Button btnEntregasIniciales;
     
     private PeriodoEscolar periodoEscolarActual;
+   
 
     /**
      * Initializes the controller class.
@@ -47,11 +50,21 @@ public class FXMLProgramarEntregasController implements Initializable {
     private void cargarPeriodoEscolarActual(){
         try{
             periodoEscolarActual = PeriodoEscolarDAO.obtenerPeriodoEscolarActual();
-            lblPeriodoEscolar.setText(periodoEscolarActual.getNombrePeriodo());
+            if (periodoEscolarActual != null) {
+                lblPeriodoEscolar.setText(periodoEscolarActual.getNombrePeriodo());
+            }else{
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin Periodo Escolar",
+                    "No hay un periodo escolar activo configurado. No se pueden programar entregas.");
+                btnEntregasIniciales.setDisable(true);
+            }
         }catch(SQLException ex){
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                 "Lo sentimos, por el momento no fue posible cargar el Perido Escolar Actual");
         }   
+    }
+    
+    private void verificarEntregasProgramadas(){
+
     }
 
     @FXML
@@ -71,12 +84,20 @@ public class FXMLProgramarEntregasController implements Initializable {
 
     @FXML
     private void btnClicEntregaIniciales(ActionEvent event) {
-        
-        if(periodoEscolarActual != null){
-            irFormularioGenerarEntregas("Inicial");
-        }
-        
-    
+            try {
+                List<TipoDocumentoInicial> tiposInicialesDisponibles = TipoDocumentoInicialDAO.obtenerTiposDisponibles(
+                periodoEscolarActual.getId());
+                if (tiposInicialesDisponibles.isEmpty()) {
+                    Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Entegas Iniciales Programadas", 
+                            "Todas las entregas inicales han sido programadas");
+
+                } else{
+                    irFormularioGenerarEntregas("Inicial");
+                }
+            } catch (SQLException e) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al Verificar Entregas",
+                    "No se pudo verificar el estado de las entregas programadas.");
+            }     
     }
 
     private void irFormularioGenerarEntregas(String tipoEntrega){

@@ -1,5 +1,6 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,11 +23,13 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.AvanceDAO;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.ExpedienteDAO;
 import sistemadepracticasprofesionales.modelo.dao.ProfesorDAO;
 import sistemadepracticasprofesionales.modelo.pojo.AvanceEntrega;
@@ -135,8 +138,9 @@ public class FXMLConsultarAvanceController implements Initializable {
         lblNombreEstudiante.setText(estudianteConsulta.getNombre() + " " + estudianteConsulta.getApellidoPaterno() + " " + 
                 estudianteConsulta.getApellidoMaterno());
         lblMatriculaEstudiante.setText(estudianteConsulta.getMatricula());
+        cargarFoto();
         try{
-            Expediente expediente = ExpedienteDAO.obtenerExpedientePorEstudiante(estudianteConsulta.getId());
+            Expediente expediente = ExpedienteDAO.obtenerExpedienteActivoPorEstudiante(estudianteConsulta.getId());
             if (expediente != null) {
                 int horas = expediente.getHorasAcumuladas();
                 lblHorasAcumuladas.setText(horas + " / 420 horas");
@@ -149,6 +153,23 @@ public class FXMLConsultarAvanceController implements Initializable {
         }
     }
     
+    private void cargarFoto(){
+        try{
+            byte[] foto = EstudianteDAO.obtenerFotoEstudiante(estudianteConsulta.getId());
+            if (foto != null && foto.length > 0) {
+                ByteArrayInputStream inputFoto = new ByteArrayInputStream(foto);
+                Image imagen = new Image(inputFoto);
+                ivFotoEstudiante.setImage(imagen);
+            } else {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Sin foto", 
+                        "El estudiante no tiene una foto registrada");
+               
+            }
+        }catch (SQLException e){
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "ERROR", 
+                        "Error al obtener la foto del estudiante");
+        }
+    }
     private void cargarDatosTablas(){
         if(estudianteConsulta != null && periodoActual != null){
             try {
@@ -276,7 +297,12 @@ public class FXMLConsultarAvanceController implements Initializable {
     
     @FXML
     private void btnClicSalir(ActionEvent event) {
-        regresarAlDashboard();
+        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Salir", 
+                "¿Está seguro de que desea salir?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
+        if(resultado.get() == ButtonType.APPLY){
+                    regresarAlDashboard();
+        }
     }
     
     private void configurarTablas(){
