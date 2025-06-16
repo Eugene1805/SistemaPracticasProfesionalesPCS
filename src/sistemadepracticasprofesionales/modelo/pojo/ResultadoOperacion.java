@@ -10,6 +10,7 @@ package sistemadepracticasprofesionales.modelo.pojo;
 public class ResultadoOperacion {
     private String mensaje;
     private boolean error;
+    private int filasAfectadas;
 
     public ResultadoOperacion() {
     }
@@ -34,4 +35,14 @@ public class ResultadoOperacion {
     public void setError(boolean error) {
         this.error = error;
     }
+
+    public int getFilasAfectadas() {
+        return filasAfectadas;
+    }
+
+    public void setFilasAfectadas(int filasAfectadas) {
+        this.filasAfectadas = filasAfectadas;
+    }
+    
+    
 }

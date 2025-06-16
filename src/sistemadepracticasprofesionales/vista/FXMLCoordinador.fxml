@@ -33,6 +33,7 @@
       <Label layoutX="39.0" layoutY="104.0" onMouseClicked="#clicAsignarProyectos" style="-fx-cursor: hand;" text="Asignar proyectos" />
       <Label layoutX="39.0" layoutY="158.0" onMouseClicked="#clicGenerarOficios" style="-fx-cursor: hand;" text="Generar oficios de asignacion" />
       <Label layoutX="40.0" layoutY="208.0" text="Registrar" />
+
       <Label layoutX="37.0" layoutY="356.0" text="Actualizar" />
       <Label layoutX="88.0" layoutY="243.0" onMouseClicked="#clicRegistrarOV" style="-fx-cursor: hand;" text="Organizacion Vinculada" />
       <Label layoutX="91.0" layoutY="279.0" onMouseClicked="#clicRegistrarResponsable" style="-fx-cursor: hand;" text="Responsable OV" />
@@ -48,6 +49,7 @@
       <Line endX="100.0" layoutX="137.0" layoutY="100.0" startX="-100.0" />
       <Line endX="100.0" layoutX="137.0" layoutY="149.0" startX="-100.0" />
       <Line endX="100.0" layoutX="137.0" layoutY="199.0" startX="-100.0" />
-      <Line endX="100.0" layoutX="137.0" layoutY="350.0" startX="-100.0" />
+      <Line endX="100.0" layoutX="137.0" layoutY="383.0" startX="-100.0" />
+      <Label layoutX="91.0" layoutY="350.0" onMouseClicked="#clicGenerarEntregas" text="Generar Entregas" />
    </children>
 </AnchorPane>

@@ -1,12 +1,22 @@
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.modelo.dao.ProfesorDAO;
+import sistemadepracticasprofesionales.modelo.pojo.Profesor;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -21,6 +31,7 @@ public class FXMLProfesorController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
+    private Usuario profesor;
 
     /**
      * Initializes the controller class.
@@ -42,11 +53,39 @@ public class FXMLProfesorController implements Initializable, Dashboard {
 
     @FXML
     private void clicConsultarExpediente(MouseEvent event) {
-        Utilidad.abrirVentana("ConsultarExpediente", lbUsuario);
+        try {
+            Profesor profesorLogueado = ProfesorDAO.obtenerProfesorPorUsername(profesor.getUsername());
+            if (profesorLogueado != null) {
+                try {
+                    Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+                    FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                            getResource("vista/FXMLBuscarEstudiante.fxml"));
+                    Parent vista = cargador.load();
+                    FXMLBuscarEstudianteController controlador = cargador.getController();
+                    controlador.inicializarInformacion(profesorLogueado, profesor);
+                    Scene escenaPrincipal = new Scene(vista);
+                    escenarioBase.setScene(escenaPrincipal);
+                    escenarioBase.setTitle("Consultar Avance");
+                    escenarioBase.show();
+                } catch (IOException e) {
+                    Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
+                            "No se pudo abrir la ventana de búsqueda de estudiantes.");
+                }
+            }else {
+               Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Profesor no encontrado",
+                        "No se encontró un registro de profesor para el usuario " + profesor.getUsername()); 
+            //cAMBIAR MENSAJE
+            }
+        } catch (SQLException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
+                    "No se pudo consultar la información del profesor.");
+            //Cambiar mensaje
+        }
     }
 
     @Override
     public void inicializar(Usuario usuario) {
         lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno() );
+        profesor = usuario;
     }    
 }

@@ -95,6 +95,11 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
     private void clicRegistrarProyecto(MouseEvent event) {
         Utilidad.abrirVentana("RegistrarProyecto", lbUsuario);
     }
+    
+    @FXML
+    private void clicGenerarEntregas(MouseEvent event) {
+        Utilidad.abrirVentana("ProgramarEntregas", lbUsuario);
+    }
 
     @FXML
     private void clicActualizarResponsable(MouseEvent event) {
@@ -111,4 +116,5 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
     public void inicializar(Usuario usuario) {
         lbUsuario.setText(usuario.getNombre() +" "+ usuario.getApellidoPaterno());
     } 
+
 }
