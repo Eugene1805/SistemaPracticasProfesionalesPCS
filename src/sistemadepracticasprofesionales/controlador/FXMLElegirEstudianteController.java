@@ -113,7 +113,7 @@ public class FXMLElegirEstudianteController implements Initializable {
     
     public void inicializar(String nombre){
         this.profesor = new Usuario();
-        this.profesor.setNombre(nombre);
+        this.profesor.setUsername(nombre);
     }
     
     private void irAlDashboard(){

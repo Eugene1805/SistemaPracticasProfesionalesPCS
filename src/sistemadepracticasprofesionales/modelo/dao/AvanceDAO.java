@@ -16,7 +16,7 @@ import sistemadepracticasprofesionales.modelo.pojo.AvanceEntrega;
  * @author Nash
  */
 public class AvanceDAO {
-     private static List<AvanceEntrega> obtenerAvanceGenerico(int idEstudiante, String tipoEntrega, String tablaDocumento, String idColumnaDocumento) throws SQLException {
+     private static List<AvanceEntrega> obtenerAvanceGenerico(int idEstudiante, int idPeriodoEscolar, String tipoEntrega, String tablaDocumento, String idColumnaDocumento) throws SQLException {
         List<AvanceEntrega> avances = new ArrayList<>();
         Connection conexionBD = ConexionBD.abrirConexion();
         if (conexionBD != null) {
@@ -27,12 +27,13 @@ public class AvanceDAO {
                 "JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
                 "JOIN %s doc ON ed.%s = doc.%s " +
                 "LEFT JOIN observacion obs ON ed.id_observacion = obs.id_observacion " +
-                "WHERE exp.id_estudiante = ? AND ed.tipo_entrega = ?",
+                "WHERE exp.id_estudiante = ? AND exp.id_periodo_escolar = ? AND ed.tipo_entrega = ?", // Filtro por periodo añadido
                 idColumnaDocumento, tablaDocumento, idColumnaDocumento, idColumnaDocumento
             );
             try (PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
                 sentencia.setInt(1, idEstudiante);
-                sentencia.setString(2, tipoEntrega);
+                sentencia.setInt(2, idPeriodoEscolar);
+                sentencia.setString(3, tipoEntrega);
                 try (ResultSet resultado = sentencia.executeQuery()) {
                     while(resultado.next()) {
                         avances.add(convertirResultadoAvance(resultado));
@@ -45,7 +46,7 @@ public class AvanceDAO {
         return avances;
     }
      
-    public static List<AvanceEntrega> obtenerAvanceReportes(int idEstudiante) throws SQLException {
+    public static List<AvanceEntrega> obtenerAvanceReportes(int idEstudiante, int idPeriodoEscolar) throws SQLException {
         List<AvanceEntrega> avances = new ArrayList<>();
         Connection conexionBD = ConexionBD.abrirConexion();
         if (conexionBD != null) {
@@ -55,9 +56,10 @@ public class AvanceDAO {
                     "JOIN expediente exp ON er.id_expediente = exp.id_expediente " +
                     "JOIN reporte r ON er.id_reporte = r.id_reporte " +
                     "LEFT JOIN observacion obs ON er.id_observacion = obs.id_observacion " +
-                    "WHERE exp.id_estudiante = ?";
+                    "WHERE exp.id_estudiante = ? AND exp.id_periodo_escolar = ?";
             try(PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
                 sentencia.setInt(1, idEstudiante);
+                sentencia.setInt(2, idPeriodoEscolar);
                 try(ResultSet resultado = sentencia.executeQuery()) {
                     while(resultado.next()) {
                         avances.add(convertirResultadoAvance(resultado));
@@ -70,16 +72,62 @@ public class AvanceDAO {
         return avances;
     } 
     
-    public static List<AvanceEntrega> obtenerAvanceDocumentosIniciales(int idEstudiante) throws SQLException {
-        return obtenerAvanceGenerico(idEstudiante, "Inicial", "documento_inicial", "id_documento_inicial");
+    public static byte[] obtenerArchivoDeEntrega(int idArchivo, String tipo, String subtipo) throws SQLException {
+        Connection conexion = ConexionBD.abrirConexion();
+        if (conexion == null) throw new SQLException("No hay conexión con la base de datos.");
+
+        String tabla;
+        String columnaId;
+
+        if ("REPORTE".equalsIgnoreCase(tipo)) {
+            tabla = "reporte";
+            columnaId = "id_reporte";
+        } else { // Si es DOCUMENTO
+            switch (subtipo.toUpperCase()) {
+                case "INICIAL":
+                    tabla = "documento_inicial";
+                    columnaId = "id_documento_inicial";
+                    break;
+                case "INTERMEDIO":
+                    tabla = "documento_intermedio";
+                    columnaId = "id_documento_intermedio";
+                    break;
+                case "FINAL":
+                    tabla = "documento_final";
+                    columnaId = "id_documento_final";
+                    break;
+                default:
+                    throw new SQLException("Subtipo de documento no válido: " + subtipo);
+            }
+        }
+
+        String sql = String.format("SELECT archivo FROM %s WHERE %s = ?", tabla, columnaId);
+        byte[] archivoBytes = null;
+
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, idArchivo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    archivoBytes = rs.getBytes("archivo");
+                }
+            }
+        } finally {
+            conexion.close();
+        }
+
+        return archivoBytes;
+    }    
+    
+    public static List<AvanceEntrega> obtenerAvanceDocumentosIniciales(int idEstudiante, int idPeriodoEscolar) throws SQLException {
+        return obtenerAvanceGenerico(idEstudiante, idPeriodoEscolar, "Inicial", "documento_inicial", "id_documento_inicial");
     }
     
-    public static List<AvanceEntrega> obtenerAvanceDocumentosIntermedios(int idEstudiante) throws SQLException {
-        return obtenerAvanceGenerico(idEstudiante, "Intermedio", "documento_intermedio", "id_documento_intermedio");
+    public static List<AvanceEntrega> obtenerAvanceDocumentosIntermedios(int idEstudiante, int idPeriodoEscolar) throws SQLException {
+        return obtenerAvanceGenerico(idEstudiante, idPeriodoEscolar, "Intermedio", "documento_intermedio", "id_documento_intermedio");
     }
     
-    public static List<AvanceEntrega> obtenerAvanceDocumentosFinales(int idEstudiante) throws SQLException {
-        return obtenerAvanceGenerico(idEstudiante, "Final", "documento_final", "id_documento_final");
+    public static List<AvanceEntrega> obtenerAvanceDocumentosFinales(int idEstudiante, int idPeriodoEscolar) throws SQLException {
+        return obtenerAvanceGenerico(idEstudiante, idPeriodoEscolar, "Final", "documento_final", "id_documento_final");
     }
     
     private static AvanceEntrega convertirResultadoAvance(ResultSet resultado) throws SQLException {

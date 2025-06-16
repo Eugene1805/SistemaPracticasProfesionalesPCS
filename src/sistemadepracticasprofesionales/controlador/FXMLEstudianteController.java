@@ -15,8 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.dominio.AvanceDM;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
+import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
+import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
+import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -50,20 +54,32 @@ public class FXMLEstudianteController implements Initializable, Dashboard {
     private void clicConsultarAvance(MouseEvent event) {
         try {
             Estudiante estudianteLogueado = EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername());
-            if (estudianteLogueado != null) {
-                Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
-                FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                        getResource("vista/FXMLConsultarAvance.fxml"));
-                Parent vista = cargador.load();
-                FXMLConsultarAvanceController controlador = cargador.getController();
-                controlador.inicializarInformacion(estudianteLogueado, "Estudiante");
-                Scene escenaPrincipal = new Scene(vista);
-                escenarioBase.setScene(escenaPrincipal);
-                escenarioBase.setTitle("Consultar Avance");
-                escenarioBase.show();
+            PeriodoEscolar periodoActual = PeriodoEscolarDAO.obtenerPeriodoEscolarActual();
+            if (estudianteLogueado != null && periodoActual != null) {
+                ResultadoOperacion resultado = AvanceDM.verificarExistenciaDeEntregas(estudianteLogueado.getId(),
+                        periodoActual.getId());
+                if (!resultado.isError()) {
+                    Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+                    FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                            getResource("vista/FXMLConsultarAvance.fxml"));
+                    Parent vista = cargador.load();
+                    FXMLConsultarAvanceController controlador = cargador.getController();
+                    controlador.inicializarInformacion(estudianteLogueado, "Estudiante", periodoActual, estudiante);
+                    Scene escenaPrincipal = new Scene(vista);
+                    escenarioBase.setScene(escenaPrincipal);
+                    escenarioBase.setTitle("Consultar Avance");
+                    escenarioBase.show();
+                }else{
+                    Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Sin Entregas",
+                            resultado.getMensaje());
+                }
             }else{
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Estudiante no encontrado",
-                    "No se encontró un registro de estudiante para la matrícula " + estudiante.getUsername());
+                if (estudianteLogueado == null) {
+                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Datos", "No se encontró el perfil del estudiante.");
+                }
+                if (periodoActual == null) {
+                    Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Sistema", "No hay un periodo escolar activo configurado.");
+                }            
             }
         } catch(SQLException ex){
              Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Sin conexión",

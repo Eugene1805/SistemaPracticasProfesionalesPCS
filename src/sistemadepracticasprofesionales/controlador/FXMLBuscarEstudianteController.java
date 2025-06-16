@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.dominio.AvanceDM;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.ExperienciaEducativaDAO;
 import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
@@ -28,6 +29,7 @@ import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.ExperienciaEducativa;
 import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
 import sistemadepracticasprofesionales.modelo.pojo.Profesor;
+import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -141,21 +143,37 @@ public class FXMLBuscarEstudianteController implements Initializable {
     private void btnClicAceptar(ActionEvent event) {
         Estudiante estudianteSeleccionado = tvEstudiantes.getSelectionModel().getSelectedItem();
         if(estudianteSeleccionado != null){
-            abrirConsultarAvance(estudianteSeleccionado);
+            try {
+                PeriodoEscolar periodoActual = PeriodoEscolarDAO.obtenerPeriodoEscolarActual();
+                if (periodoActual != null) {
+                    ResultadoOperacion resultado = AvanceDM.verificarExistenciaDeEntregas(
+                            estudianteSeleccionado.getId(), periodoActual.getId());
+                    if (!resultado.isError()) {
+                        abrirConsultarAvance(estudianteSeleccionado, periodoActual);
+                    }else{
+                        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Sin Entregas",
+                                resultado.getMensaje());
+                    }
+                    
+                }
+            } catch (SQLException e) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", 
+                        "No se pudo verificar el expediente.");
+            }
         }else{
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin selección", 
                   "Por favor, seleccione un estudiante de la tabla.");  
         }
     }
 
-    private void abrirConsultarAvance(Estudiante estudianteSeleccionado) {
+    private void abrirConsultarAvance(Estudiante estudianteSeleccionado, PeriodoEscolar periodoActual) {
         try {
             Stage escenarioBase = Utilidad.obtenerEscenario(tvEstudiantes);
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
                         getResource("vista/FXMLConsultarAvance.fxml"));
             Parent vista = cargador.load();
             FXMLConsultarAvanceController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudianteSeleccionado, "Profesor");
+            controlador.inicializarInformacion(estudianteSeleccionado, "Profesor", periodoActual, profesorUsuario);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Consultar Avance");
