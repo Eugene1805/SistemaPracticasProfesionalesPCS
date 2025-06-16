@@ -3,6 +3,8 @@ package sistemadepracticasprofesionales.modelo.pojo;
 /**
  *
  * @author Nash
+ * Fecha: 4/06/2025
+ * Descripcion: POJO que modela un Profesor
  */
 public class Profesor {
     private int idProfesor;

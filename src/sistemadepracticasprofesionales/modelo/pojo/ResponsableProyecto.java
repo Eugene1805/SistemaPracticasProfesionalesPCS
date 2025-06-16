@@ -7,7 +7,7 @@ package sistemadepracticasprofesionales.modelo.pojo;
 /**
  *
  * @author Nash
- * Fecha: 10/06/2025
+ * Fecha: 04/06/2025
  * Descripción: POJO que modela un Responsable del Proyecto
  */
 public class ResponsableProyecto {

@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemadepracticasprofesionales.modelo.pojo;
 
 /**
- *
  * @author Nash
+ * Fecha: 4/06/2025
+ * Descripcion: POJO que modela un Expedientede un Estudiante de practicas profesionales
  */
 public class Expediente {
     private int idExpediente;

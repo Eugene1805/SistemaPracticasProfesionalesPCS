@@ -28,6 +28,9 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, que sirve de puente para indicar
+ * el tipo de entrega que se deberá programar
  */
 public class FXMLProgramarEntregasController implements Initializable {
 

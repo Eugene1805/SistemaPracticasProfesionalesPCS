@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package sistemadepracticasprofesionales.controlador;
 
 import java.net.URL;
@@ -32,6 +28,9 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextVal
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 06/06/2025
+ * Descripción: Gestiona las interacciones entre la vista y el DAO de Responsable Proyecto para poder hacer 
+ * registros de un Responsable del Proyecto en el formulario mostrado en la vista
  */
 public class FXMLRegistrarResponsableController implements Initializable {
 

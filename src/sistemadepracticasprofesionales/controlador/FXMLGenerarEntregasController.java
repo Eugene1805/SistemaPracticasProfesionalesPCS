@@ -39,6 +39,9 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextVal
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, donde se programarán una por una los diferentes
+ * tipos de entregas que puede haber en el sistema
  */
 public class FXMLGenerarEntregasController implements Initializable {
 

@@ -44,6 +44,9 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, para mostrar todo el avance de las entregas 
+ * del estudiante dado, permitiendo la descarga de los archivos entregados.
  */
 public class FXMLConsultarAvanceController implements Initializable {
     @FXML

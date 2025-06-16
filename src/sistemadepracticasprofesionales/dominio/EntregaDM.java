@@ -8,6 +8,9 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 /**
  *
  * @author Nash
+ * Fecha: 12/06/2025
+ * Descricpión: Clase para gestionar las reglas de negocio relacionadas a la programación de los diferentes tipos
+ * de entregas que puede haber en el sistema
  */
 public class EntregaDM {
     public static ResultadoOperacion verificarFechasEntrega(LocalDate fechaInicio, LocalDate fechaFin, PeriodoEscolar periodo){
