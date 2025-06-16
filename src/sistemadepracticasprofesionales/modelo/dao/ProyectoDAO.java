@@ -83,7 +83,16 @@ public class ProyectoDAO {
             PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
             ResultSet resultado = sentencia.executeQuery();
             while(resultado.next()){
-                proyectosConCupoDisponible.add(convertirProyecto(resultado));
+                Proyecto proyecto = new Proyecto();
+                proyecto.setIdProyecto(resultado.getInt("id_proyecto"));
+                proyecto.setNombre(resultado.getString("nombre"));
+                proyecto.setDescripcion(resultado.getString("descripcion"));
+                proyecto.setEstado(EstadoProyecto.valueOf(resultado.getString("estado")));
+                proyecto.setCupo(resultado.getInt("cupo"));
+                proyecto.setFechaInicio(resultado.getString("fecha_inicio"));
+                proyecto.setFechaFin(resultado.getString("fecha_fin"));
+                proyecto.setIdOrganizacionVinculada(resultado.getInt("id_organizacion_vinculada"));
+                proyecto.setNombreOrganizacionVinculada(resultado.getString("nombre_organizacion"));
             }
             conexionBD.close();
         }else{
