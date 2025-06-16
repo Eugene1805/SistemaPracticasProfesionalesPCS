@@ -74,25 +74,15 @@ public class ProyectoDAO {
         Connection conexionBD = ConexionBD.abrirConexion();
         if(conexionBD != null){
             String consulta = "SELECT p.id_proyecto, p.nombre, p.descripcion, p.estado, p.cupo, "
-                + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, ov.razon_social AS nombre_organizacion, "
-                + "(SELECT COUNT(*) FROM estudiante e WHERE e.id_proyecto = p.id_proyecto) AS estudiantes_asignados "
+                + "p.fecha_inicio, p.fecha_fin, p.id_organizacion_vinculada, ov.razon_social AS nombre_organizacion "
                 + "FROM proyecto p "
                 + "INNER JOIN organizacion_vinculada ov ON p.id_organizacion_vinculada = ov.id_organizacion_vinculada "
                 + "WHERE p.estado = 'Activo' "
-                + "HAVING estudiantes_asignados < p.cupo";
+                + "HAVING p.cupo > 0";
             PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
             ResultSet resultado = sentencia.executeQuery();
             while(resultado.next()){
-                Proyecto proyecto = new Proyecto();
-                proyecto.setIdProyecto(resultado.getInt("id_proyecto"));
-                proyecto.setNombre(resultado.getString("nombre"));
-                proyecto.setDescripcion(resultado.getString("descripcion"));
-                proyecto.setEstado(EstadoProyecto.valueOf(resultado.getString("estado")));
-                proyecto.setCupo(resultado.getInt("cupo"));
-                proyecto.setFechaInicio(resultado.getString("fecha_inicio"));
-                proyecto.setFechaFin(resultado.getString("fecha_fin"));
-                proyecto.setIdOrganizacionVinculada(resultado.getInt("id_organizacion_vinculada"));
-                proyecto.setNombreOrganizacionVinculada(resultado.getString("nombre_organizacion"));
+                proyectosConCupoDisponible.add(convertirProyecto(resultado));
             }
             conexionBD.close();
         }else{
@@ -112,8 +102,6 @@ public class ProyectoDAO {
         proyecto.setFechaFin(resultado.getString("fecha_fin"));
         proyecto.setIdOrganizacionVinculada(resultado.getInt("id_organizacion_vinculada"));
         proyecto.setNombreOrganizacionVinculada(resultado.getString("nombre_organizacion"));
-        proyecto.setIdResponsableProyecto(resultado.getInt("id_responsable_proyecto"));
-        proyecto.setNombreResponsableProyecto(resultado.getString("nombre_responsable"));
 
         return proyecto;
     }
