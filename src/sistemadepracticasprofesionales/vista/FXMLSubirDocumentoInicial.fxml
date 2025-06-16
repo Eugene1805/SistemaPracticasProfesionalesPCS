@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600" prefWidth="850" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLSubirDocumentoInicialController">
+   <children>
+   
+       <!-- Botón Back -->
+       <Button fx:id="btnBack" layoutX="15" layoutY="15" prefWidth="70" text="Back" />
+   
+       <!-- Título -->
+       <Label layoutX="100" layoutY="15" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Subir Documentos Iniciales" />
+   
+       <!-- Imagen y Datos del estudiante -->
+       <ImageView fx:id="imgPerfil" fitHeight="100" fitWidth="100" layoutX="15" layoutY="60" />
+   
+       <Label fx:id="lblNombreEstudiante" layoutX="130" layoutY="60" text="Juan Pérez Rodríguez" />
+       <Label fx:id="lblMatriculaEstudiante" layoutX="130" layoutY="80" text="zs20015055" />
+   
+       <!-- Periodo Escolar -->
+       <Label fx:id="lblPeriodoEscolar" layoutX="400" layoutY="60" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="PERIODO ESCOLAR FEBRERO-JULIO 2025" />
+       <Label fx:id="lblHorasAcumuladas" layoutX="400" layoutY="80" text="0 de 420" />
+       <ProgressBar fx:id="barraProgresoHoras" layoutX="400" layoutY="100" prefWidth="300" progress="0.0" />
+   
+       <!-- Subtítulo -->
+       <Label layoutX="15" layoutY="180" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Documentos Iniciales" />
+   
+       <!-- Tabla -->
+       <TableView fx:id="tablaEntregas" layoutX="15" layoutY="210" prefHeight="300" prefWidth="820">
+           <columns>
+               <TableColumn fx:id="colTitulo" prefWidth="198.0" text="Título" />
+               <TableColumn fx:id="colFechaInicio" prefWidth="143.0" text="Fecha de Inicio" />
+               <TableColumn fx:id="colFechaFin" prefWidth="164.0" text="Fecha de Fin" />
+               <TableColumn fx:id="colDescripcion" prefWidth="215.0" text="Descripción" />
+               <TableColumn fx:id="colSubirPDF" prefWidth="99.0" text="PDF" />
+           </columns>
+       </TableView>
+   
+       <!-- Botón Salir -->
+       <Button fx:id="btnSalir" layoutX="735" layoutY="530" prefWidth="100" text="Salir" />
+   </children>
+
+</AnchorPane>
