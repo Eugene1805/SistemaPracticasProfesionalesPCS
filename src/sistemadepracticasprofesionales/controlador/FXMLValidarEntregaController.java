@@ -118,7 +118,7 @@ public class FXMLValidarEntregaController implements Initializable {
             if (archivoBytes != null) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Guardar Archivo");
-                fileChooser.setInitialFileName(entregaAValidar.getTitulo() + ".docx"); 
+                fileChooser.setInitialFileName(entregaAValidar.getTitulo() + ".pdf"); 
                 File archivo = fileChooser.showSaveDialog(Utilidad.obtenerEscenario(lbNombreDocumento));
                 if (archivo != null) {
                     try (FileOutputStream fos = new FileOutputStream(archivo)) {

@@ -109,6 +109,7 @@ public class FXMLAsignarProyectosController implements Initializable {
             proyectos.addAll(ProyectoDAO.obtenerProyectosConCupoDisponible());
             cbProyectos.setItems(proyectos);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar los proyectos");
         
@@ -175,6 +176,7 @@ public class FXMLAsignarProyectosController implements Initializable {
             lbOrganizacionVinculada.setText("Organizacion vinculada " + proyectoSeleccionado.getNombreOrganizacionVinculada());
             lbCuposDisponibles.setText("Cupos disponibles: " + String.valueOf(proyectoSeleccionado.getCupo()));
         } catch (SQLException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar la informacion del proyecto");
         }

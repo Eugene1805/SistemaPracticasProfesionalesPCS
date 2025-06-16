@@ -86,25 +86,63 @@ public class FXMLActualizarProyectoController implements Initializable {
 
     public void inicializarFormulario(Proyecto proyecto) {
         this.proyectoActual = proyecto;
+        
+        System.out.println("Cargando proyecto:");
+        System.out.println("Nombre: " + proyecto.getNombre());
+        System.out.println("Descripción: " + proyecto.getDescripcion());
+        System.out.println("Cupo: " + proyecto.getCupo());
+        System.out.println("Fecha inicio: " + proyecto.getFechaInicio());
+        System.out.println("Fecha fin: " + proyecto.getFechaFin());
+        System.out.println("Estado: " + proyecto.getEstado());
+        System.out.println("ID Organización: " + proyecto.getIdOrganizacionVinculada());
+        System.out.println("ID Responsable: " + proyecto.getIdResponsableProyecto());
 
-        tfNombre.setText(proyecto.getNombre());
-        tfDescripcion.setText(proyecto.getDescripcion());
-        tfCupo.setText(String.valueOf(proyecto.getCupo()));
-        if (proyecto.getFechaInicio() != null && !proyecto.getFechaInicio().trim().isEmpty()) {
-            dpFechaInicio.setValue(LocalDate.parse(proyecto.getFechaInicio()));
+        if (proyecto.getNombre() != null) {
+            tfNombre.setText(proyecto.getNombre());
         }
 
-        if (proyecto.getFechaFin() != null && !proyecto.getFechaFin().trim().isEmpty()) {
-            dpFechaFin.setValue(LocalDate.parse(proyecto.getFechaFin()));
+        if (proyecto.getDescripcion() != null) {
+            tfDescripcion.setText(proyecto.getDescripcion());
         }
 
-        cbEstado.setValue(proyecto.getEstado());
-        cbOrganizacionVinculada.getSelectionModel().select(
+        if (proyecto.getCupo() > 0) {
+            tfCupo.setText(String.valueOf(proyecto.getCupo()));
+        }
+
+        if (proyecto.getFechaInicio() != null && !proyecto.getFechaInicio().isEmpty()) {
+            try {
+                dpFechaInicio.setValue(LocalDate.parse(proyecto.getFechaInicio()));
+            } catch (Exception e) {
+                dpFechaInicio.setValue(null);
+            }
+        }
+
+        if (proyecto.getFechaFin() != null && !proyecto.getFechaFin().isEmpty()) {
+            try {
+                dpFechaFin.setValue(LocalDate.parse(proyecto.getFechaFin()));
+            } catch (Exception e) {
+                dpFechaFin.setValue(null);
+            }
+        }
+
+        if (proyecto.getEstado() != null) {
+            cbEstado.setValue(proyecto.getEstado());
+        }
+
+        // Selección de organización vinculada
+        if (listaOrganizaciones != null) {
+            cbOrganizacionVinculada.getSelectionModel().select(
                 listaOrganizaciones.stream()
                     .filter(org -> org.getId() == proyecto.getIdOrganizacionVinculada())
                     .findFirst().orElse(null)
-        );
+            );
+        }
+
+        // El responsable del proyecto se carga cuando se selecciona la organización,
+        // por eso no se hace aquí directamente (se maneja en el listener)
     }
+
+
 
     private void cargarOrganizaciones() {
         try {
