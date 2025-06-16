@@ -97,14 +97,20 @@ public class FXMLProgramarEntregasController implements Initializable {
     
     @FXML
     private void btnClicEntregaFinales(ActionEvent event) {
+        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Funcionalidad en desarrollo",
+                "La funcionalidad de este apartado sigue en desarrollo");
     }
 
     @FXML
     private void btnClicEntregaIntermedios(ActionEvent event) {
+        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Funcionalidad en desarrollo",
+                "La funcionalidad de este apartado sigue en desarrollo");
     }
 
     @FXML
     private void btnClicEntregaReportes(ActionEvent event) {
+        Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Funcionalidad en desarrollo",
+                "La funcionalidad de este apartado sigue en desarrollo");
     }
     
 }
