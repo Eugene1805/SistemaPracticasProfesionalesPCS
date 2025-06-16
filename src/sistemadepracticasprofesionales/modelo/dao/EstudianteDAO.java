@@ -267,9 +267,6 @@ public class EstudianteDAO {
     Connection conexionBD = ConexionBD.abrirConexion();
     if (conexionBD != null) {
         
-        // --- CONSULTA CORREGIDA Y COMPLETA ---
-        // Se añaden los LEFT JOIN con periodo_escolar y experiencia_educativa para obtener
-        // todas las columnas que el método convertirEstudiante() espera.
         String consulta = "SELECT e.id_estudiante, e.nombre, e.apellido_paterno, e.apellido_materno, e.matricula, " +
                           "e.correo_institucional, e.id_periodo_escolar, pe.nombre_periodo AS periodo_escolar, " +
                           "e.id_experiencia_educativa, ee.nrc AS nrc_experiencia_educativa, " +
@@ -287,7 +284,6 @@ public class EstudianteDAO {
 
             try (ResultSet resultado = sentencia.executeQuery()) {
                 while (resultado.next()) {
-                    // La llamada a convertirEstudiante ahora funcionará sin errores.
                     estudiantes.add(convertirEstudiante(resultado));
                 }
             }
@@ -299,4 +295,29 @@ public class EstudianteDAO {
     }
     return estudiantes;
     }
+    
+    public static byte [] obtenerFotoEstudiante(int idEstudiante) throws SQLException{
+        byte[] foto = null;
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if (conexionBD != null) {
+            String consulta = "SELECT foto FROM estudiante WHERE id_estudiante = ?";
+            try (PreparedStatement sentencia = conexionBD.prepareStatement(consulta)){
+                sentencia.setInt(1, idEstudiante);
+                try (ResultSet resultado = sentencia.executeQuery()){
+                    if (resultado.next()) {
+                        foto=resultado.getBytes("foto");
+                      
+                    }
+                    
+                } 
+            } finally {
+                conexionBD.close();
+            }
+         
+        } else{
+            throw new SQLException("No hay conexión con la base de datos");
+        }
+        return foto;
+    }
+    
 }

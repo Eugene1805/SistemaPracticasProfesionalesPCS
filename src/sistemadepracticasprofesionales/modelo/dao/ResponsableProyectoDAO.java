@@ -17,6 +17,8 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 /**
  *
  * @author Nash
+ * Fecha: 2/06/2025
+ * Descripción: DAO para el acceso a la base de datos con metodos relacionados a un Responsable del Proyecto
  */
 public class ResponsableProyectoDAO {
     public static ResultadoOperacion registrarResponsableProyecto(ResponsableProyecto responsable) throws  SQLException{

@@ -10,6 +10,8 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
 /**
  *
  * @author Nash
+ * Fecha: 30/05/2025
+ * Descripcióm Estrategia de validacion utilizada para validar DatePickers
  */
 public class DateValidationStrategy implements IEstrategiaValidacion<DatePicker>{
     private final boolean obligatorio;

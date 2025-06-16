@@ -69,15 +69,17 @@ public class FXMLProfesorController implements Initializable, Dashboard {
                     escenarioBase.show();
                 } catch (IOException e) {
                     Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
-                            "No se pudo abrir la ventana de consultar avance.");
+                            "No se pudo abrir la ventana de búsqueda de estudiantes.");
                 }
             }else {
                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Profesor no encontrado",
                         "No se encontró un registro de profesor para el usuario " + profesor.getUsername()); 
+            //cAMBIAR MENSAJE
             }
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
                     "No se pudo consultar la información del profesor.");
+            //Cambiar mensaje
         }
     }
 

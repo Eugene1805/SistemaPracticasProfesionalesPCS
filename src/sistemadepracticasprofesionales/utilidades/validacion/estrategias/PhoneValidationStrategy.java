@@ -10,10 +10,12 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
 /**
  *
  * @author Nash
+ * Fecha: 30/05/2025
+ * Descripción: Estrategia de validacion utilizada para validar campos que soliciten un teléfono celular
  */
 public class PhoneValidationStrategy implements IEstrategiaValidacion<TextInputControl>{
- private final int longitudMaxima;                                                   // porque es padre de los
-    private final boolean obligatorio;                                                  //controles que reciben texto
+ private final int longitudMaxima;                                                   
+    private final boolean obligatorio;                                                  
 
     public PhoneValidationStrategy(int longitudMaxima, boolean obligatorio) {
         this.longitudMaxima = longitudMaxima;

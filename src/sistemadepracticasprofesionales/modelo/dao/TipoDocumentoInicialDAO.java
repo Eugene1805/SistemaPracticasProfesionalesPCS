@@ -14,6 +14,8 @@ import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
 /**
  *
  * @author Nash
+ * Fecha: 12/06/2025
+ * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a los Tipos de documentos iniciales
  */
 public class TipoDocumentoInicialDAO {
     

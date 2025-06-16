@@ -13,6 +13,8 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 /**
  *
  * @author Nash
+ * Fecha: 12/06/2025
+ * Descricpión: Reglas de negocio necesarias para guardar le evaluacion del estudiante a la Organizacion vinculada
  */
 public class AvanceDM {
         public static ResultadoOperacion verificarExistenciaDeEntregas(int idEstudiante, int idPeriodoEscolar) {

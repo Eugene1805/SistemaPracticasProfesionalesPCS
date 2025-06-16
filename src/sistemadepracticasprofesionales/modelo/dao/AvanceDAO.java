@@ -14,6 +14,8 @@ import sistemadepracticasprofesionales.modelo.pojo.AvanceEntrega;
 /**
  *
  * @author Nash
+ * Fecha: 12/06/2025
+ * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a los avances que llevan los estudiantes
  */
 public class AvanceDAO {
      private static List<AvanceEntrega> obtenerAvanceGenerico(int idEstudiante, int idPeriodoEscolar, String tipoEntrega, String tablaDocumento, String idColumnaDocumento) throws SQLException {
@@ -27,7 +29,7 @@ public class AvanceDAO {
                 "JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
                 "JOIN %s doc ON ed.%s = doc.%s " +
                 "LEFT JOIN observacion obs ON ed.id_observacion = obs.id_observacion " +
-                "WHERE exp.id_estudiante = ? AND exp.id_periodo_escolar = ? AND ed.tipo_entrega = ?", // Filtro por periodo añadido
+                "WHERE exp.id_estudiante = ? AND exp.id_periodo_escolar = ? AND ed.tipo_entrega = ? AND exp.estado = 'Activo'", 
                 idColumnaDocumento, tablaDocumento, idColumnaDocumento, idColumnaDocumento
             );
             try (PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
@@ -56,7 +58,7 @@ public class AvanceDAO {
                     "JOIN expediente exp ON er.id_expediente = exp.id_expediente " +
                     "JOIN reporte r ON er.id_reporte = r.id_reporte " +
                     "LEFT JOIN observacion obs ON er.id_observacion = obs.id_observacion " +
-                    "WHERE exp.id_estudiante = ? AND exp.id_periodo_escolar = ?";
+                    "WHERE exp.id_estudiante = ? AND exp.id_periodo_escolar = ? AND exp.estado = 'Activo'";
             try(PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
                 sentencia.setInt(1, idEstudiante);
                 sentencia.setInt(2, idPeriodoEscolar);
@@ -82,7 +84,7 @@ public class AvanceDAO {
         if ("REPORTE".equalsIgnoreCase(tipo)) {
             tabla = "reporte";
             columnaId = "id_reporte";
-        } else { // Si es DOCUMENTO
+        } else {
             switch (subtipo.toUpperCase()) {
                 case "INICIAL":
                     tabla = "documento_inicial";

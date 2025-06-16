@@ -3,6 +3,8 @@ package sistemadepracticasprofesionales.modelo.pojo;
 /**
  *
  * @author Nash
+ * Fecha: 12/06/2025
+ * Descripcion: Clase para modelar los datos de una entrega y sus relaciones
  */
 public class AvanceEntrega {
     private int idEntrega;

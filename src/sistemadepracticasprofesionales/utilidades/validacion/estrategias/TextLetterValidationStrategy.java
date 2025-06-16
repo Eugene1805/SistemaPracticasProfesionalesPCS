@@ -10,10 +10,13 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
 /**
  *
  * @author Nash
+ * Fecha: 30/05/2025
+ * Descripción: Estrategia de validacion utilizada para validar campos de texto util, para campos que no deseo
+ * sean vacios, con una longitud maxima definida en la base de datos y que solo puedan ingresarse caracteres alfabéticos
  */
 public class TextLetterValidationStrategy implements IEstrategiaValidacion<TextInputControl>{
- private final int longitudMaxima;                                                   // porque es padre de los
-    private final boolean obligatorio;                                                  //controles que reciben texto
+    private final int longitudMaxima;                                                   
+    private final boolean obligatorio;                                                  
 
     public TextLetterValidationStrategy(int longitudMaxima, boolean obligatorio) {
         this.longitudMaxima = longitudMaxima;

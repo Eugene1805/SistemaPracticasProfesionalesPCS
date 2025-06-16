@@ -7,6 +7,8 @@ package sistemadepracticasprofesionales.modelo.pojo;
 /**
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripcion: Enum para recuperar en las operaciones de  de Proyecto en el atributo de "estado".
  */
 public enum TipoDocumentoInicial {
     OFICIO_DE_ASIGNACION("Oficio De Asignacion"),

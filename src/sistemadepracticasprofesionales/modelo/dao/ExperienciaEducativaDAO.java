@@ -10,6 +10,8 @@ import sistemadepracticasprofesionales.modelo.pojo.ExperienciaEducativa;
 /**
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a una Experiencia Educativa
  */
 public class ExperienciaEducativaDAO {
     public static ExperienciaEducativa obtenerEEPorProfesor(int idProfesor) throws SQLException {

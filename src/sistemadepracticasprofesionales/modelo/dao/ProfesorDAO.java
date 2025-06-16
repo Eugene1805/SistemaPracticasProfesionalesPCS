@@ -14,6 +14,8 @@ import sistemadepracticasprofesionales.modelo.pojo.Profesor;
 /**
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a un Profesor
  */
 public class ProfesorDAO {
     public static Profesor obtenerProfesorPorUsername(String username) throws SQLException{
