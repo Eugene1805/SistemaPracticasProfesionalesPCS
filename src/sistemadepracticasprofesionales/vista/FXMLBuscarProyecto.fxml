@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLBuscarProyectoController">
+   <children>
+      <AnchorPane prefHeight="81.0" prefWidth="600.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Button layoutX="499.0" layoutY="30.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2; -fx-cursor: hand;" text="Regresar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label layoutX="42.0" layoutY="28.0" text="Buscar Proyecto" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <TextField fx:id="tfBuscar" layoutX="42.0" layoutY="152.0" prefHeight="31.0" prefWidth="241.0" promptText="Buscar Proyecto" />
+      <Button fx:id="btnBuscar" layoutX="504.0" layoutY="155.0" mnemonicParsing="false" onAction="#btnClicBuscar" style="-fx-background-color: #487BB1;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="418.0" layoutY="365.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="504.0" layoutY="365.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tvProyecto" layoutX="42.0" layoutY="219.0" prefHeight="81.0" prefWidth="516.0">
+        <columns>
+          <TableColumn fx:id="tcNombre" prefWidth="240.0" text="Nombre" />
+          <TableColumn fx:id="tcCupo" prefWidth="141.0" text="Cupo" />
+            <TableColumn fx:id="tcEstado" prefWidth="134.0" text="Estado" />
+        </columns>
+      </TableView>
+      <Label layoutX="42.0" layoutY="97.0" text="Ingrese el nombre del Proyecto a Recuperar:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

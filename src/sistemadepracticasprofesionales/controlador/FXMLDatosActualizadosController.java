@@ -1,0 +1,94 @@
+package sistemadepracticasprofesionales.controlador;
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.modelo.dao.ProyectoDAO;
+import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
+import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.utilidades.Utilidad;
+
+/**
+ * FXML Controller class
+ *
+ * @author meler
+ */
+public class FXMLDatosActualizadosController implements Initializable {
+
+    @FXML private Label lblNombre;
+    @FXML private TextArea taDescripcion;
+    @FXML private Label lblEstado;
+    @FXML private Label lblCupo;
+    @FXML private Label lblFechaInicio;
+    @FXML private Label lblFechaFin;
+    @FXML private Label lblOrganizacion;
+    @FXML private Label lblResponsable;
+    @FXML private Button btnAceptar;
+    @FXML private Button btnCancelar;
+
+    private Proyecto proyecto;
+    
+    private Stage escenarioPadre;
+
+    public void setEscenarioPadre(Stage escenarioPadre) {
+        this.escenarioPadre = escenarioPadre;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // No requiere lógica de inicio adicional
+    }
+
+    public void inicializarProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+
+        lblNombre.setText("Nombre: " + proyecto.getNombre());
+        taDescripcion.setText(proyecto.getDescripcion());
+        lblEstado.setText("Estado: " + proyecto.getEstado());
+        lblCupo.setText("Cupo: " + proyecto.getCupo());
+        lblFechaInicio.setText("Fecha de Inicio: " + proyecto.getFechaInicio());
+        lblFechaFin.setText("Fecha de Fin: " + proyecto.getFechaFin());
+        lblOrganizacion.setText("Organización Vinculada: " + proyecto.getNombreOrganizacionVinculada());
+        lblResponsable.setText("Responsable del Proyecto: " + proyecto.getNombreResponsableProyecto());
+    }
+
+    @FXML
+    private void btnClicAceptar(ActionEvent event) {
+        try {
+            ResultadoOperacion resultado = ProyectoDAO.actualizarProyecto(proyecto);
+            if (!resultado.isError()) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION,
+                        "Operación Exitosa", "Los datos se actualizaron correctamente.");
+
+                // Cerrar esta ventana de confirmación
+                Stage ventanaActual = (Stage) btnAceptar.getScene().getWindow();
+                ventanaActual.close();
+
+                // Cerrar la ventana padre si está disponible
+                if (escenarioPadre != null) {
+                    escenarioPadre.close();
+                }
+
+                // Regresar a la búsqueda de proyectos
+                Utilidad.abrirVentana("BuscarProyecto", btnAceptar);
+            } else {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,
+                        "Error", resultado.getMensaje());
+            }
+        } catch (SQLException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,
+                    "Error de base de datos", "No fue posible guardar los cambios.");
+        }
+    }
+
+    @FXML
+    private void btnClicCancelar(ActionEvent event) {
+        Stage ventana = (Stage) btnCancelar.getScene().getWindow();
+        ventana.close();
+    }
+}

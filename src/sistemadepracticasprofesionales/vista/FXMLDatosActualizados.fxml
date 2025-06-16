@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" 
+            xmlns="http://javafx.com/javafx/8" 
+            fx:controller="sistemadepracticasprofesionales.controlador.FXMLDatosActualizadosController"
+            prefWidth="600" prefHeight="460"
+            style="-fx-background-color: #F5F7FA;">
+  
+  <children>
+    <AnchorPane prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #487BB1;">
+      <children>
+        <Label layoutX="20.0" layoutY="15.0" text="Confirmar Actualización de Proyecto" textFill="WHITE">
+          <font>
+            <Font name="Segoe UI Bold" size="20.0"/>
+          </font>
+        </Label>
+      </children>
+    </AnchorPane>
+
+    <VBox layoutX="30.0" layoutY="80.0" spacing="10.0">
+      <children>
+        <Label fx:id="lblNombre" text="Nombre: "/>
+        <TextArea fx:id="taDescripcion" prefHeight="60.0" wrapText="true" promptText="Descripción" editable="false"/>
+        <Label fx:id="lblEstado" text="Estado: "/>
+        <Label fx:id="lblCupo" text="Cupo: "/>
+        <Label fx:id="lblFechaInicio" text="Fecha de Inicio: "/>
+        <Label fx:id="lblFechaFin" text="Fecha de Fin: "/>
+        <Label fx:id="lblOrganizacion" text="Organización Vinculada: "/>
+        <Label fx:id="lblResponsable" text="Responsable del Proyecto: "/>
+      </children>
+    </VBox>
+
+    <HBox layoutX="400.0" layoutY="400.0" spacing="10.0">
+      <children>
+        <Button fx:id="btnAceptar" text="Aceptar" onAction="#btnClicAceptar"
+                style="-fx-background-color: #A6C2E2;" textFill="WHITE"/>
+        <Button fx:id="btnCancelar" text="Cancelar" onAction="#btnClicCancelar"
+                style="-fx-background-color: #A6C2E2;" textFill="WHITE"/>
+      </children>
+    </HBox>
+
+  </children>
+</AnchorPane>
+    

@@ -46,7 +46,7 @@ public class ConexionBD {
             credentials[0] = properties.getProperty("DB_URL");
             credentials[1] = properties.getProperty("DB_USER");
             credentials[2] = properties.getProperty("DB_PASSWORD");
-
+            
         } catch (IOException ex) {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
         }

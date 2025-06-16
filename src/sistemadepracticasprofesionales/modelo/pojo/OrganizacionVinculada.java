@@ -104,4 +104,9 @@ public class OrganizacionVinculada {
     public void setNumeroUsuariosIndirectos(int numeroUsuariosIndirectos) {
         this.numeroUsuariosIndirectos = numeroUsuariosIndirectos;
     }
+    
+    @Override
+    public String toString() {
+        return razonSocial;
+    }
 }

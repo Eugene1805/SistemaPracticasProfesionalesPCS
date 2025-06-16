@@ -83,7 +83,7 @@ public class FXMLAsignarProyectosController implements Initializable {
                     "¿Estás seguro de que deseas continuar?");
             Optional<ButtonType> resultado = alerta.showAndWait();
             if(resultado.get() == ButtonType.APPLY){
-                guardarAsignacion(obtenerEstudianteSeleccionado().getId(), obtenerProyectoSeleccionado().getId());
+                guardarAsignacion(obtenerEstudianteSeleccionado().getId(), obtenerProyectoSeleccionado().getIdProyecto());
             }
         }else{
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING,"Datos invalidos",
@@ -133,7 +133,7 @@ public class FXMLAsignarProyectosController implements Initializable {
             public void changed(ObservableValue<? extends Proyecto> observable, Proyecto oldValue,
                                                                                 Proyecto newValue) {
                 if(newValue != null){
-                    cargarInformacionProyecto(newValue.getId());
+                    cargarInformacionProyecto(newValue.getIdProyecto());
                 }
             }
         });

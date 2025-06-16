@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import sistemadepracticasprofesionales.modelo.ConexionBD;
 import sistemadepracticasprofesionales.modelo.pojo.ResponsableProyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
@@ -62,5 +64,37 @@ public class ResponsableProyectoDAO {
             throw new SQLException("No hay conexión");        
         }
         return false;
-    }   
+    }
+    
+    public static List<ResponsableProyecto> obtenerResponsablesPorOrganizacion(int idOrganizacion) throws SQLException {
+        List<ResponsableProyecto> responsables = new ArrayList<>();
+        Connection conexionBD = ConexionBD.abrirConexion();
+
+        if (conexionBD != null) {
+            String consulta = "SELECT id_responsable_proyecto, nombre, apellido_paterno, apellido_materno, correo "
+                            + "FROM responsable_proyecto WHERE id_organizacion_vinculada = ?";
+            PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
+            sentencia.setInt(1, idOrganizacion);
+            ResultSet resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                ResponsableProyecto responsable = new ResponsableProyecto();
+                responsable.setIdResponsable(resultado.getInt("id_responsable_proyecto"));
+                responsable.setNombre(resultado.getString("nombre"));
+                responsable.setApellidoPaterno(resultado.getString("apellido_paterno"));
+                responsable.setApellidoMaterno(resultado.getString("apellido_materno"));
+                responsable.setCorreo(resultado.getString("correo"));
+                responsables.add(responsable);
+            }
+
+            resultado.close();
+            sentencia.close();
+            conexionBD.close();
+        } else {
+            throw new SQLException("No hay conexión a la base de datos");
+        }
+
+        return responsables;
+    }
+
 }

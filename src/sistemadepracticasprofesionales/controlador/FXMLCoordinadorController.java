@@ -104,7 +104,7 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicActualizarProyecto(MouseEvent event) {
-        Utilidad.abrirVentana("ActualizarProyecto", lbUsuario);
+        Utilidad.abrirVentana("BuscarProyecto", lbUsuario);
     }
 
     @Override

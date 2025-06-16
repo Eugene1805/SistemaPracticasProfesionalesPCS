@@ -1,27 +1,31 @@
 package sistemadepracticasprofesionales.modelo.pojo;
 
+import sistemadepracticasprofesionales.modelo.enums.EstadoProyecto;
+
 /**
  *
- * @author eugen
- * Fecha:24/05/25
+ * @author meler
+ * Fecha:12/06/25
  * Descripcion: POJO que modela un Proyecto
  */
 public class Proyecto {
-    private int id;
+    private int idProyecto;
     private String nombre;
     private String descripcion;
-    private String estado;
+    private EstadoProyecto estado;
     private int cupo;
     private String fechaInicio;
     private String fechaFin;
     private int idOrganizacionVinculada;
     private String nombreOrganizacionVinculada;
+    private int idResponsableProyecto;
+    private String nombreResponsableProyecto;
 
     public Proyecto() {
     }
 
-    public Proyecto(int id, String nombre, String descripcion, String estado, int cupo, String fechaInicio, String fechaFin, int idOrganizacionVinculada, String nombreOrganizacionVinculada) {
-        this.id = id;
+    public Proyecto(int idProyecto, String nombre, String descripcion, EstadoProyecto estado, int cupo, String fechaInicio, String fechaFin, int idOrganizacionVinculada, String nombreOrganizacionVinculada, int idResponsableProyecto, String nombreResponsableProyecto) {
+        this.idProyecto = idProyecto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
@@ -30,14 +34,16 @@ public class Proyecto {
         this.fechaFin = fechaFin;
         this.idOrganizacionVinculada = idOrganizacionVinculada;
         this.nombreOrganizacionVinculada = nombreOrganizacionVinculada;
+        this.idResponsableProyecto = idResponsableProyecto;
+        this.nombreResponsableProyecto = nombreResponsableProyecto;
     }
 
-    public int getId() {
-        return id;
+    public int getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
     public String getNombre() {
@@ -56,11 +62,11 @@ public class Proyecto {
         this.descripcion = descripcion;
     }
 
-    public String getEstado() {
+    public EstadoProyecto getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoProyecto estado) {
         this.estado = estado;
     }
 
@@ -104,6 +110,22 @@ public class Proyecto {
         this.nombreOrganizacionVinculada = nombreOrganizacionVinculada;
     }  
 
+    public int getIdResponsableProyecto() {
+        return idResponsableProyecto;
+    }
+
+    public void setIdResponsableProyecto(int idResponsableProyecto) {
+        this.idResponsableProyecto = idResponsableProyecto;
+    }
+
+    public String getNombreResponsableProyecto() {
+        return nombreResponsableProyecto;
+    }
+
+    public void setNombreResponsableProyecto(String nombreResponsableProyecto) {
+        this.nombreResponsableProyecto = nombreResponsableProyecto;
+    }
+    
     @Override
     public String toString() {
         return  nombre;

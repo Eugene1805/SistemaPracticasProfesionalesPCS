@@ -107,5 +107,9 @@ public class ResponsableProyecto {
     public void setIdOrganizacionVinculada(int idOrganizacionVinculada) {
         this.idOrganizacionVinculada = idOrganizacionVinculada;
     }
-  
+    
+    @Override
+    public String toString() {
+        return nombre + " " + apellidoPaterno + " " + apellidoMaterno;
+    }
 }
