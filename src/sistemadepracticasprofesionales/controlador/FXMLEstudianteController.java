@@ -2,6 +2,7 @@ package sistemadepracticasprofesionales.controlador;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
+import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -45,7 +48,31 @@ public class FXMLEstudianteController implements Initializable, Dashboard {
 
     @FXML
     private void clicConsultarAvance(MouseEvent event) {
-        Utilidad.abrirVentana("ConsultarAvance", lbUsuario);
+        try {
+            Estudiante estudianteLogueado = EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername());
+            if (estudianteLogueado != null) {
+                Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+                FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                        getResource("vista/FXMLConsultarAvance.fxml"));
+                Parent vista = cargador.load();
+                FXMLConsultarAvanceController controlador = cargador.getController();
+                controlador.inicializarInformacion(estudianteLogueado, "Estudiante");
+                Scene escenaPrincipal = new Scene(vista);
+                escenarioBase.setScene(escenaPrincipal);
+                escenarioBase.setTitle("Consultar Avance");
+                escenarioBase.show();
+            }else{
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Estudiante no encontrado",
+                    "No se encontró un registro de estudiante para la matrícula " + estudiante.getUsername());
+            }
+        } catch(SQLException ex){
+             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Sin conexión",
+                    "No hay conexión con la base de datos");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la consulta de avance",
+                    "Lo sentimos no fue posible cargar la informacion del estudiante");
+        }
     }
 
     @FXML

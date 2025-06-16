@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import sistemadepracticasprofesionales.modelo.ConexionBD;
+import sistemadepracticasprofesionales.modelo.pojo.Expediente;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 
 /**
@@ -58,4 +59,35 @@ public class ExpedienteDAO {
         }
         return ids;
     }
+    
+    public static Expediente obtenerExpedientePorEstudiante(int idEstudiante) throws SQLException {
+        Expediente expediente = null;
+        Connection conexionBD = ConexionBD.abrirConexion();
+        if (conexionBD != null) {
+            String consulta = "SELECT id_expediente, horas_acomuladas, calificacion_documento, calificacion_evaluacion, calificacion_evaluacion_organizacion_vinculada, " +
+                              "calificacion_total, estado, id_periodo_escolar, id_evaluacion_organizacion, id_estudiante FROM expediente WHERE id_estudiante = ?";
+
+            try (PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
+                sentencia.setInt(1, idEstudiante);
+                try (ResultSet resultado = sentencia.executeQuery()) {
+                    if (resultado.next()) {
+                        expediente = new Expediente();
+                        expediente.setIdExpediente(resultado.getInt("id_expediente"));
+                        expediente.setHorasAcumuladas(resultado.getInt("horas_acomuladas"));
+                        expediente.setCalificacionDocumento((Float) resultado.getObject("calificacion_documento"));
+                        expediente.setCalificacionEvaluacion((Float) resultado.getObject("calificacion_evaluacion"));
+                        expediente.setCalificacionEvaluacionOrganizacionVinculada((Float) resultado.getObject("calificacion_evaluacion_organizacion_vinculada"));
+                        expediente.setCalificacionTotal((Float) resultado.getObject("calificacion_total"));
+                        expediente.setEstado(resultado.getString("estado"));
+                        expediente.setIdPeriodoEscolar(resultado.getInt("id_periodo_escolar"));
+                        expediente.setIdEvaluacionOrganizacion(resultado.getInt("id_evaluacion_organizacion"));
+                        expediente.setIdEstudiante(resultado.getInt("id_estudiante"));
+                    }
+                }
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return expediente;
+        }
 }

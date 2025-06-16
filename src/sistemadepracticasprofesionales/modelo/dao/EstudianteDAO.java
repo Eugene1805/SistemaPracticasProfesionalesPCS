@@ -261,4 +261,42 @@ public class EstudianteDAO {
         
         return estudiante;
     }
+    
+    public static List<Estudiante> obtenerEstudiantesPorProfesorYPeriodo(int idExperienciaEducativa, int idPeriodoEscolar) throws SQLException {
+    List<Estudiante> estudiantes = new ArrayList<>();
+    Connection conexionBD = ConexionBD.abrirConexion();
+    if (conexionBD != null) {
+        
+        // --- CONSULTA CORREGIDA Y COMPLETA ---
+        // Se añaden los LEFT JOIN con periodo_escolar y experiencia_educativa para obtener
+        // todas las columnas que el método convertirEstudiante() espera.
+        String consulta = "SELECT e.id_estudiante, e.nombre, e.apellido_paterno, e.apellido_materno, e.matricula, " +
+                          "e.correo_institucional, e.id_periodo_escolar, pe.nombre_periodo AS periodo_escolar, " +
+                          "e.id_experiencia_educativa, ee.nrc AS nrc_experiencia_educativa, " +
+                          "e.id_proyecto, p.nombre AS nombre_proyecto " +
+                          "FROM estudiante e " +
+                          "LEFT JOIN periodo_escolar pe ON e.id_periodo_escolar = pe.id_periodo_escolar " +
+                          "LEFT JOIN experiencia_educativa ee ON e.id_experiencia_educativa = ee.id_experiencia_educativa " +
+                          "LEFT JOIN proyecto p ON e.id_proyecto = p.id_proyecto " +
+                          "WHERE e.id_experiencia_educativa = ? AND e.id_periodo_escolar = ? " +
+                          "AND e.id_proyecto IS NOT NULL";
+
+        try (PreparedStatement sentencia = conexionBD.prepareStatement(consulta)) {
+            sentencia.setInt(1, idExperienciaEducativa);
+            sentencia.setInt(2, idPeriodoEscolar);
+
+            try (ResultSet resultado = sentencia.executeQuery()) {
+                while (resultado.next()) {
+                    // La llamada a convertirEstudiante ahora funcionará sin errores.
+                    estudiantes.add(convertirEstudiante(resultado));
+                }
+            }
+        } finally {
+            conexionBD.close();
+        }
+    } else {
+        throw new SQLException("No hay conexión con la base de datos.");
+    }
+    return estudiantes;
+    }
 }
