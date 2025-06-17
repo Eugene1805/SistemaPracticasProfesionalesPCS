@@ -64,7 +64,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="410.0" layoutY="213.0" text="Calificación:" textFill="#1e2a38">
+      <Label layoutX="500.0" layoutY="213.0" text="Calificación:" textFill="#1e2a38">
          <font>
             <Font size="16.0" />
          </font>
@@ -96,7 +96,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="521.0" layoutY="213.0" text="0/100" textFill="#1e2a38">
+      <Label layoutX="521.0" layoutY="259.0" text="0/100" textFill="#1e2a38">
          <font>
             <Font size="16.0" />
          </font>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -137,20 +139,30 @@ public class FXMLEstudianteController implements Initializable, Dashboard {
     @FXML
     private void clicEvaluarOV(MouseEvent event) {
         try {
-            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
-            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource("vista/FXMLEvaluarOrganizacionVinculada.fxml"));
-            Parent vista = cargador.load();
-            FXMLEvaluarOrganizacionVinculadaController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudiante);
-            Scene escenaPrincipal = new Scene(vista);
-            escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Evaluar Organizacion Vinculada");
-            escenarioBase.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la evaluacion de la organizacio vinculada",
-                    "Lo sentimos no fue posible cargar la informacion del estudiante");
+            Estudiante estudianteDAO = EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername());
+            if(ExpedienteDAO.obtenerExpedienteActivoPorEstudiante(estudianteDAO.getId()).getHorasAcumuladas() < 420){
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Horas incompletas",
+                        "Para hacer la evaluacion debe haber terminado las 420hrs");
+                return;
+            }
+            try {
+                Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+                FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                        getResource("vista/FXMLEvaluarOrganizacionVinculada.fxml"));
+                Parent vista = cargador.load();
+                FXMLEvaluarOrganizacionVinculadaController controlador = cargador.getController();
+                controlador.inicializarInformacion(estudiante);
+                Scene escenaPrincipal = new Scene(vista);
+                escenarioBase.setScene(escenaPrincipal);
+                escenarioBase.setTitle("Evaluar Organizacion Vinculada");
+                escenarioBase.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la evaluacion de la organizacio vinculada",
+                        "Lo sentimos no fue posible cargar la informacion del estudiante");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
