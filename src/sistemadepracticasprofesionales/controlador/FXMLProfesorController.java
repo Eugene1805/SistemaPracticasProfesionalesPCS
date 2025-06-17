@@ -54,7 +54,7 @@ public class FXMLProfesorController implements Initializable, Dashboard {
                     getResource("vista/FXMLElegirEstudiante.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEstudianteController controlador = cargador.getController();
-            controlador.inicializar(profesor.getUsername());
+            controlador.inicializar(profesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Consultar Avance");
@@ -99,7 +99,7 @@ public class FXMLProfesorController implements Initializable, Dashboard {
 
     @Override
     public void inicializar(Usuario usuario) {
-        lbUsuario.setText(usuario.getUsername());
+        lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno());
         profesor = usuario;
     }    
 }

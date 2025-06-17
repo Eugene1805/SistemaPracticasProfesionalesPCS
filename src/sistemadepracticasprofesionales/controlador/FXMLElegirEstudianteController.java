@@ -111,9 +111,8 @@ public class FXMLElegirEstudianteController implements Initializable {
         }
     }
     
-    public void inicializar(String nombre){
-        this.profesor = new Usuario();
-        this.profesor.setUsername(nombre);
+    public void inicializar(Usuario usuario){
+        this.profesor = usuario;
     }
     
     private void irAlDashboard(){
