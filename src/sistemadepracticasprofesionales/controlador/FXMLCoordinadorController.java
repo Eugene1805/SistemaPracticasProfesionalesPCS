@@ -90,7 +90,21 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicRegistrarResponsable(MouseEvent event) {
-        Utilidad.abrirVentana("BuscarOrganizacionVinculada", lbUsuario);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLBuscarOrganizacionVinculada.fxml"));
+            Parent vista = cargador.load();
+            FXMLBuscarOrganizacionVinculadaController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Buscar Organizacion Vinculada");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
+                    "Lo sentimos no fue posible cargar la informacion");
+        }
     }
 
     @FXML
@@ -100,7 +114,21 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
     
     @FXML
     private void clicGenerarEntregas(MouseEvent event) {
-        Utilidad.abrirVentana("ProgramarEntregas", lbUsuario);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLProgramarEntregas.fxml"));
+            Parent vista = cargador.load();
+            FXMLProgramarEntregasController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Programar Entregas");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
+                    "Lo sentimos no fue posible cargar la ventana");
+        }
     }
 
     @FXML
