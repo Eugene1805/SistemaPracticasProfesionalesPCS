@@ -87,7 +87,6 @@ public class FXMLElegirEstudianteController implements Initializable {
             estudiantes.addAll(estudiantesDAO);
             tvEstudiantes.setItems(estudiantes);
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar los datos",
                     "No fue posible cargar la informacion, intente mas tarde");
         }
@@ -134,5 +133,10 @@ public class FXMLElegirEstudianteController implements Initializable {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del profesor",
                     "Lo sentimos no fue posible cargar la informacion del profesor");
         }
+    }
+
+    @FXML
+    private void btnClicRegresar(ActionEvent event) {
+        irAlDashboard();
     }
 }
