@@ -32,9 +32,9 @@
          </children>
       </AnchorPane>
       <Label fx:id="lbNombreProyecto" layoutX="63.0" layoutY="374.0" prefHeight="21.0" prefWidth="416.0" textAlignment="CENTER" />
-      <Label fx:id="lbNombreExperiencia" layoutX="63.0" layoutY="344.0" prefHeight="20.0" prefWidth="147.0" textAlignment="CENTER">
+      <Label fx:id="lbNombreExperiencia" layoutX="63.0" layoutY="344.0" prefHeight="21.0" prefWidth="263.0" textAlignment="CENTER">
          <font>
-            <Font name="System Italic" size="15.0" />
+            <Font name="System Bold Italic" size="15.0" />
          </font>
       </Label>
       <Label fx:id="lbNombrePeriodo" layoutX="271.0" layoutY="50.0" textAlignment="CENTER">
@@ -42,11 +42,26 @@
             <Font name="System Bold Italic" size="22.0" />
          </font>
       </Label>
-      <Button layoutX="54.0" layoutY="423.0" mnemonicParsing="false" onAction="#btnSubirDocumentosIniciales" text="Subir Documentos Iniciales" />
-      <Button layoutX="300.0" layoutY="423.0" mnemonicParsing="false" text="Subir Documentos Intermedios" />
-      <Button layoutX="54.0" layoutY="476.0" mnemonicParsing="false" text="Subir Documentos Finales" />
-      <Button layoutX="301.0" layoutY="476.0" mnemonicParsing="false" text="Subir Reportes" />
-      <Button layoutX="488.0" layoutY="531.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <Button layoutX="54.0" layoutY="423.0" mnemonicParsing="false" onAction="#btnSubirDocumentosIniciales" style="-fx-background-color: #487BB1;" text="Subir Documentos Iniciales" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <Button layoutX="300.0" layoutY="423.0" mnemonicParsing="false" style="-fx-background-color: #487BB1;" text="Subir Documentos Intermedios" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <Button layoutX="54.0" layoutY="476.0" mnemonicParsing="false" style="-fx-background-color: #487BB1;" text="Subir Documentos Finales" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <Button layoutX="301.0" layoutY="476.0" mnemonicParsing="false" style="-fx-background-color: #487BB1;" text="Subir Reportes" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <Button layoutX="488.0" layoutY="531.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
       <AnchorPane layoutX="-1.0" layoutY="-1.0" prefHeight="89.0" prefWidth="606.0" style="-fx-background-color: #487BB1;">
          <children>
             <Label layoutX="75.0" layoutY="34.0" text="Actualizar Expediente" textFill="WHITE">
@@ -54,7 +69,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="500.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnClicRegresar" text="Regresar" />
+            <Button layoutX="500.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" />
          </children>
       </AnchorPane>
    </children>

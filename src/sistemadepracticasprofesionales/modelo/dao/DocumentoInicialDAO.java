@@ -13,17 +13,10 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
  */
 public class DocumentoInicialDAO {
 
-    /**
-     * Actualiza el archivo y la fecha de entrega de un documento inicial existente.
-     * @param idDocumentoInicial El ID del registro en documento_inicial a actualizar.
-     * @param archivo Los bytes del archivo a guardar.
-     * @return ResultadoOperacion indicando el éxito o fracaso.
-     */
     public static ResultadoOperacion guardarArchivo(int idDocumentoInicial, byte[] archivo) {
         ResultadoOperacion resultado = new ResultadoOperacion();
         Connection conexion = ConexionBD.abrirConexion();
         
-        // FIX: La columna en el WHERE debe ser id_documento_inicial
         String sql = "UPDATE documento_inicial SET archivo = ?, fecha_entregado = CURRENT_DATE WHERE id_documento_inicial = ?";
 
         if (conexion != null) {

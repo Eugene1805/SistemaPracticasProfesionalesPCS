@@ -109,7 +109,21 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicRegistrarProyecto(MouseEvent event) {
-        Utilidad.abrirVentana("RegistrarProyecto", lbUsuario);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLRegistrarProyecto.fxml"));
+            Parent vista = cargador.load();
+            FXMLRegistrarProyectoController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Registrar Proyecto");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
+                    "Lo sentimos no fue posible cargar la informacion");
+        }
     }
     
     @FXML
@@ -139,7 +153,21 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private void clicActualizarProyecto(MouseEvent event) {
-        Utilidad.abrirVentana("BuscarProyecto", lbUsuario);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLBuscarProyecto.fxml"));
+            Parent vista = cargador.load();
+            FXMLBuscarProyectoController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Buscar Proyecto");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
+                    "Lo sentimos no fue posible cargar la informacion");
+        }
     }
 
     @Override

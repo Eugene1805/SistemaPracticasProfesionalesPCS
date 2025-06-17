@@ -25,6 +25,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,8 +33,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.modelo.dao.DocumentoInicialDAO;
 import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
+import sistemadepracticasprofesionales.modelo.dao.ExpedienteDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
+import sistemadepracticasprofesionales.modelo.pojo.Expediente;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
@@ -59,6 +63,7 @@ public class FXMLSubirDocumentoInicialController implements Initializable {
     @FXML private Button btnClicSalir;
 
     private int idExpedienteActual;
+    private Estudiante estudianteActual;
     private ObservableList<Entrega> listaEntregas;
 
     @Override
@@ -69,17 +74,59 @@ public class FXMLSubirDocumentoInicialController implements Initializable {
 
     public void inicializarDatos(int idExpediente, Estudiante estudiante) {
         this.idExpedienteActual = idExpediente;
+        this.estudianteActual = estudiante;
         
-        // Cargar datos del encabezado
-        lbNombreEstudiante.setText(estudiante.getNombre() + " " + estudiante.getApellidoPaterno());
-        lbMatriculaEstudiante.setText(estudiante.getMatricula());
-        lblPeriodoEscolar.setText(estudiante.getPeriodoEscolar());
-        
-        if (estudiante.getFoto() != null) {
-            ivFotoPerfil.setImage(new Image(new ByteArrayInputStream(estudiante.getFoto())));
-        }
-        
+        cargarDatosGenerales();
         cargarEntregas();
+    }
+    
+    private void cargarDatosGenerales() {
+        if (estudianteActual != null) {
+            lbNombreEstudiante.setText(estudianteActual.getNombre() + " " + estudianteActual.getApellidoPaterno());
+            lbMatriculaEstudiante.setText(estudianteActual.getMatricula());
+            lblPeriodoEscolar.setText(estudianteActual.getPeriodoEscolar());
+            
+            cargarFoto();
+            cargarHoras();
+        }
+    }
+    
+    private void cargarFoto() {
+        try {
+            byte[] foto = EstudianteDAO.obtenerFotoEstudiante(this.estudianteActual.getId());
+            if (foto != null && foto.length > 0) {
+                ByteArrayInputStream inputFoto = new ByteArrayInputStream(foto);
+                Image imagen = new Image(inputFoto);
+                ivFotoPerfil.setImage(imagen);
+            } else {
+                System.out.println("Info: El estudiante no tiene una foto registrada.");
+            }
+        } catch (SQLException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", 
+                    "No se pudo obtener la foto del estudiante: " + e.getMessage());
+        }
+    }
+    
+    private void cargarHoras() {
+        try {
+            Expediente expediente = ExpedienteDAO.obtenerExpedienteActivoPorEstudiante(this.estudianteActual.getId());
+
+            if (expediente != null) {
+                int horas = expediente.getHorasAcumuladas();
+                int horasTotales = 420; 
+                
+                pbHorasAcumuladas.setProgress((double) horas / horasTotales);
+                lbHorasAcumuladas.setText(horas + " / " + horasTotales + " horas");
+            } else {
+                pbHorasAcumuladas.setProgress(0.0);
+                lbHorasAcumuladas.setText("Sin expediente activo");
+            }
+        } catch (SQLException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", 
+                    "No se pudo cargar la información de las horas acumuladas.");
+            pbHorasAcumuladas.setProgress(0.0);
+            lbHorasAcumuladas.setText("Error al cargar");
+        }
     }
     
     private void configurarTabla() {
@@ -89,34 +136,40 @@ public class FXMLSubirDocumentoInicialController implements Initializable {
         tcDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         
         tcPDF.setCellFactory(param -> new TableCell<Entrega, Button>() {
-            final Button btnAccion = new Button();
+        final Button btnAccion = new Button();
 
-            @Override
-            protected void updateItem(Button item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
+        @Override
+        protected void updateItem(Button item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                Entrega entrega = getTableView().getItems().get(getIndex());
+                LocalDate fechaFin = LocalDate.parse(entrega.getFechaFin());
+                boolean entregado = entrega.getFechaEntregado() != null;
+                boolean fueraDeTiempo = LocalDate.now().isAfter(fechaFin);
+                
+                boolean esEntregaValida = entrega.getIdArchivo() > 0;
+
+                if (!esEntregaValida) {
+                    btnAccion.setText("Error Conf.");
+                    btnAccion.setTooltip(new Tooltip("Esta entrega no está configurada correctamente. Contacte al coordinador."));
+                    btnAccion.setDisable(true);
+                } else if (entregado) {
+                    btnAccion.setText("Entregado");
+                    btnAccion.setDisable(true);
+                } else if (fueraDeTiempo) {
+                    btnAccion.setText("Plazo Vencido");
+                    btnAccion.setDisable(true);
                 } else {
-                    Entrega entrega = getTableView().getItems().get(getIndex());
-                    LocalDate fechaFin = LocalDate.parse(entrega.getFechaFin());
-                    boolean entregado = entrega.getFechaEntregado() != null;
-                    boolean fueraDeTiempo = LocalDate.now().isAfter(fechaFin);
-
-                    if (entregado) {
-                        btnAccion.setText("Entregado");
-                        btnAccion.setDisable(true);
-                    } else if (fueraDeTiempo) {
-                        btnAccion.setText("Plazo Vencido");
-                        btnAccion.setDisable(true);
-                    } else {
-                        btnAccion.setText("Subir Archivo");
-                        btnAccion.setDisable(false);
-                        btnAccion.setOnAction(event -> subirArchivoParaEntrega(entrega));
-                    }
-                    setGraphic(btnAccion);
+                    btnAccion.setText("Subir Archivo");
+                    btnAccion.setDisable(false);
+                    btnAccion.setOnAction(event -> subirArchivoParaEntrega(entrega));
                 }
+                setGraphic(btnAccion);
             }
-        });
+        }
+    });
     }
     
     private void cargarEntregas() {
@@ -152,7 +205,6 @@ public class FXMLSubirDocumentoInicialController implements Initializable {
         try {
             byte[] archivoBytes = Files.readAllBytes(archivo.toPath());
             
-            // Usamos el idArchivo del POJO, que contiene el id_documento_inicial
             ResultadoOperacion resultadoDAO = DocumentoInicialDAO.guardarArchivo(entrega.getIdArchivo(), archivoBytes);
             
             if (!resultadoDAO.isError()) {

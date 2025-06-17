@@ -21,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
@@ -86,18 +87,9 @@ public class FXMLActualizarProyectoController implements Initializable {
 
     }
 
-    public void inicializarFormulario(Proyecto proyecto) {
+    public void inicializarFormulario(Proyecto proyecto, Usuario coordinador) {
         this.proyectoActual = proyecto;
-        
-        System.out.println("Cargando proyecto:");
-        System.out.println("Nombre: " + proyecto.getNombre());
-        System.out.println("Descripción: " + proyecto.getDescripcion());
-        System.out.println("Cupo: " + proyecto.getCupo());
-        System.out.println("Fecha inicio: " + proyecto.getFechaInicio());
-        System.out.println("Fecha fin: " + proyecto.getFechaFin());
-        System.out.println("Estado: " + proyecto.getEstado());
-        System.out.println("ID Organización: " + proyecto.getIdOrganizacionVinculada());
-        System.out.println("ID Responsable: " + proyecto.getIdResponsableProyecto());
+        this.coordinador = coordinador;
 
         if (proyecto.getNombre() != null) {
             tfNombre.setText(proyecto.getNombre());
@@ -188,7 +180,7 @@ public class FXMLActualizarProyectoController implements Initializable {
     }
     
     private boolean validarCampos() {
-        boolean camposValidos = validador.validate(); // Validador ya aplica a los campos registrados
+        boolean camposValidos = validador.validate(); 
 
         if (dpFechaInicio.getValue() == null) {
             dpFechaInicio.setStyle("-fx-border-color: red; -fx-background-color: #FFEEEE;");
@@ -222,22 +214,10 @@ public class FXMLActualizarProyectoController implements Initializable {
 
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        try {
-            Stage escenarioBase = Utilidad.obtenerEscenario(tfNombre);
-            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
-                    getResource("vista/FXMLCoordinador.fxml"));
-            Parent vista = cargador.load();
-            FXMLCoordinadorController controlador = cargador.getController();
-            controlador.inicializar(coordinador);
-            Scene escenaPrincipal = new Scene(vista);
-            escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Dasboard Coordinador");
-            escenarioBase.show();
-        } catch (IOException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
-                    "Lo sentimos no fue posible cargar la informacion del coordinador");
-        }
+        Stage escenario = Utilidad.obtenerEscenario(tfNombre);
+    escenario.close();
     }
+    
     public void inicializar(String nombre){
         this.coordinador = new Usuario();
         this.coordinador.setNombre(nombre);
@@ -280,42 +260,42 @@ public class FXMLActualizarProyectoController implements Initializable {
     }
     
     private void abrirVentanaConfirmacion(Proyecto proyecto) {
-        try {
-            FXMLLoader loader = new FXMLLoader(SistemaDePracticasProfesionales.class.getResource(
-                    "/sistemadepracticasprofesionales/vista/FXMLDatosActualizados.fxml"));
-            Parent vista = loader.load();
+    try {
+        FXMLLoader loader = new FXMLLoader(SistemaDePracticasProfesionales.class.getResource(
+                "/sistemadepracticasprofesionales/vista/FXMLDatosActualizados.fxml"));
+        Parent vista = loader.load();
 
-            FXMLDatosActualizadosController controlador = loader.getController();
-            controlador.inicializarProyecto(proyecto);
-            controlador.setEscenarioPadre((Stage) tfNombre.getScene().getWindow());
+        FXMLDatosActualizadosController controlador = loader.getController();
+        controlador.inicializarProyecto(proyecto, this.coordinador);
+        
+        Stage escenarioActual = (Stage) tfNombre.getScene().getWindow();
+        controlador.setEscenarioPadre(escenarioActual); 
 
-            
+        Scene escena = new Scene(vista);
+        Stage escenarioConfirmacion = new Stage();
+        escenarioConfirmacion.setScene(escena);
+        escenarioConfirmacion.setTitle("Confirmar Actualización");
+        escenarioConfirmacion.initModality(Modality.APPLICATION_MODAL);
+        escenarioConfirmacion.showAndWait(); 
 
-            Scene escena = new Scene(vista);
-            Stage escenarioConfirmacion = new Stage();
-            escenarioConfirmacion.setScene(escena);
-            escenarioConfirmacion.setTitle("Confirmar Actualización");
-            escenarioConfirmacion.show();
-
-            // Puedes cerrar la ventana actual si quieres:
-            // Utilidad.obtenerEscenario(tfNombre).close();
-
-        } catch (IOException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,
-                    "Error al mostrar confirmación", "No fue posible cargar la ventana de confirmación.");
-        }
+    } catch (IOException e) {
+        Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,
+                "Error al mostrar confirmación", "No fue posible cargar la ventana de confirmación.");
+        e.printStackTrace();
     }
+}
 
 
 
     @FXML
-    private void btnClicCancelar(ActionEvent event) {
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
-                "¿Está seguro de que desea cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Coordinador", tfDescripcion);                    
-        }
+private void btnClicCancelar(ActionEvent event) {
+    Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmar Cancelación", 
+            "¿Está seguro de que desea cancelar la actualización?");
+    Optional<ButtonType> resultado = alerta.showAndWait();
+    if(resultado.isPresent() && resultado.get() == ButtonType.APPLY){
+        Stage escenario = Utilidad.obtenerEscenario(tfNombre);
+        escenario.close();                  
     }
+}
     
 }

@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.ExperienciaEducativaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.Expediente;
@@ -80,14 +81,26 @@ public class FXMLActualizarExpedienteController implements Initializable {
     }
 
     private void cargarFoto() {
-        if (estudianteActual.getFoto() != null && estudianteActual.getFoto().length > 0) {
-            ivFotoEstudiante.setImage(new Image(new ByteArrayInputStream(estudianteActual.getFoto())));
+        if (estudianteActual != null) {
+            try {
+                byte[] foto = EstudianteDAO.obtenerFotoEstudiante(this.estudianteActual.getId());
+                if (foto != null && foto.length > 0) {
+                    ByteArrayInputStream inputFoto = new ByteArrayInputStream(foto);
+                    Image imagen = new Image(inputFoto);
+                    ivFotoEstudiante.setImage(imagen);
+                } else {
+                    System.out.println("Info: El estudiante no tiene una foto registrada.");
+                }
+            } catch (SQLException e) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", 
+                        "No se pudo obtener la foto del estudiante: " + e.getMessage());
+            }
         }
     }
     
     private void cargarHoras() {
         int horas = expedienteActual.getHorasAcumuladas();
-        int horasTotales = 420; // O la constante que uses
+        int horasTotales = 420;
         pbHorasAcumuladas.setProgress((double) horas / horasTotales);
     }
     

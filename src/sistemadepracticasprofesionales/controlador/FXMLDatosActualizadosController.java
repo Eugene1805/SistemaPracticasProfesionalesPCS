@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import sistemadepracticasprofesionales.modelo.dao.ProyectoDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /*
@@ -20,19 +21,29 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  */
 public class FXMLDatosActualizadosController implements Initializable {
 
-    @FXML private Label lblNombre;
-    @FXML private TextArea taDescripcion;
-    @FXML private Label lblEstado;
-    @FXML private Label lblCupo;
-    @FXML private Label lblFechaInicio;
-    @FXML private Label lblFechaFin;
-    @FXML private Label lblOrganizacion;
-    @FXML private Label lblResponsable;
-    @FXML private Button btnAceptar;
-    @FXML private Button btnCancelar;
+    @FXML 
+    private Label lblNombre;
+    @FXML 
+    private TextArea taDescripcion;
+    @FXML 
+    private Label lblEstado;
+    @FXML 
+    private Label lblCupo;
+    @FXML 
+    private Label lblFechaInicio;
+    @FXML 
+    private Label lblFechaFin;
+    @FXML 
+    private Label lblOrganizacion;
+    @FXML 
+    private Label lblResponsable;
+    @FXML 
+    private Button btnAceptar;
+    @FXML 
+    private Button btnCancelar;
 
     private Proyecto proyecto;
-    
+    private Usuario coordinador; // Guardamos el coordinador
     private Stage escenarioPadre;
 
     public void setEscenarioPadre(Stage escenarioPadre) {
@@ -44,8 +55,9 @@ public class FXMLDatosActualizadosController implements Initializable {
         // No requiere lógica de inicio adicional
     }
 
-    public void inicializarProyecto(Proyecto proyecto) {
+    public void inicializarProyecto(Proyecto proyecto, Usuario coordinador) {
         this.proyecto = proyecto;
+        this.coordinador = coordinador;
 
         lblNombre.setText("Nombre: " + proyecto.getNombre());
         taDescripcion.setText(proyecto.getDescripcion());
@@ -64,25 +76,16 @@ public class FXMLDatosActualizadosController implements Initializable {
             if (!resultado.isError()) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION,
                         "Operación Exitosa", "Los datos se actualizaron correctamente.");
-
-                // Cerrar esta ventana de confirmación
                 Stage ventanaActual = (Stage) btnAceptar.getScene().getWindow();
                 ventanaActual.close();
-
-                // Cerrar la ventana padre si está disponible
                 if (escenarioPadre != null) {
                     escenarioPadre.close();
                 }
-
-                // Regresar a la búsqueda de proyectos
-                Utilidad.abrirVentana("BuscarProyecto", btnAceptar);
             } else {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,
-                        "Error", resultado.getMensaje());
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", resultado.getMensaje());
             }
         } catch (SQLException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,
-                    "Error de base de datos", "No fue posible guardar los cambios.");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de base de datos", "No fue posible guardar los cambios.");
         }
     }
 
