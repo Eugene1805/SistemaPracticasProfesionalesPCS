@@ -1,6 +1,5 @@
 package sistemadepracticasprofesionales.modelo.pojo;
 
-import java.sql.Blob;
 
 /**
  *

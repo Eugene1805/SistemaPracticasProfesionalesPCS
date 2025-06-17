@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -67,9 +68,31 @@ public class FXMLElegirEntregaController implements Initializable {
     }
     
     private void configurarTabla(){
-        tcTipoEntrega.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        tcTipoEntrega.setCellValueFactory(cellData -> {
+            Entrega entrega = cellData.getValue();
+            String textoMostrado = "";
+
+            if (entrega.getTipo() == Entrega.Tipo.REPORTE) {
+                // Para reportes, simplemente mostramos "Reporte"
+                textoMostrado = "Reporte";
+            } else { // Si es DOCUMENTO
+                // Combinamos "Documento" con el subtipo
+                switch (entrega.getSubtipoDoc()) {
+                    case INICIAL:
+                        textoMostrado = "Documento Inicial";
+                        break;
+                    case INTERMEDIO:
+                        textoMostrado = "Documento Intermedio";
+                        break;
+                    case FINAL:
+                        textoMostrado = "Documento Final";
+                        break;
+                }
+            }
+            // La lambda debe devolver un ObservableValue, por eso usamos SimpleStringProperty
+            return new SimpleStringProperty(textoMostrado);
+        });
         tcDocumento.setCellValueFactory(new PropertyValueFactory<>("titulo"));
-        
         tvEntregas.setRowFactory(tv -> {
             TableRow<Entrega> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
