@@ -287,7 +287,6 @@ public class FXMLActualizarProyectoController implements Initializable {
 
 
 
-    @FXML
 private void btnClicCancelar(ActionEvent event) {
     Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmar Cancelación", 
             "¿Está seguro de que desea cancelar la actualización?");
