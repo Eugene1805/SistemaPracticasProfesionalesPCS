@@ -18,9 +18,11 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
@@ -41,6 +43,8 @@ public class FXMLElegirEntregaController implements Initializable {
 
     private Estudiante estudianteSeleccionado;
     private ObservableList<Entrega> listaEntregas;
+    
+    private Usuario profesor;
     /**
      * Initializes the controller class.
      */
@@ -49,8 +53,9 @@ public class FXMLElegirEntregaController implements Initializable {
         configurarTabla();
     }    
 
-    public void inicializarInformacion(Estudiante estudiante) {
+    public void inicializar(Estudiante estudiante, Usuario profesor) {
         this.estudianteSeleccionado = estudiante;
+        this.profesor = profesor;
         if (estudianteSeleccionado != null) {
             cargarInformacionTabla();
         } else {
@@ -94,7 +99,7 @@ public class FXMLElegirEntregaController implements Initializable {
             Parent vista = cargador.load();
 
             FXMLValidarEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudianteSeleccionado, entrega);
+            controlador.inicializarInformacion(estudianteSeleccionado, entrega, profesor);
 
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
@@ -108,6 +113,20 @@ public class FXMLElegirEntregaController implements Initializable {
 
     @FXML
     private void clicBtnRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("ElegirEstudiante", tvEntregas);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(tvEntregas);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLElegirEstudiante.fxml"));
+            Parent vista = cargador.load();
+            FXMLElegirEstudianteController controlador = cargador.getController();
+            controlador.inicializar(profesor);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Elegir Estudiante");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar",
+                    "No se pudo abrir la ventana de seleccion de estudiantes");
+        }
     }
 }

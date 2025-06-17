@@ -100,7 +100,7 @@ public class FXMLElegirEstudianteController implements Initializable {
                     getResource("vista/FXMLElegirEntrega.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudiante);
+            controlador.inicializar(estudiante, profesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Entrega");
@@ -125,7 +125,7 @@ public class FXMLElegirEstudianteController implements Initializable {
             controlador.inicializar(profesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Dasboard Profesor");
+            escenarioBase.setTitle("Dashboard Profesor");
             escenarioBase.show();
         } catch (IOException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del profesor",

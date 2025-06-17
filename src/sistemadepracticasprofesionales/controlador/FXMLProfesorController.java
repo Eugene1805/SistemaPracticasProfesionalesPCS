@@ -61,7 +61,7 @@ public class FXMLProfesorController implements Initializable, Dashboard {
             escenarioBase.show();
         } catch (IOException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
-                    "No se pudo abrir la ventana de seleccion de estudiantes.");
+                    "No se pudo abrir la ventana de seleccion de estudiantes");
         }
     }
 
