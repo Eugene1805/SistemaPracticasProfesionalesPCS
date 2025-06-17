@@ -40,7 +40,7 @@ public class AvanceDM {
             if (!reportes.isEmpty()) return resultado;
 
             resultado.setError(true);
-            resultado.setMensaje("El estudiante no tiene ninguna entrega registrada en el sistema para el periodo escolar actual.");
+            resultado.setMensaje("Lo sentimos no hay ninguna entrega registrada en el sistema para el perido escolar actual.");
 
         } catch (SQLException e) {
             resultado.setError(true);

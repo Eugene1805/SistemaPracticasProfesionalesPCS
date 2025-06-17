@@ -163,10 +163,6 @@ public class FXMLConsultarAvanceController implements Initializable {
                 ByteArrayInputStream inputFoto = new ByteArrayInputStream(foto);
                 Image imagen = new Image(inputFoto);
                 ivFotoEstudiante.setImage(imagen);
-            } else {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Sin foto", 
-                        "El estudiante no tiene una foto registrada");
-               
             }
         }catch (SQLException e){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "ERROR", 
