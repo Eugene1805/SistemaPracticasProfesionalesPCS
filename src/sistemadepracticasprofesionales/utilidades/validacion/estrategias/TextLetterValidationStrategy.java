@@ -35,7 +35,7 @@ public class TextLetterValidationStrategy implements IEstrategiaValidacion<TextI
             return new ResultadoValidacion(false, "Máximo " + longitudMaxima + " caracteres");
         }
         
-        if(!texto.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")){
+        if((!texto.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) && obligatorio){
             return new ResultadoValidacion(false, "Solo deben ingresarse letras");
         }
         
