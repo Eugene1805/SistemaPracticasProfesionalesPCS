@@ -157,7 +157,6 @@ public class FXMLBuscarProyectoController implements Initializable {
         }
     }
 
-    @FXML
     private void btnClicCancelar(ActionEvent event) {
         Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
                 "¿Está seguro de que desea cancelar y volver al menú?");

@@ -184,7 +184,6 @@ public class FXMLGenerarFormatoParaOVController implements Initializable {
         alerta.showAndWait();
     }
 
-    @FXML
     private void btnClicCancelar(ActionEvent event) {
         Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar",
                 "¿Estás seguro de que deseas cancelar?");
