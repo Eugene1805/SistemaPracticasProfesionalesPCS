@@ -13,9 +13,10 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
  *
  * @author meler
+ * Fecha:14/06/25
+ * Descripcion: Controller para la vista de Éxito del caso de GenerarFormato.
  */
 public class FXMLFormatoGeneradoController implements Initializable {
 

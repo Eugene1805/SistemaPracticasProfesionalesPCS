@@ -13,10 +13,10 @@ import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
-/**
- * FXML Controller class
- *
+/*
  * @author meler
+ * Fecha:12/0/25
+ * Descripcion: Controller para la ventana DatosActualizados y sus eventos
  */
 public class FXMLDatosActualizadosController implements Initializable {
 

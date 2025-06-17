@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLFormatoGeneradoController"
-            prefWidth="400" prefHeight="200">
+<AnchorPane prefHeight="200" prefWidth="400" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLFormatoGeneradoController">
     <children>
-        <Label layoutX="50" layoutY="40" prefWidth="300" wrapText="true" text="El formato de evaluación ha sido generado correctamente." textAlignment="CENTER">
+        <Label layoutX="50" layoutY="40" prefWidth="300" text="El formato de evaluación ha sido generado correctamente." textAlignment="CENTER" wrapText="true">
             <font>
-                <Font size="16.0" />
+                <Font name="System Bold Italic" size="16.0" />
             </font>
         </Label>
-        <Button text="Salir" layoutX="160" layoutY="120" onAction="#btnClicSalir"/>
+        <Button layoutX="176.0" layoutY="120.0" onAction="#btnClicSalir" text="Salir" />
     </children>
 </AnchorPane>
