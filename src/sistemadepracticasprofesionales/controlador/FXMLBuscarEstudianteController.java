@@ -98,13 +98,13 @@ public class FXMLBuscarEstudianteController implements Initializable {
                     }else{
                         Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error",
                                 "El profesor no tiene una experiencia educativa asignada");
-                        tvEstudiantes.setPlaceholder(new javafx.scene.control.Label("Profesor sin Experiencia Educativa asignada."));
-                    }
+                        regresarAlDashbord();
+        }
                 }else{
                     Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", 
                             "No se pudo determinar el periodo escolar actual.");
-                    tvEstudiantes.setPlaceholder(new javafx.scene.control.Label("No hay un periodo escolar activo en el sistema."));
-                }    
+                    regresarAlDashbord();
+        }    
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
                     "No se pudieron cargar los estudiantes.");
