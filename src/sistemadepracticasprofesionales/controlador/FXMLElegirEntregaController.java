@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,6 +46,7 @@ public class FXMLElegirEntregaController implements Initializable {
     private ObservableList<Entrega> listaEntregas;
     
     private Usuario profesor;
+    private int idProfesor;
     /**
      * Initializes the controller class.
      */
@@ -53,9 +55,10 @@ public class FXMLElegirEntregaController implements Initializable {
         configurarTabla();
     }    
 
-    public void inicializar(Estudiante estudiante, Usuario profesor) {
+    public void inicializar(Estudiante estudiante, Usuario profesor, int idProfesor) {
         this.estudianteSeleccionado = estudiante;
         this.profesor = profesor;
+        this.idProfesor = idProfesor;
         if (estudianteSeleccionado != null) {
             cargarInformacionTabla();
         } else {
@@ -65,9 +68,31 @@ public class FXMLElegirEntregaController implements Initializable {
     }
     
     private void configurarTabla(){
-        tcTipoEntrega.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        tcTipoEntrega.setCellValueFactory(cellData -> {
+            Entrega entrega = cellData.getValue();
+            String textoMostrado = "";
+
+            if (entrega.getTipo() == Entrega.Tipo.REPORTE) {
+                // Para reportes, simplemente mostramos "Reporte"
+                textoMostrado = "Reporte";
+            } else { // Si es DOCUMENTO
+                // Combinamos "Documento" con el subtipo
+                switch (entrega.getSubtipoDoc()) {
+                    case INICIAL:
+                        textoMostrado = "Documento Inicial";
+                        break;
+                    case INTERMEDIO:
+                        textoMostrado = "Documento Intermedio";
+                        break;
+                    case FINAL:
+                        textoMostrado = "Documento Final";
+                        break;
+                }
+            }
+            // La lambda debe devolver un ObservableValue, por eso usamos SimpleStringProperty
+            return new SimpleStringProperty(textoMostrado);
+        });
         tcDocumento.setCellValueFactory(new PropertyValueFactory<>("titulo"));
-        
         tvEntregas.setRowFactory(tv -> {
             TableRow<Entrega> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -82,7 +107,7 @@ public class FXMLElegirEntregaController implements Initializable {
     private void cargarInformacionTabla(){
         try {
             listaEntregas = FXCollections.observableArrayList(
-                EntregaDAO.obtenerEntregasSinValidarPorEstudiante(estudianteSeleccionado.getId())
+                EntregaDAO.obtenerEntregasSinValidarPorEstudiante(estudianteSeleccionado.getId(),idProfesor)
             );
             tvEntregas.setItems(listaEntregas);
         } catch (SQLException ex) {
@@ -99,8 +124,7 @@ public class FXMLElegirEntregaController implements Initializable {
             Parent vista = cargador.load();
 
             FXMLValidarEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudianteSeleccionado, entrega, profesor);
-
+            controlador.inicializarInformacion(estudianteSeleccionado, entrega, profesor, idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Validar Entrega");
@@ -119,7 +143,7 @@ public class FXMLElegirEntregaController implements Initializable {
                     getResource("vista/FXMLElegirEstudiante.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEstudianteController controlador = cargador.getController();
-            controlador.inicializar(profesor);
+            controlador.inicializar(profesor,idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Estudiante");

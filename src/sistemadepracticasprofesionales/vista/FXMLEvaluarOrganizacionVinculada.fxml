@@ -16,8 +16,13 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Button layoutX="575.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: A6C2E2;" text="Regresar" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children></AnchorPane>
-      <Label fx:id="lbNombreOV" layoutX="30.0" layoutY="71.0" prefHeight="32.0" prefWidth="395.0">
+      <Label fx:id="lbNombreOV" layoutX="30.0" layoutY="96.0" prefHeight="32.0" prefWidth="395.0">
          <font>
             <Font size="22.0" />
          </font>
@@ -50,19 +55,19 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Button layoutX="511.0" layoutY="590.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+      <Button layoutX="491.0" layoutY="581.0" mnemonicParsing="false" onAction="#btnClicAceptar" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Button>
-      <Button layoutX="605.0" layoutY="590.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+      <Button layoutX="586.0" layoutY="581.0" mnemonicParsing="false" onAction="#btnClicCancelar" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Button>
       <Label layoutX="30.0" layoutY="341.0" text="Accesibilidad y apoyo por parte del responsable">
          <font>
@@ -84,13 +89,10 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
-      <Label layoutX="30.0" layoutY="103.0" text="Instrucciones:">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
+      <Label layoutX="31.0" layoutY="128.0" text="Instrucciones:" />
       <Label layoutX="30.0" layoutY="143.0" prefHeight="67.0" prefWidth="636.0" text="Seleccione una opcion entre 1-5 siendo 5 un mayor grado de cumplimiento de dicho rubro y 1 un menor grado de cumplimiento" wrapText="true">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Label>
    </children>

@@ -188,4 +188,9 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
                             + " obtener el nombre de la Organizacion Vinculada");
         }
     }
+
+    @FXML
+    private void btnClicRegresar(ActionEvent event) {
+        regresarAlDashboard();
+    }
 }

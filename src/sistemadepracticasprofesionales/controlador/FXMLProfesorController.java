@@ -49,19 +49,24 @@ public class FXMLProfesorController implements Initializable, Dashboard {
     @FXML
     private void clicValidarEntregas(MouseEvent event) {
         try {
+            int idProfesor = ProfesorDAO.obtenerProfesorPorUsername(profesor.getUsername()).getIdProfesor();
             Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
                     getResource("vista/FXMLElegirEstudiante.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEstudianteController controlador = cargador.getController();
-            controlador.inicializar(profesor);
+            controlador.inicializar(profesor, idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Consultar Avance");
             escenarioBase.show();
         } catch (IOException e) {
+            e.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
                     "No se pudo abrir la ventana de seleccion de estudiantes");
+        } catch (SQLException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de conexio",
+                    "No fue posible cargar la infromacion del profesor");
         }
     }
 
