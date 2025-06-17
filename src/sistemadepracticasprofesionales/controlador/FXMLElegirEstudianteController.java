@@ -46,13 +46,12 @@ public class FXMLElegirEstudianteController implements Initializable {
     
     private ObservableList<Estudiante> estudiantes;
     private Usuario profesor;
+    private int idProfesor;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        configurarTabla();
-        cargarInformacionTabla();
     }    
 
     @FXML
@@ -84,10 +83,11 @@ public class FXMLElegirEstudianteController implements Initializable {
         try {
             estudiantes = FXCollections.observableArrayList();
             List<Estudiante> estudiantesDAO = EstudianteDAO.obtenerEstudiantesConEntregasSinValidar(
-                    PeriodoEscolarDAO.obtenerPeriodoEscolarActual().getId());
+                    PeriodoEscolarDAO.obtenerPeriodoEscolarActual().getId(),idProfesor);
             estudiantes.addAll(estudiantesDAO);
             tvEstudiantes.setItems(estudiantes);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al cargar los datos",
                     "No fue posible cargar la informacion, intente mas tarde");
         }
@@ -100,7 +100,7 @@ public class FXMLElegirEstudianteController implements Initializable {
                     getResource("vista/FXMLElegirEntrega.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEntregaController controlador = cargador.getController();
-            controlador.inicializar(estudiante, profesor);
+            controlador.inicializar(estudiante, profesor,idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Entrega");
@@ -111,8 +111,11 @@ public class FXMLElegirEstudianteController implements Initializable {
         }
     }
     
-    public void inicializar(Usuario usuario){
+    public void inicializar(Usuario usuario, int idProfesor){
         this.profesor = usuario;
+        this.idProfesor = idProfesor;
+        configurarTabla();
+        cargarInformacionTabla();
     }
     
     private void irAlDashboard(){

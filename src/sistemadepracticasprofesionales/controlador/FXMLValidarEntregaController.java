@@ -60,6 +60,7 @@ public class FXMLValidarEntregaController implements Initializable {
     
     private Estudiante estudianteAValidar;
     private Usuario profesor;
+    private int idProfesor;
     private Entrega entregaAValidar;
     private ValidadorFormulario validadorFormulario;
     /**
@@ -86,10 +87,11 @@ public class FXMLValidarEntregaController implements Initializable {
         finalizarOperacion();
     }
 
-    public void inicializarInformacion(Estudiante estudiante,Entrega entrega, Usuario profesor) {
+    public void inicializarInformacion(Estudiante estudiante,Entrega entrega, Usuario profesor, int idProfesor) {
         this.entregaAValidar = entrega;
         this.estudianteAValidar = estudiante;
         this.profesor = profesor;
+        this.idProfesor = idProfesor;
         cargarDatosEntrega();
     }
     
@@ -185,7 +187,7 @@ public class FXMLValidarEntregaController implements Initializable {
                     getResource("vista/FXMLElegirEntrega.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEntregaController controlador = cargador.getController();
-            controlador.inicializar(estudianteAValidar, profesor);
+            controlador.inicializar(estudianteAValidar, profesor, idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Entrega");

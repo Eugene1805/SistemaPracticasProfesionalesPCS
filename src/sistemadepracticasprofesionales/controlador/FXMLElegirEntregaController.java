@@ -45,6 +45,7 @@ public class FXMLElegirEntregaController implements Initializable {
     private ObservableList<Entrega> listaEntregas;
     
     private Usuario profesor;
+    private int idProfesor;
     /**
      * Initializes the controller class.
      */
@@ -53,9 +54,10 @@ public class FXMLElegirEntregaController implements Initializable {
         configurarTabla();
     }    
 
-    public void inicializar(Estudiante estudiante, Usuario profesor) {
+    public void inicializar(Estudiante estudiante, Usuario profesor, int idProfesor) {
         this.estudianteSeleccionado = estudiante;
         this.profesor = profesor;
+        this.idProfesor = idProfesor;
         if (estudianteSeleccionado != null) {
             cargarInformacionTabla();
         } else {
@@ -82,7 +84,7 @@ public class FXMLElegirEntregaController implements Initializable {
     private void cargarInformacionTabla(){
         try {
             listaEntregas = FXCollections.observableArrayList(
-                EntregaDAO.obtenerEntregasSinValidarPorEstudiante(estudianteSeleccionado.getId())
+                EntregaDAO.obtenerEntregasSinValidarPorEstudiante(estudianteSeleccionado.getId(),idProfesor)
             );
             tvEntregas.setItems(listaEntregas);
         } catch (SQLException ex) {
@@ -99,8 +101,7 @@ public class FXMLElegirEntregaController implements Initializable {
             Parent vista = cargador.load();
 
             FXMLValidarEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudianteSeleccionado, entrega, profesor);
-
+            controlador.inicializarInformacion(estudianteSeleccionado, entrega, profesor, idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Validar Entrega");
@@ -119,7 +120,7 @@ public class FXMLElegirEntregaController implements Initializable {
                     getResource("vista/FXMLElegirEstudiante.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEstudianteController controlador = cargador.getController();
-            controlador.inicializar(profesor);
+            controlador.inicializar(profesor,idProfesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Estudiante");

@@ -23,7 +23,7 @@ import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
  */
 public class EntregaDAO {
     
-    public static List<Entrega> obtenerEntregasSinValidarPorEstudiante(int idEstudiante) throws SQLException {
+    public static List<Entrega> obtenerEntregasSinValidarPorEstudiante(int idEstudiante, int idProfesor) throws SQLException {
         List<Entrega> entregas = new ArrayList<>();
         Connection conexion = ConexionBD.abrirConexion();
         if (conexion == null) {
@@ -32,43 +32,53 @@ public class EntregaDAO {
 
         String consulta = 
             // 1. REPORTES
-            "(SELECT er.id_entrega_reporte AS id_entrega, r.id_reporte AS id_archivo, er.titulo, er.descripcion, er.fecha_inicio, er.fecha_fin, r.fecha_entregado, 'REPORTE' AS tipo, 'NINGUNO' AS subtipo_doc " +
+            "(SELECT er.id_entrega_reporte, r.id_reporte, er.titulo, er.descripcion, er.fecha_inicio, er.fecha_fin, r.fecha_entregado, 'REPORTE' AS tipo, 'NINGUNO' AS subtipo_doc " +
             " FROM entrega_reporte er " +
             " JOIN reporte r ON er.id_reporte = r.id_reporte " +
             " JOIN expediente exp ON er.id_expediente = exp.id_expediente " +
-            " WHERE exp.id_estudiante = ? AND r.archivo IS NOT NULL AND r.fecha_revisado IS NULL) " +
+            " JOIN estudiante est ON exp.id_estudiante = est.id_estudiante " +
+            " JOIN experiencia_educativa ee ON est.id_experiencia_educativa = ee.id_experiencia_educativa " + 
+            " WHERE exp.id_estudiante = ? AND ee.id_profesor = ? AND r.archivo IS NOT NULL AND r.fecha_revisado IS NULL) " + 
             "UNION " +
             // 2. DOCUMENTOS INICIALES
             "(SELECT ed.id_entrega_documento, di.id_documento_inicial, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, di.fecha_entregado, 'DOCUMENTO', 'INICIAL' " +
             " FROM entrega_documento ed " +
             " JOIN documento_inicial di ON ed.id_documento_inicial = di.id_documento_inicial " +
             " JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
-            " WHERE exp.id_estudiante = ? AND ed.tipo_entrega = 'Inicial' AND di.archivo IS NOT NULL AND di.fecha_revisado IS NULL) " +
+            " JOIN estudiante est ON exp.id_estudiante = est.id_estudiante " +
+            " JOIN experiencia_educativa ee ON est.id_experiencia_educativa = ee.id_experiencia_educativa " + 
+            " WHERE exp.id_estudiante = ? AND ee.id_profesor = ? AND ed.tipo_entrega = 'Inicial' AND di.archivo IS NOT NULL AND di.fecha_revisado IS NULL) " +
             "UNION " +
             // 3. DOCUMENTOS INTERMEDIOS
             "(SELECT ed.id_entrega_documento, dm.id_documento_intermedio, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, dm.fecha_entregado, 'DOCUMENTO', 'INTERMEDIO' " +
             " FROM entrega_documento ed " +
             " JOIN documento_intermedio dm ON ed.id_documento_intermedio = dm.id_documento_intermedio " +
             " JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
-            " WHERE exp.id_estudiante = ? AND ed.tipo_entrega = 'Intermedio' AND dm.archivo IS NOT NULL AND dm.fecha_revisado IS NULL) " +
+            " JOIN estudiante est ON exp.id_estudiante = est.id_estudiante " +
+            " JOIN experiencia_educativa ee ON est.id_experiencia_educativa = ee.id_experiencia_educativa " +
+            " WHERE exp.id_estudiante = ? AND ee.id_profesor = ? AND ed.tipo_entrega = 'Intermedio' AND dm.archivo IS NOT NULL AND dm.fecha_revisado IS NULL) " + 
             "UNION " +
             // 4. DOCUMENTOS FINALES
             "(SELECT ed.id_entrega_documento, df.id_documento_final, ed.titulo, ed.descripcion, ed.fecha_inicio, ed.fecha_fin, df.fecha_entregado, 'DOCUMENTO', 'FINAL' " +
             " FROM entrega_documento ed " +
             " JOIN documento_final df ON ed.id_documento_final = df.id_documento_final " +
             " JOIN expediente exp ON ed.id_expediente = exp.id_expediente " +
-            " WHERE exp.id_estudiante = ? AND ed.tipo_entrega = 'Final' AND df.archivo IS NOT NULL AND df.fecha_revisado IS NULL)";
+            " JOIN estudiante est ON exp.id_estudiante = est.id_estudiante " +
+            " JOIN experiencia_educativa ee ON est.id_experiencia_educativa = ee.id_experiencia_educativa " + 
+            " WHERE exp.id_estudiante = ? AND ee.id_profesor = ? AND ed.tipo_entrega = 'Final' AND df.archivo IS NOT NULL AND df.fecha_revisado IS NULL)"; 
 
         try (PreparedStatement declaracion = conexion.prepareStatement(consulta)) {
             // Se asignan los parámetros para cada subconsulta del UNION
-            declaracion.setInt(1, idEstudiante);
-            declaracion.setInt(2, idEstudiante);
-            declaracion.setInt(3, idEstudiante);
-            declaracion.setInt(4, idEstudiante);
+            int paramIndex = 1;
+            for (int i = 0; i < 4; i++) {
+                declaracion.setInt(paramIndex++, idEstudiante);
+                declaracion.setInt(paramIndex++, idProfesor);
+            }
+            
             try (ResultSet resultado = declaracion.executeQuery()) {
                 while (resultado.next()) {
                     Entrega entrega = new Entrega();
-                    entrega.setIdEntrega(resultado.getInt(1)); // Por índice para evitar ambigüedad de nombre
+                    entrega.setIdEntrega(resultado.getInt(1));
                     entrega.setIdArchivo(resultado.getInt(2));
                     entrega.setTitulo(resultado.getString(3));
                     entrega.setDescripcion(resultado.getString(4));
@@ -262,12 +272,10 @@ public class EntregaDAO {
             conexionBD.rollback();
             resultado.setError(true);
             resultado.setMensaje("Error al programar la entrega: " + ex.getMessage());
-            ex.printStackTrace(); 
         } finally {
-            if (conexionBD != null) {
-                conexionBD.setAutoCommit(true);
-                conexionBD.close();
-            }
+            conexionBD.setAutoCommit(true);
+            conexionBD.close();
+            
         }
 
         return resultado;
