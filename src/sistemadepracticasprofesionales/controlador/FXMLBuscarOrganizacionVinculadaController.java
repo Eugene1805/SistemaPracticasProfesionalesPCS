@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package sistemadepracticasprofesionales.controlador;
 
 import java.io.IOException;
@@ -22,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -120,22 +115,12 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
     
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-           regresarAlDashbord();
+        regresarAlDashbord();
     }
 
     @FXML
     private void tfbuscarOrganizacionVinculada(ActionEvent event) {
-                actualizarFiltro(tfBuscar.getText());
-    }
-
-    @FXML
-    private void btnClicCancelar(ActionEvent event) { 
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
-                "¿Está seguro de que desea cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-            regresarAlDashbord();
-        }
+        actualizarFiltro(tfBuscar.getText());
     }
 
     @FXML

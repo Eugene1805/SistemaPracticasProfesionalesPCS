@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
@@ -11,7 +12,10 @@
       <AnchorPane layoutY="1.0" prefHeight="146.0" prefWidth="854.0" style="-fx-background-color: #487BB1;">
          <children>
          
-             <Button layoutX="726.0" layoutY="20.0" onAction="#btnClicRegresar" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #A6C2E2;" text="Regresar" />
+             <Button layoutX="726.0" layoutY="20.0" onAction="#btnClicRegresar" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          
              <Label fx:id="lblPeriodoEscolar" layoutX="427.0" layoutY="51.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" textFill="WHITE" />
              <Label fx:id="lbHorasAcumuladas" layoutX="517.0" layoutY="77.0" textFill="WHITE" />
@@ -37,8 +41,6 @@
                <TableColumn fx:id="tcPDF" prefWidth="99.0" text="PDF" />
            </columns>
        </TableView>
-   
-       <Button fx:id="btnClicSalir" onAction="#btnClicSalir" layoutX="735" layoutY="530" prefWidth="100" style="-fx-background-color: #487BB1;" text="Salir" />
    </children>
 
 </AnchorPane>

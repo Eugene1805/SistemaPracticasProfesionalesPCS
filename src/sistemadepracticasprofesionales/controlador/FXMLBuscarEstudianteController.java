@@ -117,16 +117,6 @@ public class FXMLBuscarEstudianteController implements Initializable {
     }
 
     @FXML
-    private void btnClicCancelar(ActionEvent event) {
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
-            "¿Está seguro de que desea cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-            regresarAlDashbord();
-        }
-    }
-
-    @FXML
     private void btnClicAceptar(ActionEvent event) {
         Estudiante estudianteSeleccionado = tvEstudiantes.getSelectionModel().getSelectedItem();
         if(estudianteSeleccionado != null){

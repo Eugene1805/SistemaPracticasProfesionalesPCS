@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -117,6 +118,8 @@ public class FXMLConsultarAvanceController implements Initializable {
     private String origenLlamada;
     private Usuario usuarioActual;
     private PeriodoEscolar periodoActual;
+    @FXML
+    private Button btnRegistrar;
 
     /**
      * Initializes the controller class.
@@ -202,7 +205,7 @@ public class FXMLConsultarAvanceController implements Initializable {
     private void btnClicRegresar(ActionEvent event) {
         if ("Profesor".equals(origenLlamada)) {
             regresarABuscarEstudiante();
-        } else {
+        }else {
             regresarAlDashboard();
         }
     }
@@ -290,7 +293,6 @@ public class FXMLConsultarAvanceController implements Initializable {
             }
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Base de Datos", "No se pudo obtener el archivo de la base de datos.");
-            ex.printStackTrace();
         }
     }
     
@@ -300,7 +302,7 @@ public class FXMLConsultarAvanceController implements Initializable {
                 "¿Está seguro de que desea salir?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-                    regresarAlDashboard();
+            regresarAlDashboard();
         }
     }
     

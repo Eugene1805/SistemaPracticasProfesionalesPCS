@@ -78,16 +78,6 @@ public class FXMLProgramarEntregasController implements Initializable {
     }
 
     @FXML
-    private void btnClicCancelar(ActionEvent event) {
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar", 
-                "¿Está seguro de que desea cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-            regresarAlDashbord();
-        }
-    }
-
-    @FXML
     private void btnClicEntregaIniciales(ActionEvent event) {
             try {
                 List<TipoDocumentoInicial> tiposInicialesDisponibles = TipoDocumentoInicialDAO.obtenerTiposDisponibles(

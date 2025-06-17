@@ -12,10 +12,13 @@
    <children>
       <AnchorPane layoutY="-1.0" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #487BB1;">
          <children>
-            <Button layoutX="518.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+            <Button layoutX="509.0" layoutY="26.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Label layoutX="14.0" layoutY="29.0" text="Generar Formato de Evaluación para Organización Vinculada" textFill="WHITE">
                <font>
@@ -75,13 +78,12 @@
                </font></Label>
          </children>
       </AnchorPane>
-      <Button layoutX="338.0" layoutY="452.0" mnemonicParsing="false" onAction="#btnClicGenerarFormato" style="-fx-background-color: #487BB1;" text="Generar Formato" textFill="WHITE">
+      <Button layoutX="443.0" layoutY="446.0" mnemonicParsing="false" onAction="#btnClicGenerarFormato" style="-fx-background-color: #487BB1;" text="Generar Formato" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <Button layoutX="496.0" layoutY="452.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>
