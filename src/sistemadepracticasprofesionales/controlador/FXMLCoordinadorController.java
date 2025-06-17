@@ -28,6 +28,8 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
 
     @FXML
     private Label lbUsuario;
+    
+    private Usuario coordinador;
 
     /**
      * Initializes the controller class.
@@ -50,7 +52,7 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
                     getResource("vista/FXMLAsignarProyectos.fxml"));
             Parent vista = cargador.load();
             FXMLAsignarProyectosController controlador = cargador.getController();
-            controlador.inicializar(lbUsuario.getText());
+            controlador.inicializar(coordinador);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Dasboard Estudiante");
@@ -75,7 +77,7 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
                     getResource("vista/FXMLRegistrarOrganizacionVinculada.fxml"));
             Parent vista = cargador.load();
             FXMLRegistrarOrganizacionVinculadaController controlador = cargador.getController();
-            controlador.inicializar(lbUsuario.getText());
+            controlador.inicializar(coordinador);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Dasboard Estudiante");
@@ -115,6 +117,7 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
     @Override
     public void inicializar(Usuario usuario) {
         lbUsuario.setText(usuario.getNombre() +" "+ usuario.getApellidoPaterno());
+        this.coordinador = usuario;
     } 
 
 }

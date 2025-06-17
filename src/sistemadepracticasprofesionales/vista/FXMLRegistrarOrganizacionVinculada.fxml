@@ -15,7 +15,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="648.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicBtnRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+      <Button fx:id="btnRegresar" layoutX="648.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicBtnRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
