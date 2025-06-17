@@ -50,6 +50,9 @@
       <Line endX="100.0" layoutX="137.0" layoutY="149.0" startX="-100.0" />
       <Line endX="100.0" layoutX="137.0" layoutY="199.0" startX="-100.0" />
       <Line endX="100.0" layoutX="137.0" layoutY="383.0" startX="-100.0" />
-      <Label layoutX="91.0" layoutY="350.0" onMouseClicked="#clicGenerarEntregas" text="Generar Entregas" />
+      <Label layoutX="91.0" layoutY="350.0" onMouseClicked="#clicGenerarEntregas" text="Generar Entregas">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Label>
    </children>
 </AnchorPane>

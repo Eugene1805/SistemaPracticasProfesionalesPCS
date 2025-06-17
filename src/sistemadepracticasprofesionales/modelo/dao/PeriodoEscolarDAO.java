@@ -25,7 +25,6 @@ public class PeriodoEscolarDAO {
             PreparedStatement sentencia = conexionBD.prepareStatement(consulta);
             
             sentencia.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
-            //ELIMINAR ESTA LINEA PARA ENTREGA FINAL, LA USÉ DE PRUEBA PARA OTRO PERIODO sentencia.setDate(1, java.sql.Date.valueOf("2025-03-01"));
 
             ResultSet resultado = sentencia.executeQuery();
 

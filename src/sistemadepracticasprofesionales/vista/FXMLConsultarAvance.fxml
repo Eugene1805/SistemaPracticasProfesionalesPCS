@@ -23,6 +23,9 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </AnchorPane>
@@ -76,11 +79,17 @@
                               <TableColumn fx:id="tcCalificacionIniciales" prefWidth="75.0" text="Calificación" />
                               <TableColumn fx:id="tcObservacionIniciales" prefWidth="128.0" text="Observaciones" />
                           </columns>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </TableView>
                         <Button layoutX="358.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFInicial" style="-fx-background-color: #487BB1;" text="PDF Inicial" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
-                           </font></Button>
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <Label layoutX="475.0" layoutY="14.0" text="Reportes:">
                            <font>
                               <Font name="System Bold" size="16.0" />
@@ -94,11 +103,17 @@
                               <TableColumn fx:id="tcCalificacionReportes" prefWidth="75.0" text="Calificación" />
                               <TableColumn fx:id="tcObservacionReportes" prefWidth="136.0" text="Observaciones" />
                            </columns>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </TableView>
                         <Button layoutX="825.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFReporte" style="-fx-background-color: #487BB1;" text="PDF Reporte" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
-                           </font></Button>
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <Label layoutX="16.0" layoutY="318.0" text="Documentos Intermedios:">
                            <font>
                               <Font name="System Bold" size="16.0" />
@@ -112,11 +127,17 @@
                               <TableColumn fx:id="tcCalificacionIntermedios" prefWidth="75.0" text="Calificación" />
                               <TableColumn fx:id="tcObservacionIntermedios" prefWidth="128.0" text="Observaciones" />
                            </columns>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </TableView>
                         <Button layoutX="355.0" layoutY="575.0" mnemonicParsing="false" onAction="#btnClicPDFIntermedio" style="-fx-background-color: #487BB1;" text="PDF Intermedio" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
-                           </font></Button>
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <Label layoutX="481.0" layoutY="317.0" text="Documentos Finales:">
                            <font>
                               <Font name="System Bold" size="16.0" />
@@ -130,15 +151,24 @@
                               <TableColumn fx:id="tcCalificacionFinales" prefWidth="75.0" text="Calificación" />
                               <TableColumn fx:id="tcObservacionFinales" prefWidth="128.0" text="Observaciones" />
                            </columns>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </TableView>
                         <Button layoutX="814.0" layoutY="570.0" mnemonicParsing="false" onAction="#btnClicPDFFinal" style="-fx-background-color: #487BB1;" text="PDF Final" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
-                           </font></Button>
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <Button layoutX="860.0" layoutY="604.0" mnemonicParsing="false" onAction="#btnClicSalir" style="-fx-background-color: #487BB1;" text="Salir" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
-                           </font></Button>
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                      </children>
                   </AnchorPane>
                </children>

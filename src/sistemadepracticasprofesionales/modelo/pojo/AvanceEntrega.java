@@ -3,8 +3,9 @@ package sistemadepracticasprofesionales.modelo.pojo;
 /**
  *
  * @author Nash
- * Fecha: 12/06/2025
- * Descripcion: Clase para modelar los datos de una entrega y sus relaciones
+ * Fecha: 10/06/2025
+ * Descripcion: Clase que modela los campos correspondientes que se visualizan al consultar el
+ * avance de los estudiantes
  */
 public class AvanceEntrega {
     private int idEntrega;

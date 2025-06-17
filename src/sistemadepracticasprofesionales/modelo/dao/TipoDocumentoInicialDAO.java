@@ -15,7 +15,8 @@ import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
  *
  * @author Nash
  * Fecha: 12/06/2025
- * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a los Tipos de documentos iniciales
+ * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a los Tipos de documentos iniciales,
+ * usado principalmente para verificar qué tipos de entregas ya han sido programadas en un periodo.
  */
 public class TipoDocumentoInicialDAO {
     
@@ -44,7 +45,6 @@ public class TipoDocumentoInicialDAO {
             throw new SQLException("No hay conexión con la base de datos.");
         }
 
-        // Filtramos la lista completa de Enums.
         List<TipoDocumentoInicial> tiposSinAsignar = tiposExistentes.stream()
                 .filter(tipoEnum -> !tiposUsados.contains(tipoEnum.getNombreEnBD()))
                 .collect(Collectors.toList());

@@ -41,6 +41,9 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 5/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, donde se recuperarán las organizaciones vinculadas
+ * registradas en el sistema para registrar a un responsable del proyecto
  */
 public class FXMLBuscarOrganizacionVinculadaController implements Initializable {
 
