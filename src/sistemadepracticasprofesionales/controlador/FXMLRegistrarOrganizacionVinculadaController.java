@@ -103,16 +103,6 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
                     "Hay campos con datos invalidos");
         }
     }
-
-    @FXML
-    private void btnClicCancelar(ActionEvent event) {
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar",
-                "¿Estás seguro de que deseas cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-           limpiarCampos();
-        }
-    }
     
     private OrganizacionVinculada obtenerOrganizacionVinculada(){
         OrganizacionVinculada organizacionVinculada = new OrganizacionVinculada();
@@ -173,5 +163,15 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
         tfRazonSocial.setText("");
         tfNumUsuariosDirectos.setText("");
         tfNumUsuariosIndirectos.setText("");
+    }
+
+    @FXML
+    private void btnClicLimpiarCampos(ActionEvent event) {
+        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion borrar",
+                "¿Estás seguro de que deseas borrar los campos?");
+        Optional<ButtonType> resultado = alerta.showAndWait();
+        if(resultado.get() == ButtonType.APPLY){
+           limpiarCampos();
+        }
     }
 }

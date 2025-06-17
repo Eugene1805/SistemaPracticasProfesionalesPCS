@@ -16,7 +16,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="575.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: A6C2E2;" text="Regresar" textFill="WHITE">
+            <Button layoutX="572.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: A6C2E2;" text="Regresar" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -55,14 +55,7 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Button layoutX="491.0" layoutY="581.0" mnemonicParsing="false" onAction="#btnClicAceptar" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Button>
-      <Button layoutX="586.0" layoutY="581.0" mnemonicParsing="false" onAction="#btnClicCancelar" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+      <Button layoutX="587.0" layoutY="572.0" mnemonicParsing="false" onAction="#btnClicAceptar" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

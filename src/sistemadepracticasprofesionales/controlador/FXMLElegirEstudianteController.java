@@ -52,16 +52,6 @@ public class FXMLElegirEstudianteController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-
-    @FXML
-    private void btnClicCancelar(ActionEvent event) {
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar",
-                "¿Estás seguro de que deseas cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-            irAlDashboard();
-        }
     }
     
     private void configurarTabla(){

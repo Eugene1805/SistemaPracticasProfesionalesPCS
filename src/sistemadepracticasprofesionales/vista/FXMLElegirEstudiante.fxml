@@ -31,9 +31,5 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </TableView>
-      <Button layoutX="477.0" layoutY="325.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
    </children>
 </AnchorPane>

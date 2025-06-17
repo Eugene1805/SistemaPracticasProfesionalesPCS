@@ -81,16 +81,6 @@ public class FXMLEvaluarOrganizacionVinculadaController implements Initializable
                     "Hay campos con datos invalidos");
         }
     }
-
-    @FXML
-    private void btnClicCancelar(ActionEvent event) {
-        Alert alerta = Utilidad.mostrarAlertaConfirmacion("Confirmacion Cancelar",
-                "¿Estás seguro de que deseas cancelar?");
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if(resultado.get() == ButtonType.APPLY){
-            regresarAlDashboard();
-        }
-    }
     
     private void cargarComboBoxes(){
         ObservableList<Integer> grados = FXCollections.observableArrayList();
