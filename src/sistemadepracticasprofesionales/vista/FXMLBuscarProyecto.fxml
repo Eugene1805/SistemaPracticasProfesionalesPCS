@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLBuscarProyectoController">
+<AnchorPane id="AnchorPane" prefHeight="437.0" prefWidth="600.0" style="-fx-background-color: #F5F7FA;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLBuscarProyectoController">
    <children>
       <AnchorPane prefHeight="81.0" prefWidth="600.0" style="-fx-background-color: #487BB1;">
          <children>
@@ -23,7 +23,10 @@
             </Label>
          </children>
       </AnchorPane>
-      <TextField fx:id="tfBuscar" layoutX="42.0" layoutY="152.0" prefHeight="31.0" prefWidth="241.0" promptText="Buscar Proyecto" />
+      <TextField fx:id="tfBuscar" layoutX="42.0" layoutY="152.0" prefHeight="31.0" prefWidth="241.0" promptText="Buscar Proyecto">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <Button fx:id="btnBuscar" layoutX="504.0" layoutY="155.0" mnemonicParsing="false" onAction="#btnClicBuscar" style="-fx-background-color: #487BB1;" text="Buscar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />

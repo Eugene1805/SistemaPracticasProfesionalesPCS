@@ -7,35 +7,70 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="620.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarProyectoController">
+<AnchorPane id="AnchorPane" prefHeight="488.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarProyectoController">
    <children>
       <AnchorPane layoutY="-1.0" prefHeight="66.0" prefWidth="634.0" style="-fx-background-color: #487BB1;">
          <children>
-            <Label layoutX="54.0" layoutY="14.0" text="Registrar Proyecto" textFill="WHITE">
+            <Label layoutX="14.0" layoutY="14.0" text="Registrar Proyecto" textFill="WHITE">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="509.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+            <Button layoutX="557.0" layoutY="21.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
          </children>
       </AnchorPane>
-      <Label layoutX="32.0" layoutY="133.0" text="Nombre:" />
-      <TextField fx:id="tfNombre" layoutX="150.0" layoutY="128.0" prefHeight="31.0" prefWidth="467.0" promptText="Nombre" />
-      <Label layoutX="32.0" layoutY="179.0" text="Descripción:" />
-      <TextField fx:id="tfDescripcion" layoutX="150.0" layoutY="172.0" prefHeight="35.0" prefWidth="467.0" promptText="Descripcion" />
-      <Label layoutX="32.0" layoutY="236.0" text="Estado:" />
+      <Label layoutX="34.0" layoutY="130.0" text="Nombre:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <TextField fx:id="tfNombre" layoutX="150.0" layoutY="128.0" prefHeight="31.0" prefWidth="467.0" promptText="Nombre">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <Label layoutX="34.0" layoutY="176.0" text="Descripción:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <TextField fx:id="tfDescripcion" layoutX="150.0" layoutY="172.0" prefHeight="35.0" prefWidth="467.0" promptText="Descripcion">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <Label layoutX="34.0" layoutY="233.0" text="Estado:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
       <ComboBox fx:id="cbEstado" layoutX="150.0" layoutY="229.0" prefHeight="35.0" prefWidth="160.0" promptText="Estado" />
-      <TextField fx:id="tfCupo" layoutX="448.0" layoutY="232.0" prefHeight="35.0" prefWidth="160.0" promptText="Cupo" />
-      <Label layoutX="353.0" layoutY="239.0" text="Cupo:" />
-      <Label layoutX="31.0" layoutY="282.0" text="Fecha de inicio:" />
-      <Label layoutX="351.0" layoutY="282.0" text="Fecha de fin:" />
-      <Label layoutX="31.0" layoutY="340.0" text="Organización Vinculada:" />
-      <Label layoutX="32.0" layoutY="396.0" text="Responsable del proyecto:" />
+      <TextField fx:id="tfCupo" layoutX="448.0" layoutY="232.0" prefHeight="35.0" prefWidth="160.0" promptText="Cupo">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <Label layoutX="355.0" layoutY="236.0" text="Cupo:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="33.0" layoutY="279.0" text="Fecha de inicio:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="353.0" layoutY="279.0" text="Fecha de fin:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="33.0" layoutY="337.0" text="Organización Vinculada:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="34.0" layoutY="393.0" text="Responsable del proyecto:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
       <Separator layoutX="33.0" layoutY="112.0" prefHeight="0.0" prefWidth="588.0" />
       <Label layoutX="32.0" layoutY="78.0" text="Ingrese los datos del Proyecto">
          <font>
@@ -43,9 +78,15 @@
          </font>
       </Label>
       <ComboBox fx:id="cbOrganizacionVinculada" layoutX="287.0" layoutY="335.0" prefHeight="31.0" prefWidth="255.0" promptText="Organización Vinculada" />
-      <ComboBox fx:id="cbResponsableProyecto" layoutX="287.0" layoutY="391.0" prefHeight="31.0" prefWidth="255.0" promptText="Responsable del Proyecto"/>
-      <Button layoutX="445.0" layoutY="438.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #A6C2E2;" text="Aceptar" textFill="WHITE" />
-      <Button layoutX="531.0" layoutY="438.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #A6C2E2;" text="Cancelar" textFill="WHITE" />
+      <ComboBox fx:id="cbResponsableProyecto" layoutX="287.0" layoutY="391.0" prefHeight="31.0" prefWidth="255.0" promptText="Responsable del Proyecto" />
+      <Button layoutX="445.0" layoutY="438.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="531.0" layoutY="438.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
       <DatePicker fx:id="dpFechaInicio" layoutX="150.0" layoutY="277.0" prefHeight="31.0" prefWidth="160.0" promptText="Fecha Inicio" />
       <DatePicker fx:id="dpFechaFin" layoutX="451.0" layoutY="277.0" prefHeight="31.0" prefWidth="160.0" promptText="Fecha Fin" />
    </children>

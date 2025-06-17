@@ -7,65 +7,125 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarOrganizacionVinculadaController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F5F7FA;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLRegistrarOrganizacionVinculadaController">
    <children>
-      <AnchorPane prefHeight="81.0" prefWidth="800.0" style="-fx-background-color: #487BB1;" />
-      <Label layoutX="47.0" layoutY="28.0" text="Registrar Organizacion Vinculada" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnRegresar" layoutX="648.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicBtnRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
+      <AnchorPane prefHeight="81.0" prefWidth="800.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Label layoutX="14.0" layoutY="23.0" text="Registrar Organización Vinculada" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnRegresar" layoutX="720.0" layoutY="28.0" mnemonicParsing="false" onAction="#clicBtnRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
       <TextField fx:id="tfRazonSocial" layoutX="48.0" layoutY="122.0" promptText="Nombre">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <TextField fx:id="tfTelefono" layoutX="424.0" layoutY="116.0" prefHeight="39.0" prefWidth="274.0" promptText="Telefono">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <TextField fx:id="tfDireccion" layoutX="48.0" layoutY="206.0" prefHeight="39.0" prefWidth="648.0" promptText="Direccion">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <TextField fx:id="tfCiudad" layoutX="424.0" layoutY="299.0" prefHeight="39.0" prefWidth="274.0" promptText="Ciudad">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <TextField fx:id="tfSector" layoutX="48.0" layoutY="373.0" promptText="Sector">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <TextField fx:id="tfNumUsuariosDirectos" layoutX="48.0" layoutY="455.0" prefHeight="39.0" prefWidth="254.0" promptText="Numero de usuarios directos">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
       <TextField fx:id="tfNumUsuariosIndirectos" layoutX="424.0" layoutY="455.0" prefHeight="39.0" prefWidth="274.0" promptText="Numero de usuarios indirectos">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
-      <Button layoutX="489.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #A6C2E2;" text="Aceptar" textFill="WHITE">
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <Button layoutX="549.0" layoutY="530.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Button layoutX="649.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #A6C2E2;" text="Cancelar" textFill="WHITE">
+         </cursor>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="709.0" layoutY="530.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Label layoutX="48.0" layoutY="82.0" text="Nombre:" />
-      <Label layoutX="48.0" layoutY="173.0" text="Direccion:" />
-      <Label layoutX="424.0" layoutY="82.0" text="Telefono:" />
-      <Label layoutX="47.0" layoutY="259.0" text="Estado:" />
-      <Label layoutX="424.0" layoutY="259.0" text="Ciudad:" />
-      <Label layoutX="48.0" layoutY="338.0" text="Sector:" />
-      <Label layoutX="48.0" layoutY="422.0" text="Numero de usuarios directos:" />
-      <Label layoutX="424.0" layoutY="422.0" text="Numero de usuarios indirectos:" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="47.0" layoutY="95.0" text="Nombre:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="48.0" layoutY="173.0" text="Direccion:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="424.0" layoutY="94.0" text="Telefono:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="47.0" layoutY="271.0" text="Estado:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="424.0" layoutY="271.0" text="Ciudad:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="48.0" layoutY="347.0" text="Sector:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="48.0" layoutY="429.0" text="Numero de usuarios directos:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="424.0" layoutY="431.0" text="Numero de usuarios indirectos:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
       <TextField fx:id="tfEstado" layoutX="48.0" layoutY="299.0" promptText="Estado">
          <cursor>
             <Cursor fx:constant="TEXT" />
-         </cursor></TextField>
+         </cursor>
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
    </children>
 </AnchorPane>

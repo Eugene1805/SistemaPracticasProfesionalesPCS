@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLGenerarFormatoParaOVController">
+<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="600.0" style="-fx-background-color: #F5F7FA;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLGenerarFormatoParaOVController">
    <children>
       <AnchorPane layoutY="-1.0" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #487BB1;">
          <children>
@@ -17,13 +17,13 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+            <Label layoutX="14.0" layoutY="29.0" text="Generar Formato de Evaluación para Organización Vinculada" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="24.0" layoutY="26.0" text="Generar Formato de Evaluación  para Organización Vinculada" textFill="WHITE">
-         <font>
-            <Font name="Segoe UI Bold" size="16.0" />
-         </font>
-      </Label>
       <AnchorPane layoutX="14.0" layoutY="84.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="168.0" prefWidth="174.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="ivFotoEstudiante" fitHeight="96.0" fitWidth="114.0" layoutX="30.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
@@ -49,24 +49,39 @@
       </AnchorPane>
       <AnchorPane layoutX="15.0" layoutY="282.0" prefHeight="151.0" prefWidth="571.0">
          <children>
-            <Label layoutX="52.0" layoutY="14.0" text="Proyecto:">
+            <Label layoutX="22.0" layoutY="13.0" text="Proyecto:">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="16.0" />
                </font></Label>
-            <Label layoutX="52.0" layoutY="55.0" text="Descripción:">
+            <Label layoutX="22.0" layoutY="54.0" text="Descripción:">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="16.0" />
                </font></Label>
-            <Label layoutX="52.0" layoutY="96.0" text="Organización Vinculada:">
+            <Label layoutX="22.0" layoutY="95.0" text="Organización Vinculada:">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="16.0" />
                </font></Label>
-            <Label fx:id="lbNombreProyecto" layoutX="133.0" layoutY="14.0" prefHeight="21.0" prefWidth="416.0" />
-            <Label fx:id="lbDescripcionProyecto" layoutX="142.0" layoutY="44.0" prefHeight="44.0" prefWidth="407.0" textAlignment="JUSTIFY" />
-            <Label fx:id="lbOrganizacion" layoutX="223.0" layoutY="96.0" prefHeight="19.0" prefWidth="334.0" />
+            <Label fx:id="lbNombreProyecto" layoutX="133.0" layoutY="14.0" prefHeight="21.0" prefWidth="416.0">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Label fx:id="lbDescripcionProyecto" layoutX="142.0" layoutY="44.0" prefHeight="44.0" prefWidth="407.0" textAlignment="JUSTIFY">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Label fx:id="lbOrganizacion" layoutX="223.0" layoutY="96.0" prefHeight="19.0" prefWidth="334.0">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
          </children>
       </AnchorPane>
-      <Button layoutX="338.0" layoutY="452.0" mnemonicParsing="false" onAction="#btnClicGenerarFormato" text="Generar Formato" />
-      <Button layoutX="496.0" layoutY="452.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <Button layoutX="338.0" layoutY="452.0" mnemonicParsing="false" onAction="#btnClicGenerarFormato" style="-fx-background-color: #487BB1;" text="Generar Formato" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="496.0" layoutY="452.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

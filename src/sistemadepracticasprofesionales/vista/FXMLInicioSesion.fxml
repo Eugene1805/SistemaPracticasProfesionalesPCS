@@ -21,18 +21,30 @@
       </AnchorPane>
       <AnchorPane layoutX="295.0" prefHeight="370.0" prefWidth="305.0" style="-fx-background-color: #487BB1;">
          <children>
-            <Label layoutX="22.0" layoutY="22.0" prefHeight="88.0" prefWidth="262.0" text="Sistema de practicas profesionales" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label layoutX="22.0" layoutY="22.0" prefHeight="88.0" prefWidth="262.0" text="Sistema de Prácticas Profesionales" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="122.0" layoutY="120.0" text="Login" textFill="WHITE" />
-            <TextField fx:id="tfUsername" layoutX="33.0" layoutY="174.0" promptText="Username" />
-            <PasswordField fx:id="pfPassword" layoutX="33.0" layoutY="244.0" promptText="Password" />
-            <Button layoutX="106.0" layoutY="302.0" mnemonicParsing="false" onAction="#btnLogin" style="-fx-background-color: #A6C2E2;" text="Log In" textFill="WHITE">
+            <Label layoutX="129.0" layoutY="110.0" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <TextField fx:id="tfUsername" layoutX="72.0" layoutY="177.0" promptText="Username">
+               <font>
+                  <Font size="13.0" />
+               </font></TextField>
+            <PasswordField fx:id="pfPassword" layoutX="72.0" layoutY="248.0" promptText="Password">
+               <font>
+                  <Font size="13.0" />
+               </font></PasswordField>
+            <Button layoutX="126.0" layoutY="302.0" mnemonicParsing="false" onAction="#btnLogin" style="-fx-background-color: #A6C2E2;" text="Login" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Button>
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </children>
