@@ -54,14 +54,14 @@ public class FXMLProfesorController implements Initializable, Dashboard {
                     getResource("vista/FXMLElegirEstudiante.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEstudianteController controlador = cargador.getController();
-            controlador.inicializar(profesor.getUsername());
+            controlador.inicializar(profesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Consultar Avance");
             escenarioBase.show();
         } catch (IOException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
-                    "No se pudo abrir la ventana de seleccion de estudiantes.");
+                    "No se pudo abrir la ventana de seleccion de estudiantes");
         }
     }
 
@@ -88,18 +88,16 @@ public class FXMLProfesorController implements Initializable, Dashboard {
             }else {
                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Profesor no encontrado",
                         "No se encontró un registro de profesor para el usuario " + profesor.getUsername()); 
-            //cAMBIAR MENSAJE
             }
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
                     "No se pudo consultar la información del profesor.");
-            //Cambiar mensaje
         }
     }
 
     @Override
     public void inicializar(Usuario usuario) {
-        lbUsuario.setText(usuario.getUsername());
+        lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno());
         profesor = usuario;
     }    
 }

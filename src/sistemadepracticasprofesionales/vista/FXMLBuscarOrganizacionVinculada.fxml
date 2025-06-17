@@ -21,6 +21,9 @@
             <TableColumn fx:id="tcCiudad" prefWidth="106.0" text="Ciudad" />
             <TableColumn fx:id="tcEstado" prefWidth="93.0" text="Estado" />
         </columns>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </TableView>
       <Label layoutX="40.0" layoutY="73.0" text="Seleccione o Busque la Organización Vinculada:">
          <font>
@@ -32,6 +35,9 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Label layoutX="14.0" layoutY="16.0" text="Registrar Responsable del Proyecto" textFill="WHITE">
                <font>
@@ -44,11 +50,17 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button layoutX="421.0" layoutY="389.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>

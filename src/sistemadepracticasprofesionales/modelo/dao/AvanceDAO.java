@@ -15,7 +15,8 @@ import sistemadepracticasprofesionales.modelo.pojo.AvanceEntrega;
  *
  * @author Nash
  * Fecha: 12/06/2025
- * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a los avances que llevan los estudiantes
+ * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a la obtención 
+ * de los avances que llevan los estudiantes en el perido escolar actual
  */
 public class AvanceDAO {
      private static List<AvanceEntrega> obtenerAvanceGenerico(int idEstudiante, int idPeriodoEscolar, String tipoEntrega, String tablaDocumento, String idColumnaDocumento) throws SQLException {

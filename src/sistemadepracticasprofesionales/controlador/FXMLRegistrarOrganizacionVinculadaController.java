@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
@@ -59,6 +60,8 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
 
     private ValidadorFormulario validadorFormulario;
     private Usuario coordinador;
+    @FXML
+    private Button btnRegresar;
     /**
      * Initializes the controller class.
      */
@@ -86,9 +89,8 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
         }
     }
     
-    public void inicializar(String nombre){
-        this.coordinador = new Usuario();
-        this.coordinador.setNombre(nombre);
+    public void inicializar(Usuario usuario){
+        this.coordinador = usuario;
     }
 
     @FXML
@@ -132,7 +134,7 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
             if(!resultadoOperacion.isError()){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
                         resultadoOperacion.getMensaje());
-                Utilidad.abrirVentana("Coordinador", tfTelefono);
+                btnRegresar.fire();
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
                         resultadoOperacion.getMensaje());

@@ -37,6 +37,9 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, donde se recuperarán los estudiantes 
+ * del profesor logueado en el periodo escolar actual para consultar sus avances
  */
 public class FXMLBuscarEstudianteController implements Initializable {
 

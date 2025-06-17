@@ -44,6 +44,9 @@ import sistemadepracticasprofesionales.utilidades.Utilidad;
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, para mostrar todo el avance de las entregas 
+ * del estudiante dado, permitiendo la descarga de los archivos entregados.
  */
 public class FXMLConsultarAvanceController implements Initializable {
     @FXML
@@ -160,10 +163,6 @@ public class FXMLConsultarAvanceController implements Initializable {
                 ByteArrayInputStream inputFoto = new ByteArrayInputStream(foto);
                 Image imagen = new Image(inputFoto);
                 ivFotoEstudiante.setImage(imagen);
-            } else {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Sin foto", 
-                        "El estudiante no tiene una foto registrada");
-               
             }
         }catch (SQLException e){
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "ERROR", 

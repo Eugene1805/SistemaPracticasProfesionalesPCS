@@ -15,6 +15,9 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Label layoutX="14.0" layoutY="16.0" text="Buscar Estudiantes" textFill="WHITE">
                <font>
@@ -31,21 +34,30 @@
             <TableColumn fx:id="tcApellidoMaterno" prefWidth="124.0" text="Apellido Materno" />
             <TableColumn fx:id="tcProyecto" prefWidth="121.0" text="Proyecto" />
         </columns>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </TableView>
       <Label layoutX="31.0" layoutY="86.0" text="Seleccione un Estudiante para consultar su Expediente:">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Label>
       <Button layoutX="530.0" layoutY="348.0" mnemonicParsing="false" onAction="#btnClicCancelar" style="-fx-background-color: #487BB1;" text="Cancelar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Button layoutX="432.0" layoutY="348.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>

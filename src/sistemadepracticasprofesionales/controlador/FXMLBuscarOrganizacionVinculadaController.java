@@ -35,12 +35,16 @@ import sistemadepracticasprofesionales.dominio.OrganizacionVinculadaDM;
 import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 5/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, donde se recuperarán las organizaciones vinculadas
+ * registradas en el sistema para registrar a un responsable del proyecto
  */
 public class FXMLBuscarOrganizacionVinculadaController implements Initializable {
 
@@ -62,6 +66,8 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
     private ObservableList<OrganizacionVinculada> organizaciones;
     private FilteredList<OrganizacionVinculada> filtroOrganizaciones;
     
+    private Usuario coordinador;
+    
     /**
      * Initializes the controller class.
      */
@@ -72,6 +78,10 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
         
         tvOrganizacionesVinculadas.setPlaceholder(new Label("No se encontraron organizaciones con ese nombre"));
         configurarBusqueda();
+    }
+    
+    public void inicializar(Usuario usuario){
+        this.coordinador = usuario;
     }
     
     private void configurarTabla(){
@@ -110,7 +120,7 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
     
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("Coordinador", tfBuscar);
+           regresarAlDashbord();
     }
 
     @FXML
@@ -124,7 +134,7 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
                 "¿Está seguro de que desea cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Coordinador", tfBuscar);                               
+            regresarAlDashbord();
         }
     }
 
@@ -152,6 +162,7 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
             Parent vista = cargador.load();
             FXMLRegistrarResponsableController controlador = cargador.getController();
             controlador.setOrganizacionSeleccionada(organizacionSeleccionada);
+            controlador.inicializar(coordinador);
             Scene escena = new Scene(vista);
             escenaActual.setScene(escena);
             escenaActual.setTitle("Registrar Responsable");
@@ -182,4 +193,22 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
             return razonSocialNormalizada.contains(filtroNormalizado);
         });
     }    
+
+    private void regresarAlDashbord() {
+        try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(tvOrganizacionesVinculadas);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dashboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
+                "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }     
+    }
 }

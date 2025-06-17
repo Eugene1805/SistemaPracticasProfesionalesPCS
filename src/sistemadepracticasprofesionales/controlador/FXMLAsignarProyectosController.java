@@ -97,6 +97,10 @@ public class FXMLAsignarProyectosController implements Initializable {
             ObservableList<Estudiante> estudiantes = FXCollections.observableArrayList();
             estudiantes.addAll(EstudianteDAO.obtenerEstudiantesSinProyectoAsignado());
             cbEstudiantes.setItems(estudiantes);
+            if(cbEstudiantes.getItems().isEmpty()){
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "No quedan estudiantes sin proyecto asignado",
+                        "Todos los estudiantes han sido asignados a un proyecto");
+            }
         } catch (SQLException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar los estudiantes");
@@ -108,8 +112,11 @@ public class FXMLAsignarProyectosController implements Initializable {
             ObservableList<Proyecto> proyectos = FXCollections.observableArrayList();
             proyectos.addAll(ProyectoDAO.obtenerProyectosConCupoDisponible());
             cbProyectos.setItems(proyectos);
+            if(cbProyectos.getItems().isEmpty()){
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "No que dan cupos en ningun proyecto",
+                        "Se han agotado los cupos de los proyectos registrados");
+            }
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar los proyectos");
         
@@ -143,7 +150,7 @@ public class FXMLAsignarProyectosController implements Initializable {
     private void guardarAsignacion(int idEstudiante, int idProyecto){
         ResultadoOperacion resultadoOperacion = EstudianteDAO.guardarAsignacion(idEstudiante,idProyecto);
         if(!resultadoOperacion.isError()){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Estudiante" +
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Estudiante " +
                     obtenerEstudianteSeleccionado().getNombre()
                     + " asignado al proyecto "+ obtenerProyectoSeleccionado().getNombre() +" con exito",
                     resultadoOperacion.getMensaje());
@@ -176,7 +183,6 @@ public class FXMLAsignarProyectosController implements Initializable {
             lbOrganizacionVinculada.setText("Organizacion vinculada " + proyectoSeleccionado.getNombreOrganizacionVinculada());
             lbCuposDisponibles.setText("Cupos disponibles: " + String.valueOf(proyectoSeleccionado.getCupo()));
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
                     "Lo sentimos, por el momento no fue posible cargar la informacion del proyecto");
         }
@@ -209,9 +215,8 @@ public class FXMLAsignarProyectosController implements Initializable {
         }
     }
     
-    public void inicializar(String nombre){
-        this.coordinador = new Usuario();
-        this.coordinador.setNombre(nombre);
+    public void inicializar(Usuario usuario){
+        this.coordinador = usuario;
     }
     
     private void inicializarValidaciones(){

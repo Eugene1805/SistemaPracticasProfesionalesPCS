@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -11,16 +8,22 @@ import java.util.ResourceBundle;
 import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.dominio.ResponsableProyectoDM;
 import sistemadepracticasprofesionales.modelo.dao.ResponsableProyectoDAO;
 import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.ResponsableProyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.MailValidationStrategy;
@@ -32,6 +35,9 @@ import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextVal
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 06/06/2025
+ * Descripción: Gestiona las interacciones entre la vista y el DAO de Responsable Proyecto para poder hacer 
+ * registros de un Responsable del Proyecto en el formulario mostrado en la vista
  */
 public class FXMLRegistrarResponsableController implements Initializable {
 
@@ -53,6 +59,7 @@ public class FXMLRegistrarResponsableController implements Initializable {
     private OrganizacionVinculada organizacionSeleccionada;
     private ValidadorFormulario validadorFormulario;
     
+    private Usuario coordinador;
 
     /**
      * Initializes the controller class.
@@ -61,6 +68,10 @@ public class FXMLRegistrarResponsableController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         inicializarValidaciones();
     }    
+    
+    public void inicializar(Usuario usuario){
+        this.coordinador = usuario;
+    }
     
     public void setOrganizacionSeleccionada(OrganizacionVinculada organizacionSeleccionada){
         this.organizacionSeleccionada = organizacionSeleccionada;
@@ -85,7 +96,21 @@ public class FXMLRegistrarResponsableController implements Initializable {
     
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("BuscarOrganizacionVinculada", tfNombre);
+        try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(tfApellidoMaterno);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLBuscarOrganizacionVinculada.fxml"));
+            Parent vista = cargador.load();
+            FXMLBuscarOrganizacionVinculadaController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Buscar Organizacion Vinculada");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana de buscar organizacion vinculada",
+                "Lo sentimos no fue posible cargar la informacion de la ventana Buscar Organización Vinculada");
+        }   
     }
 
     @FXML
@@ -94,7 +119,7 @@ public class FXMLRegistrarResponsableController implements Initializable {
                 "¿Está seguro de que desea cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Coordinador", tfApellidoMaterno);                    
+            regresarAlDashbord();
         }
     }
     
@@ -117,7 +142,7 @@ public class FXMLRegistrarResponsableController implements Initializable {
             if (!resultadoInsertar.isError()) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operacion exitosa", 
                         "Responsable del Proyecto registrado con exito");
-                Utilidad.abrirVentana("Coordinador", tfTelefono);            
+                regresarAlDashbord();
             } else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No se pudo registrar", 
                         "No fue posible guardar el registro de " + responsableProyecto.getNombre());                
@@ -145,4 +170,23 @@ public class FXMLRegistrarResponsableController implements Initializable {
           .ifPresent(Control::requestFocus);
         });
     }
+
+    private void regresarAlDashbord() {
+        try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(tfApellidoMaterno);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dashboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
+                "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }     
+    }
+    
 }

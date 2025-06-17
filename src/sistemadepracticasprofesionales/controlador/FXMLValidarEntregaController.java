@@ -26,6 +26,7 @@ import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
 import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.NumericValidationStrategy;
@@ -58,6 +59,7 @@ public class FXMLValidarEntregaController implements Initializable {
     private Button btnRechazar;
     
     private Estudiante estudianteAValidar;
+    private Usuario profesor;
     private Entrega entregaAValidar;
     private ValidadorFormulario validadorFormulario;
     /**
@@ -84,9 +86,10 @@ public class FXMLValidarEntregaController implements Initializable {
         finalizarOperacion();
     }
 
-    public void inicializarInformacion(Estudiante estudiante,Entrega entrega) {
+    public void inicializarInformacion(Estudiante estudiante,Entrega entrega, Usuario profesor) {
         this.entregaAValidar = entrega;
         this.estudianteAValidar = estudiante;
+        this.profesor = profesor;
         cargarDatosEntrega();
     }
     
@@ -182,7 +185,7 @@ public class FXMLValidarEntregaController implements Initializable {
                     getResource("vista/FXMLElegirEntrega.fxml"));
             Parent vista = cargador.load();
             FXMLElegirEntregaController controlador = cargador.getController();
-            controlador.inicializarInformacion(estudianteAValidar);
+            controlador.inicializar(estudianteAValidar, profesor);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
             escenarioBase.setTitle("Elegir Entrega");

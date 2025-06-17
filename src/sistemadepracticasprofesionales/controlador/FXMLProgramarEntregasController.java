@@ -22,12 +22,16 @@ import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
 import sistemadepracticasprofesionales.modelo.dao.TipoDocumentoInicialDAO;
 import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
 import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
  * FXML Controller class
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descripción: Controller para gestionar las interacciones entre su vista, que sirve de puente para indicar
+ * el tipo de entrega que se deberá programar
  */
 public class FXMLProgramarEntregasController implements Initializable {
 
@@ -37,6 +41,7 @@ public class FXMLProgramarEntregasController implements Initializable {
     private Button btnEntregasIniciales;
     
     private PeriodoEscolar periodoEscolarActual;
+    private Usuario coordinador;
    
 
     /**
@@ -46,6 +51,10 @@ public class FXMLProgramarEntregasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarPeriodoEscolarActual();
     }    
+    
+    public void inicializar(Usuario usuario){
+        this.coordinador = usuario;
+    }
     
     private void cargarPeriodoEscolarActual(){
         try{
@@ -63,13 +72,9 @@ public class FXMLProgramarEntregasController implements Initializable {
         }   
     }
     
-    private void verificarEntregasProgramadas(){
-
-    }
-
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("Coordinador", lblPeriodoEscolar);
+        regresarAlDashbord();
     }
 
     @FXML
@@ -78,7 +83,7 @@ public class FXMLProgramarEntregasController implements Initializable {
                 "¿Está seguro de que desea cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Coordinador", lblPeriodoEscolar);                               
+            regresarAlDashbord();
         }
     }
 
@@ -107,6 +112,7 @@ public class FXMLProgramarEntregasController implements Initializable {
             Parent vista = cargador.load();
             FXMLGenerarEntregasController controlador = cargador.getController();
             controlador.inicializarDatos(tipoEntrega, periodoEscolarActual);
+            controlador.inicializar(coordinador);
             Scene escena = new Scene(vista);
             escenaActual.setScene(escena);
             escenaActual.setTitle("Generar Entrega Iniciales");
@@ -134,4 +140,21 @@ public class FXMLProgramarEntregasController implements Initializable {
                 "La funcionalidad de este apartado sigue en desarrollo");
     }
     
+    private void regresarAlDashbord() {
+        try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(lblPeriodoEscolar);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dashboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
+                "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }     
+    }
 }

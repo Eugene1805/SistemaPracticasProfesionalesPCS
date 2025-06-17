@@ -14,18 +14,18 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
  *
  * @author Nash
  * Fecha: 12/06/2025
- * Descricpión: Reglas de negocio necesarias para guardar le evaluacion del estudiante a la Organizacion vinculada
+ * Descricpión: Clase para gestionar las reglas de negocio relacionadas a la consulta del avance de los 
+ * estudiantes dados
  */
 public class AvanceDM {
         public static ResultadoOperacion verificarExistenciaDeEntregas(int idEstudiante, int idPeriodoEscolar) {
         ResultadoOperacion resultado = new ResultadoOperacion();
-        resultado.setError(false); // Por defecto, no hay error
+        resultado.setError(false); 
 
         try {
-            // Verificamos cada tipo de entrega. Si alguna lista no está vacía, el estudiante tiene entregas.
             List<AvanceEntrega> iniciales = AvanceDAO.obtenerAvanceDocumentosIniciales(idEstudiante,
                     idPeriodoEscolar);
-            if (!iniciales.isEmpty()) return resultado; // Si encontramos algo, salimos con éxito.
+            if (!iniciales.isEmpty()) return resultado; 
 
             List<AvanceEntrega> intermedios = AvanceDAO.obtenerAvanceDocumentosIntermedios(idEstudiante,
                     idPeriodoEscolar);
@@ -40,7 +40,7 @@ public class AvanceDM {
             if (!reportes.isEmpty()) return resultado;
 
             resultado.setError(true);
-            resultado.setMensaje("El estudiante no tiene ninguna entrega registrada en el sistema para el periodo escolar actual.");
+            resultado.setMensaje("Lo sentimos no hay ninguna entrega registrada en el sistema para el perido escolar actual.");
 
         } catch (SQLException e) {
             resultado.setError(true);

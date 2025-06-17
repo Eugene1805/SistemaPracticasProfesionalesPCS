@@ -5,13 +5,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<<<<<<< HEAD
 <AnchorPane prefHeight="200" prefWidth="400" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLFormatoGeneradoController">
     <children>
         <Label layoutX="50" layoutY="40" prefWidth="300" text="El formato de evaluación ha sido generado correctamente." textAlignment="CENTER" wrapText="true">
+=======
+<AnchorPane prefHeight="200" prefWidth="400" style="-fx-background-color: #F5F7FA;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistemadepracticasprofesionales.controlador.FXMLFormatoGeneradoController">
+    <children>
+        <Label layoutX="50" layoutY="40" prefWidth="300" text="El Formato de Evaluación ha sido generado correctamente." textAlignment="CENTER" wrapText="true">
+>>>>>>> 35524e714d639d1154a0bfb91887398487828412
             <font>
                 <Font name="System Bold Italic" size="16.0" />
             </font>
         </Label>
+<<<<<<< HEAD
         <Button layoutX="176.0" layoutY="120.0" onAction="#btnClicSalir" text="Salir" />
+=======
+        <Button layoutX="180.0" layoutY="134.0" onAction="#btnClicSalir" style="-fx-background-color: #487BB1;" text="Salir" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+>>>>>>> 35524e714d639d1154a0bfb91887398487828412
     </children>
 </AnchorPane>

@@ -11,6 +11,8 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 /**
  *
  * @author Nash
+ * Fecha: 10/06/2025
+ * Descricpión: Clase para gestionar las reglas de negocio relacionadas a la gestión de las Organizaciones Vinculadas
  */
 public class OrganizacionVinculadaDM {
     public static ResultadoOperacion verificarExistenciaResponsableAsignado(int idOrganizacion){
