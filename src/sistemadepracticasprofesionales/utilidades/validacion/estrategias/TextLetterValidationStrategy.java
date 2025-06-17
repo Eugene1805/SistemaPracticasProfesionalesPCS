@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemadepracticasprofesionales.utilidades.validacion.estrategias;
 
 import javafx.scene.control.TextInputControl;
@@ -27,6 +23,9 @@ public class TextLetterValidationStrategy implements IEstrategiaValidacion<TextI
     public ResultadoValidacion validar(TextInputControl textField) {
         String texto = textField.getText() == null ? "" : textField.getText().trim();
         
+        if(!obligatorio && texto.isEmpty()) {
+            return new ResultadoValidacion(true, "");
+        }
         if(obligatorio && texto.isEmpty()){
             return new ResultadoValidacion(false, "Campo obligatorio");
         }
@@ -35,8 +34,8 @@ public class TextLetterValidationStrategy implements IEstrategiaValidacion<TextI
             return new ResultadoValidacion(false, "Máximo " + longitudMaxima + " caracteres");
         }
         
-        if((!texto.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) && obligatorio){
-            return new ResultadoValidacion(false, "Solo deben ingresarse letras");
+        if(!texto.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")){
+                return new ResultadoValidacion(false, "Solo deben ingresarse letras");
         }
         
         return new ResultadoValidacion(true, "");
