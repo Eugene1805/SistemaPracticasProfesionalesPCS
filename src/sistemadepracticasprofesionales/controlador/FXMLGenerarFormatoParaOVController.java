@@ -37,9 +37,10 @@ import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
- * FXML Controller class
  *
  * @author meler
+ * Fecha:14/06/25
+ * Descripcion: Controller de la vista GenerarFormatoParaOV y su interacción con los DAO y clic.
  */
 public class FXMLGenerarFormatoParaOVController implements Initializable {
 
@@ -119,6 +120,7 @@ public class FXMLGenerarFormatoParaOVController implements Initializable {
 
     @FXML
     private void btnClicRegresar(ActionEvent event) {
+        regresarAlDashboard();
     }
 
     @FXML

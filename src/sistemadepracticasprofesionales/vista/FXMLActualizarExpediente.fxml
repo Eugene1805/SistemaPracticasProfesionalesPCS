@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="519.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLActualizarExpedienteController">
+<AnchorPane id="AnchorPane" prefHeight="576.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemadepracticasprofesionales.controlador.FXMLActualizarExpedienteController">
    <children>
       <ProgressBar fx:id="pbHorasAcumuladas" layoutX="287.0" layoutY="145.0" prefWidth="200.0" progress="0.0" />
       <Label layoutX="287.0" layoutY="102.0" text="Horas Acumuladas:">
@@ -16,10 +16,10 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="14.0" layoutY="26.0" prefHeight="237.0" prefWidth="227.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane layoutX="14.0" layoutY="102.0" prefHeight="237.0" prefWidth="227.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="ivFotoEstudiante" fitHeight="127.0" fitWidth="185.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="lblNombreEstudiante" layoutX="20.0" layoutY="141.0">
+            <Label fx:id="lblNombreEstudiante" layoutX="99.0" layoutY="141.0" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -31,22 +31,31 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label fx:id="lbNombreProyecto" layoutX="63.0" layoutY="303.0" prefHeight="21.0" prefWidth="416.0" text="Sistema educativo" textAlignment="CENTER" />
-      <Label fx:id="lbNombreExperiencia" layoutX="54.0" layoutY="282.0" prefHeight="20.0" prefWidth="147.0" text="Practicas profesionales" textAlignment="CENTER">
+      <Label fx:id="lbNombreProyecto" layoutX="63.0" layoutY="374.0" prefHeight="21.0" prefWidth="416.0" textAlignment="CENTER" />
+      <Label fx:id="lbNombreExperiencia" layoutX="63.0" layoutY="344.0" prefHeight="20.0" prefWidth="147.0" textAlignment="CENTER">
          <font>
             <Font name="System Italic" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lbNombreProfesor" layoutX="88.0" layoutY="324.0" text="Mtro Saul" />
-      <Label fx:id="lbNombrePeriodo" layoutX="271.0" layoutY="50.0" text="PERIODO ESCOLAR" textAlignment="CENTER">
+      <Label fx:id="lbNombrePeriodo" layoutX="271.0" layoutY="50.0" textAlignment="CENTER">
          <font>
             <Font name="System Bold Italic" size="22.0" />
          </font>
       </Label>
-      <Button layoutX="54.0" layoutY="358.0" mnemonicParsing="false" onAction="#btnSubirDocumentosIniciales" text="Subir Documentos Iniciales" />
-      <Button layoutX="300.0" layoutY="358.0" mnemonicParsing="false" text="Subir Documentos Intermedios" />
-      <Button layoutX="54.0" layoutY="411.0" mnemonicParsing="false" text="Subir Documentos Finales" />
-      <Button layoutX="301.0" layoutY="411.0" mnemonicParsing="false" text="Subir Reportes" />
-      <Button layoutX="488.0" layoutY="466.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <Button layoutX="54.0" layoutY="423.0" mnemonicParsing="false" onAction="#btnSubirDocumentosIniciales" text="Subir Documentos Iniciales" />
+      <Button layoutX="300.0" layoutY="423.0" mnemonicParsing="false" text="Subir Documentos Intermedios" />
+      <Button layoutX="54.0" layoutY="476.0" mnemonicParsing="false" text="Subir Documentos Finales" />
+      <Button layoutX="301.0" layoutY="476.0" mnemonicParsing="false" text="Subir Reportes" />
+      <Button layoutX="488.0" layoutY="531.0" mnemonicParsing="false" onAction="#btnClicCancelar" text="Cancelar" />
+      <AnchorPane layoutX="-1.0" layoutY="-1.0" prefHeight="89.0" prefWidth="606.0" style="-fx-background-color: #487BB1;">
+         <children>
+            <Label layoutX="75.0" layoutY="34.0" text="Actualizar Expediente" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button layoutX="500.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnClicRegresar" text="Regresar" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

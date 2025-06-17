@@ -10,6 +10,7 @@ import sistemadepracticasprofesionales.modelo.ConexionBD;
 import sistemadepracticasprofesionales.modelo.pojo.Expediente;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 
+
 /**
  *
  * @author eugen

@@ -280,4 +280,52 @@ public class EntregaDAO {
 
         return resultado;
     }
+    
+    // sistemadepracticasprofesionales.modelo.dao.EntregaDAO.java
+
+    public static List<Entrega> obtenerEntregasPorTipo(int idExpediente, String tipoEntrega) throws SQLException {
+        List<Entrega> entregas = new ArrayList<>();
+        Connection conexion = ConexionBD.abrirConexion();
+
+        if (conexion == null) {
+            throw new SQLException("No se pudo conectar a la base de datos.");
+        }
+
+        // FIX: Cambiado a LEFT JOIN para incluir entregas sin archivo subido
+        String consulta = "SELECT ed.id_entrega_documento, ed.titulo, ed.descripcion, " +
+                          "ed.fecha_inicio, ed.fecha_fin, ed.id_documento_inicial, di.fecha_entregado " +
+                          "FROM entrega_documento ed " +
+                          "LEFT JOIN documento_inicial di ON ed.id_documento_inicial = di.id_documento_inicial " +
+                          "WHERE ed.id_expediente = ? AND ed.tipo_entrega = ?";
+
+        try (PreparedStatement ps = conexion.prepareStatement(consulta)) {
+            ps.setInt(1, idExpediente);
+            ps.setString(2, tipoEntrega);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Entrega entrega = new Entrega();
+                    entrega.setIdEntrega(rs.getInt("id_entrega_documento"));
+                    entrega.setTitulo(rs.getString("titulo"));
+                    entrega.setDescripcion(rs.getString("descripcion"));
+                    entrega.setFechaInicio(rs.getDate("fecha_inicio").toString());
+                    entrega.setFechaFin(rs.getDate("fecha_fin").toString());
+
+                    // IMPORTANTE: id_documento_inicial se guarda en el campo idArchivo del POJO
+                    entrega.setIdArchivo(rs.getInt("id_documento_inicial"));
+
+                    // fecha_entregado puede ser NULL si nunca se ha subido un archivo
+                    entrega.setFechaEntregado(rs.getDate("fecha_entregado") != null ? rs.getDate("fecha_entregado").toString() : null);
+
+                    entrega.setTipo(Entrega.Tipo.DOCUMENTO);
+                    entrega.setSubtipoDoc(Entrega.SubtipoDocumento.INICIAL);
+                    entregas.add(entrega);
+                }
+            }
+        } finally {
+            conexion.close();
+        }
+        return entregas;
+    }
+
 }

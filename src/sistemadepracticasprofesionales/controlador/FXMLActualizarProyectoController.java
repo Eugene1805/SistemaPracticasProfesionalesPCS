@@ -31,6 +31,7 @@ import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResponsableProyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboValidationStrategy;
@@ -65,6 +66,7 @@ public class FXMLActualizarProyectoController implements Initializable {
     private DatePicker dpFechaFin;
 
     private Proyecto proyectoActual;
+    private Usuario coordinador;
     private ValidadorFormulario validador = new ValidadorFormulario();
     private ObservableList<OrganizacionVinculada> listaOrganizaciones;
     private ObservableList<ResponsableProyecto> listaResponsables;
@@ -129,7 +131,6 @@ public class FXMLActualizarProyectoController implements Initializable {
             cbEstado.setValue(proyecto.getEstado());
         }
 
-        // Selección de organización vinculada
         if (listaOrganizaciones != null) {
             cbOrganizacionVinculada.getSelectionModel().select(
                 listaOrganizaciones.stream()
@@ -138,8 +139,6 @@ public class FXMLActualizarProyectoController implements Initializable {
             );
         }
 
-        // El responsable del proyecto se carga cuando se selecciona la organización,
-        // por eso no se hace aquí directamente (se maneja en el listener)
     }
 
 
@@ -223,7 +222,25 @@ public class FXMLActualizarProyectoController implements Initializable {
 
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("BuscarProyecto", tfNombre);
+        try {
+            Stage escenarioBase = Utilidad.obtenerEscenario(tfNombre);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dasboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
+                    "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }
+    }
+    public void inicializar(String nombre){
+        this.coordinador = new Usuario();
+        this.coordinador.setNombre(nombre);
     }
 
     @FXML

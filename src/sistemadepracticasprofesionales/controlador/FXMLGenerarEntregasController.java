@@ -4,6 +4,7 @@
  */
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -14,7 +15,10 @@ import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -22,6 +26,8 @@ import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.dominio.EntregaDM;
 import sistemadepracticasprofesionales.modelo.dao.EntregaDAO;
 import sistemadepracticasprofesionales.modelo.dao.TipoDocumentoInicialDAO;
@@ -29,6 +35,7 @@ import sistemadepracticasprofesionales.modelo.pojo.Entrega;
 import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.TipoDocumentoInicial;
+import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.ComboValidationStrategy;
@@ -59,6 +66,7 @@ public class FXMLGenerarEntregasController implements Initializable {
     private ValidadorFormulario validadorFormulario;
     private PeriodoEscolar periodoEscolarActual;
     private String tipoEntrega;
+    private Usuario coordinador;
     /**
      * Initializes the controller class.
      */
@@ -66,6 +74,10 @@ public class FXMLGenerarEntregasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         inicializarValidaciones();
     }    
+    
+    public void inicializar(Usuario usuario){
+        this.coordinador = usuario;
+    }
     
     public void inicializarDatos(String tipoEntrega, PeriodoEscolar periodoEscolarActual){
         this.tipoEntrega = tipoEntrega;
@@ -97,7 +109,7 @@ public class FXMLGenerarEntregasController implements Initializable {
                 if (opcion.get() == ButtonType.APPLY) {
                     guardarEntrega();
                 }
-                Utilidad.abrirVentana("Coordinador", tfTitulo);            
+                regresarAlDashbord();
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Verificar datos", resultado.getMensaje());
             }
@@ -130,8 +142,6 @@ public class FXMLGenerarEntregasController implements Initializable {
         }
     }
 
-    public FXMLGenerarEntregasController() {
-    }
 
     @FXML
     private void btnClicCancelar(ActionEvent event) {
@@ -139,14 +149,48 @@ public class FXMLGenerarEntregasController implements Initializable {
                 "¿Está seguro de que desea cancelar?");
         Optional<ButtonType> resultado = alerta.showAndWait();
         if(resultado.get() == ButtonType.APPLY){
-            Utilidad.abrirVentana("Coordinador", tfTitulo);                               
+            regresarAlDashbord();
         }
         
     }
     @FXML
     private void btnClicRegresar(ActionEvent event) {
-        Utilidad.abrirVentana("ProgramarEntregas", tfTitulo);
+        try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(tfTitulo);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLProgramarEntregas.fxml"));
+            Parent vista = cargador.load();
+            FXMLProgramarEntregasController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Programar Entregas");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana de Programar Entregas",
+                "Lo sentimos no fue posible cargar la ventana de Programar Entregas");
+        }     
+    
     }
+    
+    private void regresarAlDashbord() {
+        try{
+            Stage escenarioBase = Utilidad.obtenerEscenario(taDescripcion);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
+                    getResource("vista/FXMLCoordinador.fxml"));
+            Parent vista = cargador.load();
+            FXMLCoordinadorController controlador = cargador.getController();
+            controlador.inicializar(coordinador);
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Dashboard Coordinador");
+            escenarioBase.show();
+        } catch (IOException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
+                "Lo sentimos no fue posible cargar la informacion del coordinador");
+        }     
+    }
+    
     private void inicializarValidaciones(){
         validadorFormulario = new ValidadorFormulario();
         validadorFormulario.addValidation(cbTiposDocumentos, new ComboValidationStrategy(true));

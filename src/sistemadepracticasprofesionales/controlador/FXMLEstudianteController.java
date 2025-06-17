@@ -14,11 +14,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.dominio.AvanceDM;
-import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
+import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
+import sistemadepracticasprofesionales.modelo.dao.ExpedienteDAO;
+import sistemadepracticasprofesionales.SistemaDePracticasProfesionales; 
 import sistemadepracticasprofesionales.modelo.pojo.Estudiante;
+import sistemadepracticasprofesionales.modelo.pojo.Expediente;
 import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
@@ -93,8 +95,44 @@ public class FXMLEstudianteController implements Initializable, Dashboard {
 
     @FXML
     private void clicActualizarExpediente(MouseEvent event) {
-        Utilidad.abrirVentana("ActualizarExpediente", lbUsuario);
+        try {
+            Estudiante estudianteLogueado = EstudianteDAO.obtenerEstudiantePorMatricula(estudiante.getUsername());
+            if (estudianteLogueado == null) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Datos", 
+                        "No se pudo encontrar el perfil completo del estudiante.");
+                return;
+            }
+
+            Expediente expedienteActivo = ExpedienteDAO.obtenerExpedienteActivoPorEstudiante(estudianteLogueado.getId());
+            if (expedienteActivo == null) {
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin Expediente",
+                        "No tienes un expediente de prácticas profesionales activo en este momento.");
+                return;
+            }
+
+            Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
+            FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.getResource("vista/FXMLActualizarExpediente.fxml"));
+            Parent vista = cargador.load();
+
+            FXMLActualizarExpedienteController controladorDestino = cargador.getController();
+            controladorDestino.inicializarDatos(this.estudiante, estudianteLogueado, expedienteActivo);
+
+            Scene escenaPrincipal = new Scene(vista);
+            escenarioBase.setScene(escenaPrincipal);
+            escenarioBase.setTitle("Actualizar Expediente");
+            escenarioBase.show();
+
+        } catch (SQLException ex) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
+                    "No se pudo conectar con la base de datos. Por favor, inténtelo más tarde.");
+            ex.printStackTrace();
+        } catch (IOException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga",
+                    "No fue posible cargar la ventana de actualización de expediente.");
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void clicEvaluarOV(MouseEvent event) {
@@ -128,7 +166,6 @@ public class FXMLEstudianteController implements Initializable, Dashboard {
                 FXMLGenerarFormatoParaOVController controller = loader.getController();
                 controller.inicializarDatos(estudianteLogueado.getId(), estudiante);
 
-                // ✅ REUTILIZA el Stage actual en lugar de crear uno nuevo
                 Stage escenarioBase = Utilidad.obtenerEscenario(lbUsuario);
                 Scene nuevaEscena = new Scene(root);
                 escenarioBase.setScene(nuevaEscena);

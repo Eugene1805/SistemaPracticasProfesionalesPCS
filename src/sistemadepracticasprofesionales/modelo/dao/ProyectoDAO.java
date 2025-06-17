@@ -14,8 +14,8 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 
 /**
  *
- * @author eugen
- * Fecha:24/05/25
+ * @author meler
+ * Fecha:12/06/25
  * Descripcion: DAO para el acceso a la base de datos con metodos relacionados a un Proyecto
  */
 public class ProyectoDAO {
