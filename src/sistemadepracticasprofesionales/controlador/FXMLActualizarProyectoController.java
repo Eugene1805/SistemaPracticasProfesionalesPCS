@@ -25,13 +25,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.OrganizacionVinculadaDAO;
-import sistemadepracticasprofesionales.modelo.dao.ProyectoDAO;
 import sistemadepracticasprofesionales.modelo.dao.ResponsableProyectoDAO;
 import sistemadepracticasprofesionales.modelo.enums.EstadoProyecto;
 import sistemadepracticasprofesionales.modelo.pojo.OrganizacionVinculada;
 import sistemadepracticasprofesionales.modelo.pojo.Proyecto;
 import sistemadepracticasprofesionales.modelo.pojo.ResponsableProyecto;
-import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
@@ -160,7 +158,6 @@ public class FXMLActualizarProyectoController implements Initializable {
                     listaResponsables = FXCollections.observableArrayList(responsables);
                     cbResponsableProyecto.setItems(listaResponsables);
 
-                    // Seleccionar el responsable si coincide
                     if (proyectoActual != null) {
                         cbResponsableProyecto.getSelectionModel().select(
                             listaResponsables.stream()

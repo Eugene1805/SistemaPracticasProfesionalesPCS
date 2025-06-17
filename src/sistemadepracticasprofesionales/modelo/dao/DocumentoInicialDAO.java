@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 /**
- * Autor: meler (con corrección de Eugenio Salvador González Sánchez)
+ * Autor: meler
  * Fecha: 12/06/25
  * Descripción: DAO para el acceso a la base de datos con metodos relacionados a un DocumentoInicial
  */

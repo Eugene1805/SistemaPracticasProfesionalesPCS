@@ -159,7 +159,7 @@ public class FXMLRegistrarProyectoController implements Initializable {
                     Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Registro exitoso", "Operación exitosa.");
                     limpiarFormulario();
                 } else {
-                    Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", resultado.getMensaje());
+                    Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", "El proyecto ya tiene coincidencias");
                 }
             } catch (SQLException e) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de base de datos", "No hay conexión.");

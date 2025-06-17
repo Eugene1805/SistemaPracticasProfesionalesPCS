@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package sistemadepracticasprofesionales.controlador;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,6 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.FileChooser;
@@ -25,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
 import sistemadepracticasprofesionales.modelo.dao.EstudianteDAO;
 import sistemadepracticasprofesionales.modelo.dao.ExperienciaEducativaDAO;
@@ -68,7 +67,7 @@ public class FXMLGenerarFormatoParaOVController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Reemplazado
     }
     
     public void inicializarDatos(int idEstudiante, Usuario estudianteUsuario) {
@@ -114,9 +113,23 @@ public class FXMLGenerarFormatoParaOVController implements Initializable {
             mostrarAlerta(Alert.AlertType.ERROR, "Error al cargar los datos: " + e.getMessage());
             e.printStackTrace();
         }
+        
+        cargarFoto();
     }
 
-    
+    private void cargarFoto(){
+        try{
+            byte[] foto = EstudianteDAO.obtenerFotoEstudiante(estudiante.getId());
+            if (foto != null && foto.length > 0) {
+                ByteArrayInputStream inputFoto = new ByteArrayInputStream(foto);
+                Image imagen = new Image(inputFoto);
+                ivFotoEstudiante.setImage(imagen);
+            }
+        }catch (SQLException e){
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "ERROR", 
+                        "Error al obtener la foto del estudiante");
+        }
+    }
 
     @FXML
     private void btnClicRegresar(ActionEvent event) {

@@ -42,7 +42,7 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 
 /**
- * Autor: meler / Eugenio Salvador González Sánchez
+ * Autor: meler
  * Fecha: 15/06/25
  * Descripción: Controller para la gestión de la vista de SubirDocumentoInicial.
  */
