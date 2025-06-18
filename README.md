@@ -19,3 +19,9 @@ Cada ventana corresponde a un caso de uso por actor, siendo los imple
 - Actualizar Proyecto
 - Generar formato de evaluación para la organización vinculada
 - Actualizar expediente
+
+## Authors
+
+- [@ArtCuevas](https://github.com/ArtCuevas)
+- [@Eugene1805](https://github.com/Eugene1805)
+- [@Erickvl22](https://github.com/Erickvl22)
