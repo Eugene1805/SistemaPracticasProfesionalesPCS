@@ -25,7 +25,7 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
-import sistemadepracticasprofesionales.utilidades.validacion.estrategias.NumericValidationStrategy;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.IntegerValidationStrategy;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.PhoneValidationStrategy;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextLetterValidationStrategy;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextValidationStrategy;
@@ -143,8 +143,8 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
         validadorFormulario.addValidation(tfEstado, new TextLetterValidationStrategy(30, true));
         validadorFormulario.addValidation(tfSector, new TextLetterValidationStrategy(100, true));
         validadorFormulario.addValidation(tfRazonSocial, new TextValidationStrategy(45, true));
-        validadorFormulario.addValidation(tfNumUsuariosDirectos, new NumericValidationStrategy(true));
-        validadorFormulario.addValidation(tfNumUsuariosIndirectos, new NumericValidationStrategy(true));
+        validadorFormulario.addValidation(tfNumUsuariosDirectos, new IntegerValidationStrategy(true, 1, 1000000));
+        validadorFormulario.addValidation(tfNumUsuariosIndirectos, new IntegerValidationStrategy(true,1, 1000000));
         validadorFormulario.addCleanupAction(()->{
            Stream.of(tfTelefono, tfDireccion, tfRazonSocial, tfNumUsuariosDirectos,tfNumUsuariosIndirectos,
                    tfCiudad,tfEstado,tfSector)

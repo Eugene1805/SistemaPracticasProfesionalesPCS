@@ -6,15 +6,19 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
 /**
  *
  * @author eugen
- * Fecha: 24/05/25
- * Descripcion:  Estrategia de validacion utilizada para validar campos de texto, especificamente aquellos que
- * seran convertidos a enteros
+ * Fecha: 18/06/25
+ * Descripcion: Estrategia de validacion para validar numeros positivos con un rango definido
  */
-public class NumericValidationStrategy implements IEstrategiaValidacion<TextField>{ //Se usa TextField por la 
-    private final boolean obligatorio;                                              //ausencia de Spinners en Java 8
+public class IntegerValidationStrategy implements IEstrategiaValidacion<TextField>{
+    private final boolean obligatorio;
+    private final int limiteSuperior;
+    private final int limiteInferior;
 
-    public NumericValidationStrategy(boolean obligatorio) {
+    public IntegerValidationStrategy(boolean obligatorio, int limiteSuperior, int limiteInferior) {
         this.obligatorio = obligatorio;
+        this.limiteSuperior = limiteSuperior;
+        this.limiteInferior = limiteInferior;
+        
     }
 
     @Override
@@ -24,13 +28,17 @@ public class NumericValidationStrategy implements IEstrategiaValidacion<TextFiel
         if(obligatorio && texto.isEmpty()){
             return new ResultadoValidacion(false, "Campo obligatorio");
         }
-        
+        Long valorNumerico = null;
         if (!texto.isEmpty()) {
             try {
-                Long.valueOf(texto);
+                valorNumerico = Long.valueOf(texto);
             } catch (NumberFormatException e) {
                 return new ResultadoValidacion(false, "Debe ser un número válido");
             }
+        }
+        
+        if(valorNumerico < limiteInferior || valorNumerico > limiteSuperior){
+            return new ResultadoValidacion(false, "El numero no se encuentra dentro de los limites permitidos");
         }
         return new ResultadoValidacion(true, "");
     }
@@ -38,5 +46,5 @@ public class NumericValidationStrategy implements IEstrategiaValidacion<TextFiel
     @Override
     public String getMensajeError() {
         return "Error en campo numerico";
-    }    
+    }
 }

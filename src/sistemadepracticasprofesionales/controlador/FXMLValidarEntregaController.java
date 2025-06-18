@@ -29,7 +29,7 @@ import sistemadepracticasprofesionales.modelo.pojo.ResultadoOperacion;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
 import sistemadepracticasprofesionales.utilidades.validacion.ValidadorFormulario;
-import sistemadepracticasprofesionales.utilidades.validacion.estrategias.NumericValidationStrategy;
+import sistemadepracticasprofesionales.utilidades.validacion.estrategias.IntegerValidationStrategy;
 import sistemadepracticasprofesionales.utilidades.validacion.estrategias.TextValidationStrategy;
 
 /**
@@ -57,12 +57,15 @@ public class FXMLValidarEntregaController implements Initializable {
     private TextField tfCalificacion;
     @FXML
     private Button btnRechazar;
+    @FXML
+    private Button btnRegresar;
     
     private Estudiante estudianteAValidar;
     private Usuario profesor;
     private int idProfesor;
     private Entrega entregaAValidar;
     private ValidadorFormulario validadorFormulario;
+    
     /**
      * Initializes the controller class.
      */
@@ -106,7 +109,7 @@ public class FXMLValidarEntregaController implements Initializable {
     private void inicializarValidaciones(){
         validadorFormulario = new ValidadorFormulario();
         validadorFormulario.addValidation(taObservacion, new TextValidationStrategy(65535, true));
-        validadorFormulario.addValidation(tfCalificacion, new NumericValidationStrategy(true));
+        validadorFormulario.addValidation(tfCalificacion, new IntegerValidationStrategy(true, 1, 100));
         validadorFormulario.addCleanupAction(()->{
            Stream.of(taObservacion, tfCalificacion)
           .filter(tf -> !tf.getStyle().isEmpty())
@@ -135,6 +138,7 @@ public class FXMLValidarEntregaController implements Initializable {
             } else {
                  Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin Archivo",
                          "No se encontró un archivo para esta entrega.");
+                 btnRegresar.fire();
             }
         } catch (SQLException | IOException ex) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Descarga", "No se pudo descargar el archivo.");
@@ -168,7 +172,7 @@ public class FXMLValidarEntregaController implements Initializable {
             if (!resultadoOperacion.isError()) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Operación Exitosa",
                         resultadoOperacion.getMensaje());
-                Utilidad.abrirVentana("Profesor", lbNombreDocumento);
+                
             } else {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la Operación", resultadoOperacion.getMensaje());
             }
@@ -180,7 +184,7 @@ public class FXMLValidarEntregaController implements Initializable {
     }
 
     @FXML
-    private void btnRegresar(ActionEvent event) {
+    private void btnClicRegresar(ActionEvent event) {
         try {
             Stage escenarioBase = Utilidad.obtenerEscenario(btnRechazar);
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
