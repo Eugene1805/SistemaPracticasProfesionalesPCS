@@ -15,7 +15,7 @@ import sistemadepracticasprofesionales.utilidades.validacion.ResultadoValidacion
  * Fecha: 19/06/25
  * Descripcion: Tests para la clase TestValidationStrategy
  */
-public class TestValidationStrategyTest {
+public class TextValidationStrategyTest {
     @BeforeClass
     public static void initJavaFX() {
         System.setProperty("java.awt.headless", "true"); // Para entornos CI
