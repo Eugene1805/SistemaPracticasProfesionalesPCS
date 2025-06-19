@@ -143,8 +143,8 @@ public class FXMLRegistrarOrganizacionVinculadaController implements Initializab
         validadorFormulario.addValidation(tfEstado, new TextLetterValidationStrategy(30, true));
         validadorFormulario.addValidation(tfSector, new TextLetterValidationStrategy(100, true));
         validadorFormulario.addValidation(tfRazonSocial, new TextValidationStrategy(45, true));
-        validadorFormulario.addValidation(tfNumUsuariosDirectos, new IntegerValidationStrategy(true, 1, 1000000));
-        validadorFormulario.addValidation(tfNumUsuariosIndirectos, new IntegerValidationStrategy(true,1, 1000000));
+        validadorFormulario.addValidation(tfNumUsuariosDirectos, new IntegerValidationStrategy(true, 1000000, 1));
+        validadorFormulario.addValidation(tfNumUsuariosIndirectos, new IntegerValidationStrategy(true,1000000, 1));
         validadorFormulario.addCleanupAction(()->{
            Stream.of(tfTelefono, tfDireccion, tfRazonSocial, tfNumUsuariosDirectos,tfNumUsuariosIndirectos,
                    tfCiudad,tfEstado,tfSector)

@@ -80,9 +80,10 @@ public class FXMLCoordinadorController implements Initializable, Dashboard {
             controlador.inicializar(coordinador);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Dasboard Estudiante");
+            escenarioBase.setTitle("Registrar Organizacion Vinculada");
             escenarioBase.show();
         } catch (IOException ex) {
+            ex.printStackTrace();
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana",
                     "Lo sentimos no fue posible cargar la informacion");
         }
