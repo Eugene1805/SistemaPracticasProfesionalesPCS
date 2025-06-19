@@ -97,9 +97,8 @@ public class FXMLGenerarEntregasController implements Initializable {
                     "Lo sentimos, por el momento no se pudieron cargar los tipos de documento iniciales disponibles.");
         }
     }
-
     @FXML
-    private void btnClicAceptar(ActionEvent event) {
+    private void btnClicGuardar(ActionEvent event) {
         if (validadorFormulario.validate()){
             ResultadoOperacion resultado = EntregaDM.verificarFechasEntrega(dpFechaInicio.getValue(), dpFechaEntrega.getValue(), periodoEscolarActual);
             if (!resultado.isError()) {

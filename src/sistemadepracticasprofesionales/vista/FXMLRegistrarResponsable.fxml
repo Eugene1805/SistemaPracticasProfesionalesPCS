@@ -54,7 +54,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <Button layoutX="423.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnClicAceptar" style="-fx-background-color: #487BB1;" text="Aceptar" textFill="WHITE">
+      <Button layoutX="423.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnClicGuardar" style="-fx-background-color: #487BB1;" text="Guardar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

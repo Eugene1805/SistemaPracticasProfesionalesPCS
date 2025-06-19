@@ -78,7 +78,7 @@ public class FXMLRegistrarResponsableController implements Initializable {
     }
 
     @FXML
-    private void btnClicAceptar(ActionEvent event) {
+    private void btnClicGuardar(ActionEvent event) {
         if (validadorFormulario.validate()) {
             ResultadoOperacion resultado = ResponsableProyectoDM.verificarExistenciaCorreo(tfCorreo.getText());
             if (!resultado.isError()) {
