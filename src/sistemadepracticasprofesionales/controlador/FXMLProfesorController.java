@@ -15,7 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sistemadepracticasprofesionales.SistemaDePracticasProfesionales;
+import sistemadepracticasprofesionales.modelo.dao.ExperienciaEducativaDAO;
+import sistemadepracticasprofesionales.modelo.dao.PeriodoEscolarDAO;
 import sistemadepracticasprofesionales.modelo.dao.ProfesorDAO;
+import sistemadepracticasprofesionales.modelo.pojo.ExperienciaEducativa;
+import sistemadepracticasprofesionales.modelo.pojo.PeriodoEscolar;
 import sistemadepracticasprofesionales.modelo.pojo.Profesor;
 import sistemadepracticasprofesionales.modelo.pojo.Usuario;
 import sistemadepracticasprofesionales.utilidades.Utilidad;
@@ -84,22 +88,22 @@ public class FXMLProfesorController implements Initializable, Dashboard {
                     controlador.inicializarInformacion(profesorLogueado, profesor);
                     Scene escenaPrincipal = new Scene(vista);
                     escenarioBase.setScene(escenaPrincipal);
-                    escenarioBase.setTitle("Consultar Avance");
+                    escenarioBase.setTitle("Buscar Estudiante");
                     escenarioBase.show();
                 } catch (IOException e) {
                     Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
-                            "No se pudo abrir la ventana de búsqueda de estudiantes.");
+                            "No se pudo abrir la ventana de Búsqueda de estudiantes.");
                 }
             }else {
                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Profesor no encontrado",
-                        "No se encontró un registro de profesor para el usuario " + profesor.getUsername()); 
+                        "No pudimos encontrar un profesor asociado al usuario " + profesor.getUsername()); 
             }
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
-                    "No se pudo consultar la información del profesor.");
+                    "Lo sentimos, por el momento no pudimos consultar su información con la base de datos, inténtelo más tarde.");
         }
-    }
-
+    }  
+        
     @Override
     public void inicializar(Usuario usuario) {
         lbUsuario.setText(usuario.getNombre() + " " + usuario.getApellidoPaterno());

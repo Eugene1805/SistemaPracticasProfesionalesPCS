@@ -26,7 +26,7 @@ public class EntregaDM {
         if (fechaInicio.isBefore(LocalDate.parse(periodo.getFechaInicio())) || 
                 fechaFin.isAfter(LocalDate.parse(periodo.getFechaFin()))) {
             resultado.setError(true);
-            resultado.setMensaje("Las fechas de entrega deben de estar dentro del rango del perido escolar actual");
+            resultado.setMensaje("Las fechas de la entrega deben de estar dentro del rango del perido escolar actual");
             return resultado;
         } 
             

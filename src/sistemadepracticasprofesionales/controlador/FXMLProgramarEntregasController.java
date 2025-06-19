@@ -67,8 +67,8 @@ public class FXMLProgramarEntregasController implements Initializable {
                 btnEntregasIniciales.setDisable(true);
             }
         }catch(SQLException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error en la carga",
-                "Lo sentimos, por el momento no fue posible cargar el Perido Escolar Actual");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
+                "Lo sentimos, por el momento no fue posible comprobar el Perido Escolar Actual, inténtelo más tarde");
         }   
     }
     
@@ -90,8 +90,8 @@ public class FXMLProgramarEntregasController implements Initializable {
                     irFormularioGenerarEntregas("Inicial");
                 }
             } catch (SQLException e) {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al Verificar Entregas",
-                    "No se pudo verificar el estado de las entregas programadas.");
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
+                    "Lo sentimos, por el momento no se pudo verificar el estado de las entregas programadas, inténtelo más tarde.");
             }     
     }
 
@@ -107,8 +107,8 @@ public class FXMLProgramarEntregasController implements Initializable {
             escenaActual.setScene(escena);
             escenaActual.setTitle("Generar Entrega Iniciales");
         }catch(IOException e){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana Generar Entregas",
-                    "Lo sentimos no fue posible cargar la ventana");              
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga",
+                    "Lo sentimos no fue posible cargar la ventana de Generar Entregas");              
         }
     }
     
@@ -143,8 +143,8 @@ public class FXMLProgramarEntregasController implements Initializable {
             escenarioBase.setTitle("Dashboard Coordinador");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
-                "Lo sentimos no fue posible cargar la informacion del coordinador");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación",
+                "Lo sentimos no fue posible volver a la pantalla principal");
         }     
     }
 }

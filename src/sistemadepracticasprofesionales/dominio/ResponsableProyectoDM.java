@@ -17,7 +17,7 @@ public class ResponsableProyectoDM {
             boolean existe = ResponsableProyectoDAO.existeResponsableCorreo(correo);
             resultado.setError(existe);
             if (existe) {
-                resultado.setMensaje("El correo ingresado del Responsable del Proyecto ya existe en los registros, ingrese otro");
+                resultado.setMensaje("El correo ingresado del Responsable del Proyecto ya existe en nuestros registros, por favor ingrese otro");
             }
         }catch (SQLException e) {
             resultado.setError(true);

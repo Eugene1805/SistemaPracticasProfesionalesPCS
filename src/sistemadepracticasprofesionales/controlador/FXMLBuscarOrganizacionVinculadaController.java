@@ -152,8 +152,8 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
             escenaActual.setScene(escena);
             escenaActual.setTitle("Registrar Responsable");
         }catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana Registrar Responsable",
-                    "Lo sentimos no fue posible cargar la ventana");            
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga",
+                    "Lo sentimos no fue posible cargar la ventana de Registrar Responsable");            
         }
     }
     
@@ -192,8 +192,8 @@ public class FXMLBuscarOrganizacionVinculadaController implements Initializable 
             escenarioBase.setTitle("Dashboard Coordinador");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
-                "Lo sentimos no fue posible cargar la informacion del coordinador");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación",
+                "Lo sentimos no fue posible volver a la ventana principal");
         }     
     }
 }

@@ -14,12 +14,12 @@
    <children>
       <AnchorPane prefHeight="60.0" prefWidth="985.0" style="-fx-background-color: #487BB1;">
          <children>
-            <Label layoutX="14.0" layoutY="16.0" text="Consultar Avance" textFill="WHITE">
+            <Label fx:id="lbEncabezado" layoutX="14.0" layoutY="16.0" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnRegistrar" layoutX="896.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
+            <Button fx:id="btnRegresar" layoutX="896.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnClicRegresar" style="-fx-background-color: #A6C2E2;" text="Regresar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -33,37 +33,17 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="937.0" prefWidth="973.0" style="-fx-background-color: #F5F7FA;">
                <children>
-                  <Label layoutX="369.0" layoutY="24.0" text="Horas Acumuladas:">
+                  <Label layoutX="298.0" layoutY="14.0" text="Horas Acumuladas:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="495.0" layoutY="56.0" textFill="#1e2a38">
+                  <Label fx:id="lbHorasAcumuladas" layoutX="316.0" layoutY="44.0" prefHeight="25.0" prefWidth="169.0" textAlignment="CENTER" textFill="#1e2a38">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblHorasAcumuladas" layoutX="465.0" layoutY="56.0" textFill="#1e2a38">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <AnchorPane layoutX="30.0" layoutY="16.0" prefHeight="237.0" prefWidth="227.0" style="-fx-background-color: #ffffff;">
-                     <children>
-                        <ImageView fx:id="ivFotoEstudiante" fitHeight="127.0" fitWidth="185.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="lblNombreEstudiante" layoutX="20.0" layoutY="141.0">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblMatriculaEstudiante" layoutX="77.0" layoutY="177.0" textFill="#1e2a38">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <ProgressBar fx:id="pbHorasAcumuladas" layoutX="414.0" layoutY="88.0" prefWidth="200.0" progress="0.0" />
+                  <ProgressBar fx:id="pbHorasAcumuladas" layoutX="298.0" layoutY="73.0" prefWidth="200.0" progress="0.0" />
                   <AnchorPane layoutX="30.0" layoutY="266.0" prefHeight="820.0" prefWidth="922.0" style="-fx-background-color: #ffffff;">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" text="Documentos Iniciales:">
@@ -83,7 +63,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </TableView>
-                        <Button layoutX="358.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFInicial" style="-fx-background-color: #487BB1;" text="PDF Inicial" textFill="WHITE">
+                        <Button fx:id="btnDescargarInicial" layoutX="358.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFInicial" style="-fx-background-color: #487BB1;" text="PDF Inicial" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -107,7 +87,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </TableView>
-                        <Button layoutX="825.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFReporte" style="-fx-background-color: #487BB1;" text="PDF Reporte" textFill="WHITE">
+                        <Button fx:id="btnDescargarReporte" layoutX="825.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnClicPDFReporte" style="-fx-background-color: #487BB1;" text="PDF Reporte" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -131,7 +111,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </TableView>
-                        <Button layoutX="355.0" layoutY="575.0" mnemonicParsing="false" onAction="#btnClicPDFIntermedio" style="-fx-background-color: #487BB1;" text="PDF Intermedio" textFill="WHITE">
+                        <Button fx:id="btnDescargarIntermedio" layoutX="355.0" layoutY="575.0" mnemonicParsing="false" onAction="#btnClicPDFIntermedio" style="-fx-background-color: #487BB1;" text="PDF Intermedio" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -155,7 +135,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </TableView>
-                        <Button layoutX="814.0" layoutY="570.0" mnemonicParsing="false" onAction="#btnClicPDFFinal" style="-fx-background-color: #487BB1;" text="PDF Final" textFill="WHITE">
+                        <Button fx:id="btnDescargarFinal" layoutX="814.0" layoutY="570.0" mnemonicParsing="false" onAction="#btnClicPDFFinal" style="-fx-background-color: #487BB1;" text="PDF Final" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -171,6 +151,57 @@
                            </cursor></Button>
                      </children>
                   </AnchorPane>
+                  <ImageView fx:id="ivFotoEstudiante" fitHeight="127.0" fitWidth="185.0" layoutX="45.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lbNombreEstudiante" layoutX="38.0" layoutY="17.0" prefHeight="20.0" prefWidth="198.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbMatriculaEstudiante" layoutX="38.0" layoutY="56.0" prefHeight="20.0" prefWidth="199.0" textAlignment="CENTER" textFill="#1e2a38">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbPorcentaje" layoutX="504.0" layoutY="69.0" prefHeight="17.0" prefWidth="66.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbPeriodoEscolar" layoutX="609.0" layoutY="17.0" prefHeight="25.0" prefWidth="357.0">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbCalificaciones" layoutX="298.0" layoutY="118.0">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbCalificacionDocumentos" layoutX="299.0" layoutY="150.0" prefHeight="20.0" prefWidth="248.0" textFill="#1e2a38">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbCalificacionEvaluacion" layoutX="299.0" layoutY="200.0" prefHeight="20.0" prefWidth="248.0" textFill="#1e2a38">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbCalificacionEvaluacionOrganizacion" layoutX="570.0" layoutY="150.0" prefHeight="20.0" prefWidth="392.0" textFill="#1e2a38" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbCalificacionTotal" layoutX="570.0" layoutY="200.0" prefHeight="20.0" prefWidth="296.0" textFill="#1e2a38">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbEstadoExpediente" layoutX="609.0" layoutY="43.0" prefHeight="25.0" prefWidth="352.0">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
         </content>

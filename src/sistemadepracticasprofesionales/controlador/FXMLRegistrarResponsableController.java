@@ -108,8 +108,8 @@ public class FXMLRegistrarResponsableController implements Initializable {
             escenarioBase.setTitle("Buscar Organizacion Vinculada");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana de buscar organizacion vinculada",
-                "Lo sentimos no fue posible cargar la informacion de la ventana Buscar Organización Vinculada");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación",
+                "Lo sentimos no fue posible volver a la ventana de Buscar Organización Vinculada");
         }   
     }
 
@@ -148,8 +148,8 @@ public class FXMLRegistrarResponsableController implements Initializable {
                         "No fue posible guardar el registro de " + responsableProyecto.getNombre());                
             }
         } catch (SQLException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "No hay conexión", 
-                    "Lo sentimos no fue posible conectarnos a la base de datos");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "No hay conexión", 
+                    "Lo sentimos no fue posible conectarnos a la base de datos, inténtelo más tarde");
         }
     }
     
@@ -184,8 +184,8 @@ public class FXMLRegistrarResponsableController implements Initializable {
             escenarioBase.setTitle("Dashboard Coordinador");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
-                "Lo sentimos no fue posible cargar la informacion del coordinador");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación",
+                "Lo sentimos no fue posible regresar al Dashbord");
         }     
     }
     

@@ -96,19 +96,18 @@ public class FXMLBuscarEstudianteController implements Initializable {
                             tvEstudiantes.setPlaceholder(new javafx.scene.control.Label("No hay estudiantes asignados a este profesor en el periodo actual."));
                         }                       
                     }else{
-                        Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error",
-                                "El profesor no tiene una experiencia educativa asignada");
+                        Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Acción no Disponible",
+                                "Aún no tiene una experiencia educativa asignada, vuelva a intentarlo cuando tenga una asignada");
                         regresarAlDashbord();
-        }
+                    }
                 }else{
                     Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error", 
-                            "No se pudo determinar el periodo escolar actual.");
+                            "Lo sentimos, por el momento no se pudo determinar el periodo escolar actual, inténtelo más tarde.");
                     regresarAlDashbord();
-        }    
+                }    
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
-                    "No se pudieron cargar los estudiantes.");
-            e.printStackTrace();
+                    "Lo sentimos, por el momento no se pudieron cargar a los estudiantes.");
         }
     }
     @FXML
@@ -126,16 +125,15 @@ public class FXMLBuscarEstudianteController implements Initializable {
                     ResultadoOperacion resultado = AvanceDM.verificarExistenciaDeEntregas(
                             estudianteSeleccionado.getId(), periodoActual.getId());
                     if (!resultado.isError()) {
-                        abrirConsultarAvance(estudianteSeleccionado, periodoActual);
+                        abrirConsultarExpediente(estudianteSeleccionado, periodoActual);
                     }else{
                         Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Sin Entregas",
                                 resultado.getMensaje());
                     }
-                    
                 }
             } catch (SQLException e) {
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", 
-                        "No se pudo verificar el expediente.");
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Sin conexión", 
+                        "Lo sentimos, hubo un problema con la base de datos inténtelo más tarde");
             }
         }else{
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin selección", 
@@ -143,7 +141,7 @@ public class FXMLBuscarEstudianteController implements Initializable {
         }
     }
 
-    private void abrirConsultarAvance(Estudiante estudianteSeleccionado, PeriodoEscolar periodoActual) {
+    private void abrirConsultarExpediente(Estudiante estudianteSeleccionado, PeriodoEscolar periodoActual) {
         try {
             Stage escenarioBase = Utilidad.obtenerEscenario(tvEstudiantes);
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.
@@ -153,11 +151,11 @@ public class FXMLBuscarEstudianteController implements Initializable {
             controlador.inicializarInformacion(estudianteSeleccionado, "Profesor", periodoActual, profesorUsuario);
             Scene escenaPrincipal = new Scene(vista);
             escenarioBase.setScene(escenaPrincipal);
-            escenarioBase.setTitle("Consultar Avance");
+            escenarioBase.setTitle("Consultar Expediente");
             escenarioBase.show();
         } catch (IOException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de carga",
-                    "No se pudo abrir la ventana de Consultar Avance");
+                    "No se pudo abrir la ventana de Consultar Expediente");
         }
     }
     
@@ -174,8 +172,8 @@ public class FXMLBuscarEstudianteController implements Initializable {
             escenarioBase.setTitle("Dashboard Profesor");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del profesor",
-                "Lo sentimos no fue posible cargar la informacion del profesor");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación",
+                "Lo sentimos no fue posible volver a la ventana principal");
         } 
     }
 }

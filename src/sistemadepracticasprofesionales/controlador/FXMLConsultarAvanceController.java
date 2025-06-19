@@ -53,12 +53,6 @@ public class FXMLConsultarAvanceController implements Initializable {
     @FXML
     private ImageView ivFotoEstudiante;
     @FXML
-    private Label lblHorasAcumuladas;
-    @FXML
-    private Label lblNombreEstudiante;
-    @FXML
-    private Label lblMatriculaEstudiante;
-    @FXML
     private ProgressBar pbHorasAcumuladas;
     @FXML
     private TableView<AvanceEntrega> tvDocumentosIniciales;
@@ -108,6 +102,40 @@ public class FXMLConsultarAvanceController implements Initializable {
     private TableColumn tcCalificacionFinales;
     @FXML
     private TableColumn tcObservacionFinales;
+    @FXML
+    private Label lbEncabezado;
+    @FXML
+    private Button btnRegresar;
+    @FXML
+    private Label lbHorasAcumuladas;
+    @FXML
+    private Button btnDescargarInicial;
+    @FXML
+    private Button btnDescargarReporte;
+    @FXML
+    private Button btnDescargarIntermedio;
+    @FXML
+    private Button btnDescargarFinal;
+    @FXML
+    private Label lbNombreEstudiante;
+    @FXML
+    private Label lbMatriculaEstudiante;
+    @FXML
+    private Label lbPorcentaje;
+    @FXML
+    private Label lbPeriodoEscolar;
+    @FXML
+    private Label lbCalificaciones;
+    @FXML
+    private Label lbCalificacionDocumentos;
+    @FXML
+    private Label lbCalificacionEvaluacion;
+    @FXML
+    private Label lbCalificacionEvaluacionOrganizacion;
+    @FXML
+    private Label lbCalificacionTotal;
+    @FXML
+    private Label lbEstadoExpediente;
     
     private ObservableList<AvanceEntrega> documentosIniciales;
     private ObservableList<AvanceEntrega> documentosIntermedios;
@@ -118,8 +146,7 @@ public class FXMLConsultarAvanceController implements Initializable {
     private String origenLlamada;
     private Usuario usuarioActual;
     private PeriodoEscolar periodoActual;
-    @FXML
-    private Button btnRegistrar;
+
 
     /**
      * Initializes the controller class.
@@ -135,27 +162,53 @@ public class FXMLConsultarAvanceController implements Initializable {
         this.periodoActual = periodo;
         this.usuarioActual = usuario;
         
+        if ("Estudiante".equals(origenLlamada)) {
+            lbEncabezado.setText("Consultar Avance");
+            btnRegresar.setVisible(false);
+            cargarFoto();
+        }else{
+            lbEncabezado.setText("Consultar Expediente");
+        }
         configurarTablas();
         cargarDatosGenerales();
         cargarDatosTablas();
+        
+        btnDescargarInicial.setDisable(documentosIniciales.isEmpty());
+        btnDescargarReporte.setDisable(reportes.isEmpty());
+        btnDescargarIntermedio.setDisable(documentosIntermedios.isEmpty());
+        btnDescargarFinal.setDisable(documentosFinales .isEmpty());
     }
     
     private void cargarDatosGenerales(){
-        lblNombreEstudiante.setText(estudianteConsulta.getNombre() + " " + estudianteConsulta.getApellidoPaterno() + " " + 
+        lbNombreEstudiante.setText(estudianteConsulta.getNombre() + " " + estudianteConsulta.getApellidoPaterno() + " " + 
                 estudianteConsulta.getApellidoMaterno());
-        lblMatriculaEstudiante.setText(estudianteConsulta.getMatricula());
-        cargarFoto();
+        lbMatriculaEstudiante.setText(estudianteConsulta.getMatricula());
+        lbPeriodoEscolar.setText("Periodo Escolar " + periodoActual.getNombrePeriodo());
+
+        
         try{
             Expediente expediente = ExpedienteDAO.obtenerExpedienteActivoPorEstudiante(estudianteConsulta.getId());
             if (expediente != null) {
                 int horas = expediente.getHorasAcumuladas();
-                lblHorasAcumuladas.setText(horas + " / 420 horas");
+                lbHorasAcumuladas.setText(horas + " / 420 horas");
                 pbHorasAcumuladas.setProgress((double) horas / 420.0);
+                lbPorcentaje.setText(String.format("%.2f%%", horas / 420.0 * 100));
+                if ("Profesor".equals(origenLlamada)) {
+                    lbCalificaciones.setText("Calificaciones:");
+                    lbCalificacionDocumentos.setText("Calificación Total de Documentos: "
+                    + formatearCalificacion(expediente.getCalificacionDocumento()));
+                    lbCalificacionEvaluacion.setText("Calificación Total de Evaluaciones: "
+                    + formatearCalificacion(expediente.getCalificacionEvaluacion()));
+                    lbCalificacionEvaluacionOrganizacion.setText("Calificación de la Evaluación de la Organización Vinculada: "
+                    + formatearCalificacion(expediente.getCalificacionEvaluacionOrganizacionVinculada()));
+                    lbCalificacionTotal.setText("Calificación Final: "
+                    + formatearCalificacion(expediente.getCalificacionTotal()));
+                    lbEstadoExpediente.setText("Estado del Expediente: " + expediente.getEstado());
+                }
             }
-            
         }catch(SQLException e){
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión", 
-                    "No se pudo cargar la información del expediente."); 
+                    "Lo sentimos, por el moemnto no se pudo cargar la información del expediente del estudiante."); 
         }
     }
     
@@ -168,8 +221,8 @@ public class FXMLConsultarAvanceController implements Initializable {
                 ivFotoEstudiante.setImage(imagen);
             }
         }catch (SQLException e){
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "ERROR", 
-                        "Error al obtener la foto del estudiante");
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de carga", 
+                        "Lo sentimos, por el momento no pudimos obtener su foto");
         }
     }
     private void cargarDatosTablas(){
@@ -178,25 +231,25 @@ public class FXMLConsultarAvanceController implements Initializable {
                 documentosIniciales = FXCollections.observableArrayList(AvanceDAO.obtenerAvanceDocumentosIniciales(
                 estudianteConsulta.getId(), periodoActual.getId()));
                 tvDocumentosIniciales.setItems(documentosIniciales);
-                tvDocumentosIniciales.setPlaceholder(new Label("No hay entregas de documentos iniciales en este periodo."));
+                tvDocumentosIniciales.setPlaceholder(new Label("No hay Entregas de Documentos Iniciales programadas en este periodo."));
 
                 documentosIntermedios = FXCollections.observableArrayList(AvanceDAO.obtenerAvanceDocumentosIntermedios(
                         estudianteConsulta.getId(), periodoActual.getId()));
                 tvDocumentosIntermedios.setItems(documentosIntermedios);
-                tvDocumentosIntermedios.setPlaceholder(new Label("No hay entregas de documentos intermedios en este periodo."));
+                tvDocumentosIntermedios.setPlaceholder(new Label("No hay Entregas de Documentos Intermedios programadas en este periodo."));
 
                 documentosFinales = FXCollections.observableArrayList(AvanceDAO.obtenerAvanceDocumentosFinales(
                         estudianteConsulta.getId(), periodoActual.getId()));
                 tvDocumentosFinales.setItems(documentosFinales);
-                tvDocumentosFinales.setPlaceholder(new Label("No hay entregas de documentos finales en este periodo."));
+                tvDocumentosFinales.setPlaceholder(new Label("No hay Entregas de Documentos Finales programadas en este periodo."));
 
                 reportes = FXCollections.observableArrayList(AvanceDAO.obtenerAvanceReportes(
                         estudianteConsulta.getId(), periodoActual.getId()));
                 tvReportes.setItems(reportes);
-                tvReportes.setPlaceholder(new Label("No hay entregas de reportes en este perido."));
+                tvReportes.setPlaceholder(new Label("No hay Entregas de Reportes programadas en este perido."));
             } catch (SQLException e) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga", 
-                        "No se pudo cargar el detalle de las entregas.");
+                        "Por el momento no se pudo cargar los detalles de las entregas.");
             }
         }
     }
@@ -217,7 +270,7 @@ public class FXMLConsultarAvanceController implements Initializable {
             descargarPDF(seleccion, "DOCUMENTO", "INICIAL");
         } else {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin selección", 
-                    "Por favor, seleccione un documento inicial de la tabla para descargar.");
+                    "Por favor, seleccione un Documento Inicial de la tabla para poder descargarlo.");
         }
     }
 
@@ -225,10 +278,10 @@ public class FXMLConsultarAvanceController implements Initializable {
     private void btnClicPDFReporte(ActionEvent event) {
         AvanceEntrega seleccion = tvReportes.getSelectionModel().getSelectedItem();
         if (seleccion != null) {
-            descargarPDF(seleccion, "REPORTE", "NINGUNO"); // Para reportes, el subtipo no importa
+            descargarPDF(seleccion, "REPORTE", "NINGUNO");
         } else {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin selección", 
-                    "Por favor, seleccione un reporte de la tabla para descargar.");
+                    "Por favor, seleccione un Reporte de la tabla para poder descargarlo.");
         }
     }
 
@@ -239,7 +292,7 @@ public class FXMLConsultarAvanceController implements Initializable {
             descargarPDF(seleccion, "DOCUMENTO", "INTERMEDIO");
         } else {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin selección", 
-                    "Por favor, seleccione un documento intermedio de la tabla para descargar.");
+                    "Por favor, seleccione un Documento Intermedio de la tabla para poder descargarlo.");
         }
     }
 
@@ -250,14 +303,14 @@ public class FXMLConsultarAvanceController implements Initializable {
             descargarPDF(seleccion, "DOCUMENTO", "FINAL");
         } else {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Sin selección", 
-                    "Por favor, seleccione un documento final de la tabla para descargar.");
+                    "Por favor, seleccione un Documento Final de la tabla para poder descargarlo.");
         }
     }
     
      private void descargarPDF(AvanceEntrega entrega, String tipo, String subtipo) {
         if (entrega.getFechaEntregado() == null || "N/A".equals(entrega.getFechaEntregado())) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Archivo no Disponible",
-                    "El estudiante aún no ha subido un archivo para esta entrega. No se puede descargar.");
+                    "No se ha subido un archivo para esta entrega, por favor intente con otro para descargar.");
             return;
         }
         
@@ -274,7 +327,7 @@ public class FXMLConsultarAvanceController implements Initializable {
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Todos los archivos", "*.*"));
 
-                File archivo = fileChooser.showSaveDialog(Utilidad.obtenerEscenario(lblNombreEstudiante));
+                File archivo = fileChooser.showSaveDialog(Utilidad.obtenerEscenario(lbNombreEstudiante));
                 
                 if (archivo != null) {
                     try (FileOutputStream fos = new FileOutputStream(archivo)) {
@@ -282,17 +335,18 @@ public class FXMLConsultarAvanceController implements Initializable {
                         Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Descarga Completa",
                                 "El archivo se ha guardado correctamente en:\n" + archivo.getAbsolutePath());
                     } catch (IOException e) {
-                        Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Escritura", "No se pudo escribir el archivo en el disco. Verifique los permisos.");
-                        e.printStackTrace();
+                        Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Escritura", 
+                                "No se pudo escribir el archivo en el disco, por favor inténtelo de nuevo.");
                     }
                 }
                 
             } else {
                  Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Archivo Vacío o Corrupto",
-                         "Se encontró un registro de entrega, pero el archivo está vacío o no se pudo leer de la base de datos.");
+                         "Se encontró un registro de entrega, pero el archivo está vacío o está corrupto.");
             }
         } catch (SQLException ex) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Base de Datos", "No se pudo obtener el archivo de la base de datos.");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Sin conexión", 
+                    "No se pudo obtener el archivo de la base de datos.");
         }
     }
     
@@ -304,6 +358,13 @@ public class FXMLConsultarAvanceController implements Initializable {
         if(resultado.get() == ButtonType.APPLY){
             regresarAlDashboard();
         }
+    }
+    
+    private String formatearCalificacion(Float calificacion){
+        if (calificacion == null) {
+            return "N/A";
+        }
+        return String.valueOf(calificacion);
     }
     
     private void configurarTablas(){
@@ -338,7 +399,7 @@ public class FXMLConsultarAvanceController implements Initializable {
     
     private void regresarABuscarEstudiante() {
         try {
-            Stage escenario = Utilidad.obtenerEscenario(lblNombreEstudiante);
+            Stage escenario = Utilidad.obtenerEscenario(lbNombreEstudiante);
             FXMLLoader cargador = new FXMLLoader(SistemaDePracticasProfesionales.class.getResource(
                     "vista/FXMLBuscarEstudiante.fxml"));
             Parent vista = cargador.load();
@@ -349,15 +410,18 @@ public class FXMLConsultarAvanceController implements Initializable {
             Scene escena = new Scene(vista);
             escenario.setScene(escena);
             escenario.setTitle("Buscar Estudiante");
-        } catch (IOException | SQLException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación", "No se pudo volver a la pantalla de búsqueda.");
-            e.printStackTrace();
+        } catch(SQLException ex){
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR,"Error de Conexión",
+                    "Lo sentimos, hubo un problema al verificar su usuario con la base de datos, inténtelo más tarde.");
+        } catch (IOException e) {
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación", 
+                    "No se pudo volver a la pantalla de Busacar Estudiantes.");
         }
     }
     
     private void regresarAlDashboard() {
         try {
-            Stage escenario = Utilidad.obtenerEscenario(lblNombreEstudiante);
+            Stage escenario = Utilidad.obtenerEscenario(lbNombreEstudiante);
             String fxmlDestino = "Profesor".equals(origenLlamada) ? 
                     "vista/FXMLProfesor.fxml" : "vista/FXMLEstudiante.fxml";
             
@@ -369,10 +433,10 @@ public class FXMLConsultarAvanceController implements Initializable {
             
             Scene escena = new Scene(vista);
             escenario.setScene(escena);
-            escenario.setTitle("Dashboard");
+            escenario.setTitle("Dashboard" + origenLlamada);
         } catch (IOException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación", "No se pudo volver a la pantalla principal.");
-            e.printStackTrace();
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Navegación", 
+                    "No se pudo volver a la pantalla principal.");
         }
     }
     

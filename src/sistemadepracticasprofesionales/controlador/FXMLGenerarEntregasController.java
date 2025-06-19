@@ -93,8 +93,8 @@ public class FXMLGenerarEntregasController implements Initializable {
             List<TipoDocumentoInicial> tipos = TipoDocumentoInicialDAO.obtenerTiposDisponibles(periodoEscolarActual.getId());
             cbTiposDocumentos.setItems(FXCollections.observableArrayList(tipos));
         } catch (SQLException e) {
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Carga",
-                    "No se pudieron cargar los tipos de documento iniciales disponibles.");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error de Conexión",
+                    "Lo sentimos, por el momento no se pudieron cargar los tipos de documento iniciales disponibles.");
         }
     }
 
@@ -109,9 +109,8 @@ public class FXMLGenerarEntregasController implements Initializable {
                 if (opcion.get() == ButtonType.APPLY) {
                     guardarEntrega();
                 }
-                regresarAlDashbord();
             }else{
-                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Verificar datos", resultado.getMensaje());
+                Utilidad.mostrarAlertaSimple(Alert.AlertType.WARNING, "Verificar Fechas", resultado.getMensaje());
             }
             
         }else{
@@ -131,14 +130,15 @@ public class FXMLGenerarEntregasController implements Initializable {
                     titulo, descripcion , fechaInicio, fechaFin, tipoSeleccionado, periodoEscolarActual.getId());
             if (!resultado.isError()) {
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION,
-                        "Éxito", "Operación exitosa");   
+                        "Éxito", "Operación exitosa");
+                regresarAlDashbord();
             }else{
                 Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "Error al guardar", 
                        "No fue posible guardar la entrega, intente de nuevo");
             }
         } catch (SQLException e) {
             Utilidad.mostrarAlertaSimple(Alert.AlertType.ERROR, "No hay conexión",
-                    "Lo sentimos no fue posible conectarnos a la base de datos");
+                    "Lo sentimos, no fue posible conectarnos a la base de datos");
         }
     }
 
@@ -167,8 +167,8 @@ public class FXMLGenerarEntregasController implements Initializable {
             escenarioBase.setTitle("Programar Entregas");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar la ventana de Programar Entregas",
-                "Lo sentimos no fue posible cargar la ventana de Programar Entregas");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error de Navegación",
+                "Lo sentimos no fue posible volver a la ventana de Programar Entregas");
         }     
     
     }
@@ -186,8 +186,8 @@ public class FXMLGenerarEntregasController implements Initializable {
             escenarioBase.setTitle("Dashboard Coordinador");
             escenarioBase.show();
         } catch (IOException ex){
-            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error al cargar el dashboard del coordinador",
-                "Lo sentimos no fue posible cargar la informacion del coordinador");
+            Utilidad.mostrarAlertaSimple(Alert.AlertType.INFORMATION, "Error de Navegación",
+                "Lo sentimos no fue posible volver a la ventana principal");
         }     
     }
     

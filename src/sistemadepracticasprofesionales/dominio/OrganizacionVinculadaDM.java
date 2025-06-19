@@ -21,7 +21,7 @@ public class OrganizacionVinculadaDM {
             boolean existe = OrganizacionVinculadaDAO.tieneResponsableAsignado(idOrganizacion);
             resultado.setError(existe);
             if (existe) {
-                resultado.setMensaje("La organizacion vinculada seleccionada ya tiene un Responsable del Proyecto asigno, intente con otra");
+                resultado.setMensaje("La Organización Vinculada seleccionada ya tiene un Responsable del Proyecto asignado, intente con otra");
             }
         } catch (SQLException e) {
             resultado.setError(true);
